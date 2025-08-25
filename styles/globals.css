@@ -1,8 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@import url('/css/satoshi.css');
+@import url('/css/satoshi.css') layer(utilities);
 
 :root {
     --color-dark-slate: #1A202C;
@@ -23,4 +21,19 @@ h4,
 h5,
 h6 {
     font-family: 'Satoshi-Variable', 'Satoshi-Regular', var(--font-satoshi), var(--font-inter), sans-serif;
+}
+
+@theme {
+    /* Colors */
+    --color-dark-slate: #1A202C;
+    --color-electric-blue: #007BFF;
+    --color-electric-blue-hover: #0056b3;
+    --color-light-accent: #F7FAFC;
+    --color-border-color: #E2E8F0;
+    --color-success: #38A169;
+    --color-error: #E53E3E;
+
+    /* Font Family */
+    --font-family-sans: var(--font-inter), sans-serif;
+    --font-family-heading: var(--font-satoshi), sans-serif;
 }

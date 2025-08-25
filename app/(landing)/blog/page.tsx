@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 function BlogCard({ post }: { post: (typeof blogPosts)[0] }) {
   return (
     <article className="flex flex-col overflow-hidden rounded-lg shadow-lg">
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <div className="relative h-48 w-full">
           <Image src={post.image} alt="" fill className="object-cover" />
         </div>
@@ -35,7 +35,7 @@ function BlogCard({ post }: { post: (typeof blogPosts)[0] }) {
             </p>
           </Link>
           <div className="mt-6 flex items-center gap-3">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="relative h-10 w-10">
                 <Image
                   className="rounded-full"

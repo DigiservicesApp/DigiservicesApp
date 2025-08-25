@@ -76,7 +76,7 @@ export default function BlogPostPage({ params }: Props) {
               <p className="mt-4 text-lg text-gray-200">{post.description}</p>
               <div className="mt-8 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="relative h-10 w-10">
                       <Image
                         className="rounded-full"
