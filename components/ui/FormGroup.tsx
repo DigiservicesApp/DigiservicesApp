@@ -80,7 +80,7 @@ export default function FormGroup({
         <div className="mt-1.5">
           {error ? (
             <div className="flex items-center gap-1.5 text-error">
-              <FiAlertCircle className="h-4 w-4 flex-shrink-0" />
+              <FiAlertCircle className="h-4 w-4 shrink-0" />
               <p className="text-sm">{error}</p>
             </div>
           ) : helpText ? (

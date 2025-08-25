@@ -59,7 +59,7 @@ export default function DashboardPage() {
             className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
           >
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <stat.icon
                   className="h-6 w-6 text-gray-400"
                   aria-hidden="true"

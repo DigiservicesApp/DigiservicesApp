@@ -53,7 +53,7 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
         {useCase.testimonial && (
           <div className="mt-8 rounded-lg bg-gray-50 p-6">
             <div className="flex items-start gap-4">
-              <div className="relative h-12 w-12 flex-shrink-0">
+              <div className="relative h-12 w-12 shrink-0">
                 <Image
                   src={useCase.testimonial.image}
                   alt={useCase.testimonial.author}

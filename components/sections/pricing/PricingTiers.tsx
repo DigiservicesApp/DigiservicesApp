@@ -49,7 +49,7 @@ function PricingCard({
         <ul className="mt-6 space-y-3">
           {tier.features.map((feature) => (
             <li key={feature} className="flex items-start gap-3">
-              <RiCheckLine className="h-5 w-5 flex-shrink-0 text-primary" />
+              <RiCheckLine className="h-5 w-5 shrink-0 text-primary" />
               <span className="text-gray-600">{feature}</span>
             </li>
           ))}

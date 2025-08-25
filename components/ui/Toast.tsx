@@ -71,7 +71,7 @@ export default function Toast({
     >
       <div className="p-4">
         <div className="flex items-start">
-          <div className={clsx('flex-shrink-0', variantStyles.text)}>
+          <div className={clsx('shrink-0', variantStyles.text)}>
             <Icon className="h-5 w-5" />
           </div>
 
@@ -92,7 +92,7 @@ export default function Toast({
           </div>
 
           {onClose && (
-            <div className="ml-4 flex flex-shrink-0">
+            <div className="ml-4 flex shrink-0">
               <button
                 onClick={onClose}
                 className={clsx(

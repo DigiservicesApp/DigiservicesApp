@@ -5,7 +5,7 @@ import { RiPlayCircleLine } from 'react-icons/ri';
 
 const WorkflowHero = () => {
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-b from-primary/5 to-transparent">
+    <section className="relative py-20 overflow-hidden bg-linear-to-b from-primary/5 to-transparent">
       <Container>
         <div className="text-center max-w-3xl mx-auto">
           <motion.h1

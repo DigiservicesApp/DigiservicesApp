@@ -141,7 +141,7 @@ export function AccordionItem({
       >
         <div className="flex items-center gap-3">
           {icon && iconPosition === 'left' && (
-            <span className="flex-shrink-0 text-slate-400">{icon}</span>
+            <span className="shrink-0 text-slate-400">{icon}</span>
           )}
           <div>
             <div className="font-medium text-dark-slate">{title}</div>
@@ -154,7 +154,7 @@ export function AccordionItem({
         </div>
         <div className="flex items-center gap-3">
           {icon && iconPosition === 'right' && (
-            <span className="flex-shrink-0 text-slate-400">{icon}</span>
+            <span className="shrink-0 text-slate-400">{icon}</span>
           )}
           <motion.div
             initial={false}

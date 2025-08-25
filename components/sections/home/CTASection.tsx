@@ -6,7 +6,7 @@ import { RiArrowRightLine } from 'react-icons/ri';
 
 const CTASection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-primary/90 to-primary">
+    <section className="py-20 bg-linear-to-br from-primary/90 to-primary">
       <Container>
         <div className="px-6 py-16 text-center rounded-3xl bg-white/10 backdrop-blur-sm">
           <motion.h2

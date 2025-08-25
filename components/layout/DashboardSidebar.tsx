@@ -55,7 +55,7 @@ export default function DashboardSidebar() {
                     isActive
                       ? 'text-gray-500'
                       : 'text-gray-400 group-hover:text-gray-500'
-                  } mr-3 flex-shrink-0 h-6 w-6`}
+                  } mr-3 shrink-0 h-6 w-6`}
                   aria-hidden="true"
                 />
                 {!isCollapsed && <span>{item.name}</span>}
@@ -64,7 +64,7 @@ export default function DashboardSidebar() {
           })}
         </nav>
 
-        <div className="mt-5 flex-shrink-0 border-t border-gray-200 px-2 pt-4 space-y-1">
+        <div className="mt-5 shrink-0 border-t border-gray-200 px-2 pt-4 space-y-1">
           {secondaryNavigation.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -82,7 +82,7 @@ export default function DashboardSidebar() {
                     isActive
                       ? 'text-gray-500'
                       : 'text-gray-400 group-hover:text-gray-500'
-                  } mr-3 flex-shrink-0 h-6 w-6`}
+                  } mr-3 shrink-0 h-6 w-6`}
                   aria-hidden="true"
                 />
                 {!isCollapsed && <span>{item.name}</span>}

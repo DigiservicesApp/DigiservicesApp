@@ -28,7 +28,7 @@ const positionStyles = {
 const alignStyles = {
   start: '',
   center: 'translate-x-[-50%]',
-  end: 'translate-x-[-100%]',
+  end: '-translate-x-full',
 };
 
 const arrowStyles = {

@@ -78,7 +78,7 @@ export default function Alert({
     >
       <div className="flex gap-3">
         {/* Icon */}
-        <div className={clsx('flex-shrink-0', variantStyles.text)}>
+        <div className={clsx('shrink-0', variantStyles.text)}>
           <Icon className="h-5 w-5" />
         </div>
 
@@ -104,7 +104,7 @@ export default function Alert({
           <button
             onClick={onClose}
             className={clsx(
-              'flex-shrink-0 rounded-full p-1',
+              'shrink-0 rounded-full p-1',
               'hover:bg-gray-900/5 transition-colors duration-200',
               variantStyles.text
             )}

@@ -23,14 +23,14 @@ const sizeClasses = {
     sm: 'w-64',
     md: 'w-80',
     lg: 'w-96',
-    xl: 'w-[32rem]',
+    xl: 'w-lg',
     full: 'w-screen',
   },
   right: {
     sm: 'w-64',
     md: 'w-80',
     lg: 'w-96',
-    xl: 'w-[32rem]',
+    xl: 'w-lg',
     full: 'w-screen',
   },
   top: {

@@ -13,7 +13,7 @@ export function RelatedPosts({ posts }: { posts: typeof blogPosts }) {
             key={post.id}
             className="flex flex-col overflow-hidden rounded-lg shadow-lg"
           >
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="relative h-48 w-full">
                 <Image src={post.image} alt="" fill className="object-cover" />
               </div>
@@ -37,7 +37,7 @@ export function RelatedPosts({ posts }: { posts: typeof blogPosts }) {
                   </p>
                 </Link>
                 <div className="mt-6 flex items-center gap-3">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="relative h-10 w-10">
                       <Image
                         className="rounded-full"

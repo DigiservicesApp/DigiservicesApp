@@ -127,7 +127,7 @@ export default function Dropdown({
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
             className={clsx(
-              'absolute z-50 w-full min-w-[12rem] mt-1',
+              'absolute z-50 w-full min-w-48 mt-1',
               'bg-white dark:bg-slate-800',
               'rounded-lg shadow-lg border border-slate-200 dark:border-slate-700',
               'focus:outline-none',
@@ -160,13 +160,13 @@ export default function Dropdown({
                   )}
                 >
                   {option.icon && (
-                    <span className="flex-shrink-0">{option.icon}</span>
+                    <span className="shrink-0">{option.icon}</span>
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <span className="truncate">{option.label}</span>
                       {value === option.value && (
-                        <RiCheckLine className="w-5 h-5 flex-shrink-0" />
+                        <RiCheckLine className="w-5 h-5 shrink-0" />
                       )}
                     </div>
                     {option.description && (

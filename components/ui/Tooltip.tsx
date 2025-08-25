@@ -23,10 +23,10 @@ export default function Tooltip({
 
   // Position variants for the tooltip
   const positionStyles = {
-    top: '-10px translate-y-[-100%]',
-    bottom: '10px translate-y-[100%]',
-    left: '-10px -translate-x-[100%] translate-y-[-50%]',
-    right: '10px translate-x-[100%] translate-y-[-50%]',
+    top: '-10px -translate-y-full',
+    bottom: '10px translate-y-full',
+    left: '-10px -translate-x-full translate-y-[-50%]',
+    right: '10px translate-x-full translate-y-[-50%]',
   };
 
   const positionClasses = {
@@ -93,13 +93,13 @@ export default function Tooltip({
             {/* Tooltip arrow */}
             <div
               className={clsx('absolute w-2 h-2 bg-dark-slate/90 rotate-45', {
-                'top-[100%] left-1/2 -translate-x-1/2 -mt-1':
+                'top-full left-1/2 -translate-x-1/2 -mt-1':
                   position === 'top',
-                'bottom-[100%] left-1/2 -translate-x-1/2 -mb-1':
+                'bottom-full left-1/2 -translate-x-1/2 -mb-1':
                   position === 'bottom',
-                'left-[100%] top-1/2 -translate-y-1/2 -ml-1':
+                'left-full top-1/2 -translate-y-1/2 -ml-1':
                   position === 'left',
-                'right-[100%] top-1/2 -translate-y-1/2 -mr-1':
+                'right-full top-1/2 -translate-y-1/2 -mr-1':
                   position === 'right',
               })}
             />

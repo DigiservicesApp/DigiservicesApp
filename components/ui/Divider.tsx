@@ -14,7 +14,7 @@ interface DividerProps {
 
 const sizeClasses = {
   xs: 'border-[0.5px]',
-  sm: 'border-[1px]',
+  sm: 'border',
   md: 'border-[1.5px]',
   lg: 'border-2',
 };
@@ -74,7 +74,7 @@ export default function Divider({
         {labelPosition !== 'right' && (
           <div
             className={clsx(
-              'flex-grow border-t',
+              'grow border-t',
               sizeClasses[size],
               colorClasses[color],
               variantClasses[variant]
@@ -94,7 +94,7 @@ export default function Divider({
         {labelPosition !== 'left' && (
           <div
             className={clsx(
-              'flex-grow border-t',
+              'grow border-t',
               sizeClasses[size],
               colorClasses[color],
               variantClasses[variant]

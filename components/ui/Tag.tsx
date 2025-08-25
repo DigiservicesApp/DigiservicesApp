@@ -110,7 +110,7 @@ export default function Tag({
   const tagContent = (
     <span className="flex items-center gap-1.5">
       {icon && (
-        <span className={clsx('flex-shrink-0', iconSizeClasses[size])}>
+        <span className={clsx('shrink-0', iconSizeClasses[size])}>
           {icon}
         </span>
       )}
@@ -121,7 +121,7 @@ export default function Tag({
           onClick={handleRemove}
           disabled={disabled}
           className={clsx(
-            'flex-shrink-0 -mr-1 ml-1',
+            'shrink-0 -mr-1 ml-1',
             'hover:opacity-75',
             'focus:outline-none focus:ring-2 focus:ring-offset-2',
             'focus:ring-electric-blue/50',

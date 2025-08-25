@@ -6,7 +6,7 @@ import ImageWithFallback from '@/components/ui/ImageWithFallback';
 
 const HeroSection = () => {
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-b from-primary/5 to-transparent">
+    <section className="relative py-20 overflow-hidden bg-linear-to-b from-primary/5 to-transparent">
       <Container className="relative">
         <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Content */}
