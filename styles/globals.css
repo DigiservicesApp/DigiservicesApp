@@ -1,0 +1,17 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('/css/satoshi.css');
+
+body {
+    @apply bg-light-accent text-dark-slate font-sans;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Satoshi-Variable', 'Satoshi-Regular', var(--font-satoshi), var(--font-inter), sans-serif;
+}
