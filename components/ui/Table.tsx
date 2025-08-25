@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { clsx } from 'clsx';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';

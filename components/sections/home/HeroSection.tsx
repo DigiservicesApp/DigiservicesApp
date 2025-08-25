@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
@@ -9,23 +10,19 @@ const HeroSection = () => {
       <Container className="relative">
         <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center lg:text-left"
-          >
-            <motion.h1
+          <div className="text-center lg:text-left">
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl xl:text-6xl dark:text-white"
+              transition={{ duration: 0.5 }}
             >
-              Manage Freelance Projects{' '}
-              <span className="text-primary">Smarter with AI.</span>
-            </motion.h1>
+              <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl xl:text-6xl dark:text-white">
+                Manage Freelance Projects{' '}
+                <span className="text-primary">Smarter with AI.</span>
+              </h1>
+            </motion.div>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -35,7 +32,7 @@ const HeroSection = () => {
               delivery, powered by AI. Boost productivity, meet deadlines, and
               deliver exceptional results with our intelligent project
               management solution.
-            </motion.p>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -53,7 +50,7 @@ const HeroSection = () => {
                 Request Demo
               </Button>
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Dashboard Preview */}
           <motion.div

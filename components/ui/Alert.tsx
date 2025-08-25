@@ -1,3 +1,4 @@
+'use client';
 import { HTMLAttributes } from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 import { clsx } from 'clsx';

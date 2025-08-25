@@ -1,3 +1,4 @@
+'use client';
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';

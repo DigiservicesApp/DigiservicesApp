@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import Image, { ImageProps } from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -40,6 +41,13 @@ export default function ImageWithFallback({
 }: ImageWithFallbackProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  // simple SVG placeholder data URL
+  const defaultFallback = `data:image/svg+xml;utf8,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'><rect width='100%' height='100%' fill='%23F3F4F6'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239CA3AF' font-family='Arial' font-size='20'>Image unavailable</text></svg>`
+  )}`;
+
+  const effectiveFallback = fallbackSrc || defaultFallback;
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -96,7 +104,7 @@ export default function ImageWithFallback({
         containerClassName
       )}
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         {isLoading && showLoadingState && (
           <motion.div
             key="loading"
@@ -129,9 +137,9 @@ export default function ImageWithFallback({
             transition={{ duration: 0.2 }}
           >
             <Image
-              src={error && fallbackSrc ? fallbackSrc : src}
+              src={error ? effectiveFallback : src}
               alt={alt}
-              onLoadingComplete={handleLoad}
+              onLoad={handleLoad}
               onError={handleError}
               className={clsx(
                 'w-full h-full',

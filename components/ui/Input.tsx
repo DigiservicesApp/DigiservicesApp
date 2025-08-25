@@ -1,3 +1,4 @@
+'use client';
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { IconType } from 'react-icons';
 import { motion } from 'framer-motion';

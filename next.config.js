@@ -1,14 +1,10 @@
 const path = require('path');
 module.exports = {
   reactStrictMode: true,
-  swcMinify: true,
-  exportTrailingSlash: true,
   output: 'export',
+  trailingSlash: true,
   images: {
     unoptimized: true,
-  },
-  experimental: {
-    appDir: true,
   },
   webpack: (config) => {
     config.resolve.alias['@'] = path.resolve(

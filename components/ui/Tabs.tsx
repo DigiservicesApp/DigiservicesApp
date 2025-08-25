@@ -1,3 +1,4 @@
+'use client';
 import React, {
   useState,
   useRef,
@@ -180,7 +181,7 @@ export function TabPanel({ id, className, children }: TabPanelProps) {
   const isActive = activeTab === id;
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync">
       {isActive && (
         <motion.div
           role="tabpanel"

@@ -1,12 +1,15 @@
-import '../styles/globals.css';
+import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
-import { ToastProvider } from '../components/ui/ToastContext';
+import { ToastProvider } from '@/components/ui/ToastContext';
+import { ClerkProvider } from '@clerk/nextjs';
+import ClientCookieConsent from '@/components/ClientCookieConsent';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata = {
-  title: 'DigiservicesApp',
-  description: 'Your app description',
+  title: 'DigiServicesApp - AI-Powered Freelance Project Management',
+  description:
+    'Streamline your freelance workflow with AI-powered project management, task prioritization, and client communication tools.',
 };
 
 export default function RootLayout({
@@ -17,7 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          {children}
+          <ClientCookieConsent />
+        </ToastProvider>
       </body>
     </html>
   );

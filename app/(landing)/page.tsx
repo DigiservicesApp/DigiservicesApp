@@ -4,6 +4,7 @@ import BenefitsSection from '@/components/sections/home/BenefitsSection';
 import FeaturesSection from '@/components/sections/home/FeaturesSection';
 import HowItWorksSection from '@/components/sections/home/HowItWorksSection';
 import TestimonialsSection from '@/components/sections/home/TestimonialsSection';
+import FAQSection from '@/components/sections/home/FAQSection';
 import CTASection from '@/components/sections/home/CTASection';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <FeaturesSection />
       <HowItWorksSection />
       <TestimonialsSection />
+      <FAQSection />
       <CTASection />
     </main>
   );

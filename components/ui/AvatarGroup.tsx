@@ -1,3 +1,4 @@
+'use client';
 import { HTMLAttributes } from 'react';
 import { clsx } from 'clsx';
 import Avatar, { AvatarProps } from './Avatar';
