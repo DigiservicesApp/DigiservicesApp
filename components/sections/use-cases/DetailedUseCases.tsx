@@ -1,4 +1,4 @@
-'use client';
+import React from 'react';
 import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
@@ -10,9 +10,10 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
       <div className="flex-1 p-6">
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))]">
-            {
-              <useCase.icon className="h-6 w-6 text-[color:var(--md-sys-color-primary)]" />
-            }
+            {React.createElement(useCase.icon as any, {
+              className: 'h-6 w-6 text-[color:var(--md-sys-color-primary)]',
+              'aria-hidden': 'true',
+            })}
           </div>
           <h3 className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
             {useCase.title}
@@ -76,7 +77,7 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
               </div>
               <div>
                 <p className="text-[color:var(--md-sys-color-on-surface-variant)] italic">
-                  "{useCase.testimonial.quote}"
+                  &quot;{useCase.testimonial.quote}&quot;
                 </p>
                 <div className="mt-2">
                   <p className="font-medium text-[color:var(--md-sys-color-on-surface)]">

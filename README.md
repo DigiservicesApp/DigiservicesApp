@@ -32,17 +32,20 @@ The project is organized as follows:
 To get started with this project, follow these steps:
 
 1. **Clone the repository**:
+
    ```
    git clone [repository-url]
    cd nextjs-app
    ```
 
 2. **Install dependencies**:
+
    ```
    npm install
    ```
 
 3. **Run the development server**:
+
    ```
    npm run dev
    ```

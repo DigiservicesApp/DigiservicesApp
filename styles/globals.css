@@ -13,279 +13,295 @@
 */
 
 :root {
-    /* Core palette (site default = dark slate + electric blue + white accents) */
-    --md-sys-color-primary: #0EA5FF;
-    /* electric blue */
-    --md-sys-color-on-primary: #FFFFFF;
-    /* white accents on primary */
-    --md-sys-color-primary-container: #05364A;
-    /* deep blue container */
-    --md-sys-color-on-primary-container: #E6F9FF;
+  /* Core palette (site default = dark slate + electric blue + white accents) */
+  --md-sys-color-primary: #0ea5ff;
+  /* electric blue */
+  --md-sys-color-on-primary: #ffffff;
+  /* white accents on primary */
+  --md-sys-color-primary-container: #05364a;
+  /* deep blue container */
+  --md-sys-color-on-primary-container: #e6f9ff;
 
-    --md-sys-color-secondary: #94A3B8;
-    /* muted slate for secondary UI accents */
-    --md-sys-color-on-secondary: #0B1220;
-    --md-sys-color-secondary-container: #122231;
-    --md-sys-color-on-secondary-container: #EAF6FF;
+  --md-sys-color-secondary: #94a3b8;
+  /* muted slate for secondary UI accents */
+  --md-sys-color-on-secondary: #0b1220;
+  --md-sys-color-secondary-container: #122231;
+  --md-sys-color-on-secondary-container: #eaf6ff;
 
-    --md-sys-color-tertiary: #7D5260;
-    --md-sys-color-on-tertiary: #FFFFFF;
-    --md-sys-color-tertiary-container: #2A1A22;
-    --md-sys-color-on-tertiary-container: #FFD8E4;
+  --md-sys-color-tertiary: #7d5260;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #2a1a22;
+  --md-sys-color-on-tertiary-container: #ffd8e4;
 
-    --md-sys-color-error: #F87171;
-    --md-sys-color-on-error: #0B1220;
-    --md-sys-color-error-container: #3B1312;
-    --md-sys-color-on-error-container: #FFF1F0;
+  --md-sys-color-error: #f87171;
+  --md-sys-color-on-error: #0b1220;
+  --md-sys-color-error-container: #3b1312;
+  --md-sys-color-on-error-container: #fff1f0;
 
-    --md-sys-color-background: #0B1220;
-    /* dark slate background */
-    --md-sys-color-on-background: #E6EEF8;
-    /* soft white for text */
-    --md-sys-color-surface: #0F1724;
-    /* slightly lighter slate for surfaces */
-    --md-sys-color-on-surface: #E6EEF8;
-    --md-sys-color-surface-variant: #111827;
-    --md-sys-color-on-surface-variant: #AAB7C6;
-    --md-sys-color-outline: #22313F;
-    --md-sys-color-inverse-surface: #F8FAFC;
-    --md-sys-color-inverse-on-surface: #0B1220;
+  --md-sys-color-background: #0b1220;
+  /* dark slate background */
+  --md-sys-color-on-background: #e6eef8;
+  /* soft white for text */
+  --md-sys-color-surface: #0f1724;
+  /* slightly lighter slate for surfaces */
+  --md-sys-color-on-surface: #e6eef8;
+  --md-sys-color-surface-variant: #111827;
+  --md-sys-color-on-surface-variant: #aab7c6;
+  --md-sys-color-outline: #22313f;
+  --md-sys-color-inverse-surface: #f8fafc;
+  --md-sys-color-inverse-on-surface: #0b1220;
 
-    /* Typography tokens (M3-ish scales) */
-    --md-typescale-display-large-size: 57px;
-    --md-typescale-display-large-line-height: 64px;
+  /* Typography tokens (M3-ish scales) */
+  --md-typescale-display-large-size: 57px;
+  --md-typescale-display-large-line-height: 64px;
 
-    --md-typescale-headline-medium-size: 28px;
-    --md-typescale-headline-medium-line-height: 36px;
+  --md-typescale-headline-medium-size: 28px;
+  --md-typescale-headline-medium-line-height: 36px;
 
-    --md-typescale-title-large-size: 22px;
-    --md-typescale-title-large-line-height: 28px;
+  --md-typescale-title-large-size: 22px;
+  --md-typescale-title-large-line-height: 28px;
 
-    --md-typescale-body-medium-size: 16px;
-    --md-typescale-body-medium-line-height: 24px;
+  --md-typescale-body-medium-size: 16px;
+  --md-typescale-body-medium-line-height: 24px;
 
-    --md-typescale-label-small-size: 11px;
-    --md-typescale-label-small-line-height: 16px;
+  --md-typescale-label-small-size: 11px;
+  --md-typescale-label-small-line-height: 16px;
 
-    /* radius & baseline */
-    --md-shape-corner-small: 8px;
-    --md-shape-corner-medium: 12px;
-    --md-shape-corner-large: 16px;
+  /* radius & baseline */
+  --md-shape-corner-small: 8px;
+  --md-shape-corner-medium: 12px;
+  --md-shape-corner-large: 16px;
 
-    /* Elevation (soft shadows tuned for the site) */
-    --elevation-1: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
-    --elevation-2: 0 2px 6px rgba(16, 24, 40, 0.06), 0 1px 1px rgba(16, 24, 40, 0.04);
-    --elevation-3: 0 8px 24px rgba(16, 24, 40, 0.08);
+  /* Elevation (soft shadows tuned for the site) */
+  --elevation-1: 0 1px 2px rgba(16, 24, 40, 0.04),
+    0 1px 3px rgba(16, 24, 40, 0.06);
+  --elevation-2: 0 2px 6px rgba(16, 24, 40, 0.06),
+    0 1px 1px rgba(16, 24, 40, 0.04);
+  --elevation-3: 0 8px 24px rgba(16, 24, 40, 0.08);
 
-    /* fonts */
-    --font-sans: var(--font-inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue');
-    --font-heading: 'Satoshi-Variable', 'Satoshi-Regular', var(--font-satoshi), var(--font-inter), sans-serif;
+  /* fonts */
+  --font-sans: var(
+    --font-inter,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue'
+  );
+  --font-heading: 'Satoshi-Variable', 'Satoshi-Regular', var(--font-satoshi),
+    var(--font-inter), sans-serif;
 }
 
 /* Dark theme overrides */
 @media (prefers-color-scheme: dark) {
-    :root {
-        --md-sys-color-background: #0B1220;
-        --md-sys-color-on-background: #E6EEF8;
-        --md-sys-color-surface: #0F1724;
-        --md-sys-color-on-surface: #E6EEF8;
-        --md-sys-color-surface-variant: #111827;
-        --md-sys-color-on-surface-variant: #AAB7C6;
-    }
+  :root {
+    --md-sys-color-background: #0b1220;
+    --md-sys-color-on-background: #e6eef8;
+    --md-sys-color-surface: #0f1724;
+    --md-sys-color-on-surface: #e6eef8;
+    --md-sys-color-surface-variant: #111827;
+    --md-sys-color-on-surface-variant: #aab7c6;
+  }
 }
 
 /* Alternatively allow explicit dark mode via data attribute */
-[data-theme="dark"] {
-    --md-sys-color-background: #0B1220;
-    --md-sys-color-on-background: #E6EEF8;
-    --md-sys-color-surface: #0F1724;
-    --md-sys-color-on-surface: #E6EEF8;
-    --md-sys-color-surface-variant: #111827;
-    --md-sys-color-on-surface-variant: #AAB7C6;
-    --md-sys-color-primary: #0EA5FF;
-    /* electric blue */
-    --md-sys-color-on-primary: #FFFFFF;
-    --md-sys-color-primary-container: #05364A;
-    --md-sys-color-on-primary-container: #E6F9FF;
+[data-theme='dark'] {
+  --md-sys-color-background: #0b1220;
+  --md-sys-color-on-background: #e6eef8;
+  --md-sys-color-surface: #0f1724;
+  --md-sys-color-on-surface: #e6eef8;
+  --md-sys-color-surface-variant: #111827;
+  --md-sys-color-on-surface-variant: #aab7c6;
+  --md-sys-color-primary: #0ea5ff;
+  /* electric blue */
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #05364a;
+  --md-sys-color-on-primary-container: #e6f9ff;
 }
 
 /* Base page styles */
 html,
 body,
 #__next {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    background-color: var(--md-sys-color-background);
-    color: var(--md-sys-color-on-background);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Headings use Satoshi variable and M3 scales */
 h1 {
-    font-family: var(--font-heading);
-    font-size: var(--md-typescale-display-large-size);
-    line-height: var(--md-typescale-display-large-line-height);
-    color: var(--md-sys-color-on-surface);
+  font-family: var(--font-heading);
+  font-size: var(--md-typescale-display-large-size);
+  line-height: var(--md-typescale-display-large-line-height);
+  color: var(--md-sys-color-on-surface);
 }
 
 h2 {
-    font-family: var(--font-heading);
-    font-size: var(--md-typescale-headline-medium-size);
-    line-height: var(--md-typescale-headline-medium-line-height);
-    color: var(--md-sys-color-on-surface);
+  font-family: var(--font-heading);
+  font-size: var(--md-typescale-headline-medium-size);
+  line-height: var(--md-typescale-headline-medium-line-height);
+  color: var(--md-sys-color-on-surface);
 }
 
 h3 {
-    font-family: var(--font-heading);
-    font-size: var(--md-typescale-title-large-size);
-    line-height: var(--md-typescale-title-large-line-height);
-    color: var(--md-sys-color-on-surface);
+  font-family: var(--font-heading);
+  font-size: var(--md-typescale-title-large-size);
+  line-height: var(--md-typescale-title-large-line-height);
+  color: var(--md-sys-color-on-surface);
 }
 
 h4,
 h5,
 h6 {
-    font-family: var(--font-heading);
-    color: var(--md-sys-color-on-surface);
+  font-family: var(--font-heading);
+  color: var(--md-sys-color-on-surface);
 }
 
 p {
-    font-size: var(--md-typescale-body-medium-size);
-    line-height: var(--md-typescale-body-medium-line-height);
-    color: var(--md-sys-color-on-surface);
+  font-size: var(--md-typescale-body-medium-size);
+  line-height: var(--md-typescale-body-medium-line-height);
+  color: var(--md-sys-color-on-surface);
 }
 
 /* Links */
 a {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
 }
 
 a:hover,
 a:focus {
-    color: var(--md-sys-color-primary-container);
-    text-decoration: underline;
+  color: var(--md-sys-color-primary-container);
+  text-decoration: underline;
 }
 
 /* Surface/card */
 .surface,
 .card {
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
-    border-radius: var(--md-shape-corner-medium);
-    box-shadow: var(--elevation-1);
-    border: 1px solid transparent;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border-radius: var(--md-shape-corner-medium);
+  box-shadow: var(--elevation-1);
+  border: 1px solid transparent;
 }
 
 .card--outlined {
-    border-color: var(--md-sys-color-outline);
-    background-color: var(--md-sys-color-surface-variant);
+  border-color: var(--md-sys-color-outline);
+  background-color: var(--md-sys-color-surface-variant);
 }
 
 /* Elevation helpers */
 .elevation-1 {
-    box-shadow: var(--elevation-1);
+  box-shadow: var(--elevation-1);
 }
 
 .elevation-2 {
-    box-shadow: var(--elevation-2);
+  box-shadow: var(--elevation-2);
 }
 
 .elevation-3 {
-    box-shadow: var(--elevation-3);
+  box-shadow: var(--elevation-3);
 }
 
 /* Buttons (M3 primary/secondary) */
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    cursor: pointer;
-    border-radius: var(--md-shape-corner-small);
-    font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--md-shape-corner-small);
+  font-weight: 600;
 }
 
 .btn:focus {
-    outline: 2px solid color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent);
-    outline-offset: 2px;
+  outline: 2px solid
+    color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent);
+  outline-offset: 2px;
 }
 
 .btn--primary {
-    background-color: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
 }
 
 .btn--primary:hover {
-    background-color: color-mix(in srgb, var(--md-sys-color-primary) 85%, black 15%);
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 85%,
+    black 15%
+  );
 }
 
 .btn--secondary {
-    background-color: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
 }
 
 /* Forms */
 input,
 textarea,
 select {
-    background: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: var(--md-shape-corner-small);
-    padding: 0.5rem 0.75rem;
-    font-size: 1rem;
-    box-sizing: border-box;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-shape-corner-small);
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: var(--md-sys-color-primary);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
-    outline: none;
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+  outline: none;
 }
 
 /* Utility tokens for use in components */
 .md-primary {
-    color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-primary);
 }
 
 .md-on-primary {
-    color: var(--md-sys-color-on-primary);
+  color: var(--md-sys-color-on-primary);
 }
 
 .md-surface {
-    background: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
 }
 
 /* Small components */
 .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-    background: var(--md-sys-color-surface-variant);
-    color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.875rem;
 }
 
 /* Accessibility helpers */
 .visually-hidden {
-    position: absolute !important;
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
-    white-space: nowrap;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 
 /* Keep existing Tailwind utility layer compatibility - don't remove */
@@ -297,255 +313,362 @@ select:focus {
 
 /* Backgrounds */
 .bg-white {
-    background-color: var(--md-sys-color-inverse-surface) !important;
+  background-color: var(--md-sys-color-inverse-surface) !important;
 }
 
 .bg-dark-slate {
-    background-color: var(--md-sys-color-background) !important;
+  background-color: var(--md-sys-color-background) !important;
 }
 
 .bg-electric-blue {
-    background-color: var(--md-sys-color-primary) !important;
+  background-color: var(--md-sys-color-primary) !important;
 }
 
 .bg-primary {
-    background-color: var(--md-sys-color-primary) !important;
+  background-color: var(--md-sys-color-primary) !important;
 }
 
 .bg-primary-dark {
-    background-color: color-mix(in srgb, var(--md-sys-color-primary) 70%, black 30%) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 70%,
+    black 30%
+  ) !important;
 }
 
 .bg-gray-50 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 3%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 3%,
+    transparent
+  ) !important;
 }
 
 .bg-gray-100 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 6%,
+    transparent
+  ) !important;
 }
 
 .bg-white\/10 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 10%,
+    transparent
+  ) !important;
 }
 
 .bg-white\/80 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 80%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 80%,
+    transparent
+  ) !important;
 }
 
 /* Text colors */
 .text-white {
-    color: var(--md-sys-color-on-primary) !important;
+  color: var(--md-sys-color-on-primary) !important;
 }
 
 .text-dark-slate {
-    color: var(--md-sys-color-on-surface) !important;
+  color: var(--md-sys-color-on-surface) !important;
 }
 
 .text-slate-900 {
-    color: var(--md-sys-color-on-surface) !important;
+  color: var(--md-sys-color-on-surface) !important;
 }
 
 .text-slate-600 {
-    color: var(--md-sys-color-on-surface-variant) !important;
+  color: var(--md-sys-color-on-surface-variant) !important;
 }
 
 .text-slate-400 {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface) 60%, transparent) !important;
+  color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 60%,
+    transparent
+  ) !important;
 }
 
 .text-electric-blue {
-    color: var(--md-sys-color-primary) !important;
+  color: var(--md-sys-color-primary) !important;
 }
 
 /* Borders */
 .border-border-color {
-    border-color: var(--md-sys-color-outline) !important;
+  border-color: var(--md-sys-color-outline) !important;
 }
 
 .border-slate-200 {
-    border-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 8%,
+    transparent
+  ) !important;
 }
 
 .border-gray-200 {
-    border-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 8%,
+    transparent
+  ) !important;
 }
 
 /* Rings/focus */
 .focus\:ring-electric-blue:focus {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent) !important;
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent) !important;
 }
 
 .focus\:ring-electric-blue\/50:focus {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 50%, transparent) !important;
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--md-sys-color-primary) 50%, transparent) !important;
 }
 
 /* Misc */
 .hover\:bg-electric-blue\/5:hover {
-    background-color: color-mix(in srgb, var(--md-sys-color-primary) 5%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 5%,
+    transparent
+  ) !important;
 }
 
 .bg-electric-blue\/10 {
-    background-color: color-mix(in srgb, var(--md-sys-color-primary) 10%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 10%,
+    transparent
+  ) !important;
 }
 
 .text-primary {
-    color: var(--md-sys-color-primary) !important;
+  color: var(--md-sys-color-primary) !important;
 }
 
 /* Additional compatibility mappings for common gray/text variants and primary/opacity helpers */
 .text-gray-900 {
-    color: var(--md-sys-color-on-surface) !important;
+  color: var(--md-sys-color-on-surface) !important;
 }
 
 .text-gray-600 {
-    color: var(--md-sys-color-on-surface-variant) !important;
+  color: var(--md-sys-color-on-surface-variant) !important;
 }
 
 .text-gray-400 {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface) 60%, transparent) !important;
+  color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 60%,
+    transparent
+  ) !important;
 }
 
 .bg-primary\/10 {
-    background-color: color-mix(in srgb, var(--md-sys-color-primary) 10%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 10%,
+    transparent
+  ) !important;
 }
 
 .bg-primary-dark {
-    background-color: color-mix(in srgb, var(--md-sys-color-primary) 70%, black 30%) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 70%,
+    black 30%
+  ) !important;
 }
 
 /* Header navigation specific utilities to ensure good contrast and hover states */
 header.site-header {
-    background: color-mix(in srgb, var(--md-sys-color-surface) 80%, transparent);
+  background: color-mix(in srgb, var(--md-sys-color-surface) 80%, transparent);
 }
 
 header.site-header .nav-link {
-    color: var(--md-sys-color-on-surface-variant);
-    text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
 }
 
 header.site-header .nav-link:hover {
-    color: var(--md-sys-color-on-surface);
-    background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
+  color: var(--md-sys-color-on-surface);
+  background: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 6%,
+    transparent
+  );
 }
 
 header.site-header .nav-link.nav-active {
-    color: var(--md-sys-color-primary);
-    background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+  color: var(--md-sys-color-primary);
+  background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
 }
 
 /* Dark mode toggle button */
 .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    padding: .35rem .5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    background: transparent;
-    color: var(--md-sys-color-on-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
 }
 
 .theme-toggle:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+  outline: none;
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
 }
 
 /* Ensure Tailwind's dark: utilities don't permanently override our token mappings.
    Map common dark: classes to the token-driven values so switching the 'dark' class
    or data-theme="dark" will correctly change backgrounds/borders. */
 .dark .bg-white,
-[data-theme="dark"] .bg-white {
-    background-color: var(--md-sys-color-surface) !important;
+[data-theme='dark'] .bg-white {
+  background-color: var(--md-sys-color-surface) !important;
 }
 
 .dark .bg-white\/10,
-[data-theme="dark"] .bg-white\/10 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent) !important;
+[data-theme='dark'] .bg-white\/10 {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 10%,
+    transparent
+  ) !important;
 }
 
 .dark .bg-slate-800,
-[data-theme="dark"] .bg-slate-800 {
-    background-color: var(--md-sys-color-surface) !important;
+[data-theme='dark'] .bg-slate-800 {
+  background-color: var(--md-sys-color-surface) !important;
 }
 
 .dark .border-gray-200,
-[data-theme="dark"] .border-gray-200,
+[data-theme='dark'] .border-gray-200,
 .dark .border-slate-200,
-[data-theme="dark"] .border-slate-200 {
-    border-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent) !important;
+[data-theme='dark'] .border-slate-200 {
+  border-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 8%,
+    transparent
+  ) !important;
 }
 
 /* Common slate background mappings (light) */
 .bg-slate-50 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 4%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 4%,
+    transparent
+  ) !important;
 }
 
 .bg-slate-100 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 6%,
+    transparent
+  ) !important;
 }
 
 .bg-slate-200 {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 8%,
+    transparent
+  ) !important;
 }
 
 /* Dark variants: ensure dark classes map to token surface colors */
 .dark .bg-slate-900,
-[data-theme="dark"] .bg-slate-900,
+[data-theme='dark'] .bg-slate-900,
 .dark .bg-slate-800,
-[data-theme="dark"] .bg-slate-800,
+[data-theme='dark'] .bg-slate-800,
 .dark .bg-slate-700,
-[data-theme="dark"] .bg-slate-700 {
-    background-color: var(--md-sys-color-surface) !important;
+[data-theme='dark'] .bg-slate-700 {
+  background-color: var(--md-sys-color-surface) !important;
 }
 
 /* Hover background mappings used across components */
 .hover\:bg-slate-50:hover {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 4%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 4%,
+    transparent
+  ) !important;
 }
 
 .hover\:bg-slate-100:hover {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 6%,
+    transparent
+  ) !important;
 }
 
 .dark .hover\:bg-slate-800:hover,
-[data-theme="dark"] .hover\:bg-slate-800:hover,
+[data-theme='dark'] .hover\:bg-slate-800:hover,
 .dark .hover\:bg-slate-700:hover,
-[data-theme="dark"] .hover\:bg-slate-700:hover {
-    background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent) !important;
+[data-theme='dark'] .hover\:bg-slate-700:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 6%,
+    transparent
+  ) !important;
 }
 
 /* Text color mappings */
 .text-slate-900 {
-    color: var(--md-sys-color-on-surface) !important;
+  color: var(--md-sys-color-on-surface) !important;
 }
 
 .text-slate-600 {
-    color: var(--md-sys-color-on-surface-variant) !important;
+  color: var(--md-sys-color-on-surface-variant) !important;
 }
 
 .text-slate-500 {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface) 60%, transparent) !important;
+  color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 60%,
+    transparent
+  ) !important;
 }
 
 .text-slate-400 {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface) 50%, transparent) !important;
+  color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 50%,
+    transparent
+  ) !important;
 }
 
 /* Dark-mode specific text variants (classes like dark:text-slate-400 compile to .dark .text-slate-400) */
 .dark .text-slate-400,
-[data-theme="dark"] .text-slate-400 {
-    color: var(--md-sys-color-on-surface-variant) !important;
+[data-theme='dark'] .text-slate-400 {
+  color: var(--md-sys-color-on-surface-variant) !important;
 }
 
 .dark .text-slate-500,
-[data-theme="dark"] .text-slate-500 {
-    color: color-mix(in srgb, var(--md-sys-color-on-surface) 70%, transparent) !important;
+[data-theme='dark'] .text-slate-500 {
+  color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 70%,
+    transparent
+  ) !important;
 }
 
 /* Borders in dark theme */
 .dark .border-slate-700,
-[data-theme="dark"] .border-slate-700 {
-    border-color: color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent) !important;
+[data-theme='dark'] .border-slate-700 {
+  border-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 10%,
+    transparent
+  ) !important;
 }

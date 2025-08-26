@@ -17,9 +17,9 @@ export default function TermsPage() {
 
           <h2>1. Acceptance of Terms</h2>
           <p>
-            By accessing and using DigiServicesApp ("the Service"), you accept
-            and agree to be bound by these Terms of Service. If you do not agree
-            to these terms, you must not use our service.
+            By accessing and using DigiServicesApp (&quot;the Service&quot;),
+            you accept and agree to be bound by these Terms of Service. If you
+            do not agree to these terms, you must not use our service.
           </p>
 
           <h2>2. Description of Service</h2>
@@ -104,7 +104,7 @@ export default function TermsPage() {
           <p>
             We reserve the right to modify these terms at any time. We will
             notify you of any changes by posting the new terms on this page and
-            updating the "Last updated" date.
+            updating the &quot;Last updated&quot; date.
           </p>
 
           <h2>11. Governing Law</h2>

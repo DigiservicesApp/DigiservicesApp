@@ -1,81 +1,7 @@
 'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { RiAddLine, RiSubtractLine } from 'react-icons/ri';
 import Container from '@/components/ui/Container';
+import { Accordion } from '@/components/ui/Accordion';
 import { faqItems, FAQItem } from '@/lib/data/faq';
-
-function FAQGroup({
-  category,
-  items,
-}: {
-  category: FAQItem['category'];
-  items: FAQItem[];
-}) {
-  const categoryTitles = {
-    general: 'General Questions',
-    features: 'Features & Capabilities',
-    pricing: 'Pricing & Plans',
-    support: 'Support & Getting Started',
-  };
-
-  return (
-    <div className="mt-10 first:mt-0">
-      <h3 className="text-lg font-semibold text-[var(--md-sys-color-on-surface)] mb-4">
-        {categoryTitles[category]}
-      </h3>
-      <dl className="space-y-4">
-        {items.map((item) => (
-          <FAQ key={item.id} item={item} />
-        ))}
-      </dl>
-    </div>
-  );
-}
-
-function FAQ({ item }: { item: FAQItem }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div
-      className="rounded-lg surface p-6 shadow-sm ring-1"
-      style={{ borderColor: 'var(--md-sys-color-outline)' }}
-    >
-      <dt>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex w-full items-start justify-between text-left"
-        >
-          <span className="text-base font-semibold leading-7 text-[var(--md-sys-color-on-surface)]">
-            {item.question}
-          </span>
-          <span className="ml-6 flex h-7 items-center">
-            {isOpen ? (
-              <RiSubtractLine className="h-6 w-6 text-primary" />
-            ) : (
-              <RiAddLine className="h-6 w-6 text-primary" />
-            )}
-          </span>
-        </button>
-      </dt>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.dd
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <p className="mt-4 text-base leading-7 text-[var(--md-sys-color-on-surface-variant)]">
-              {item.answer}
-            </p>
-          </motion.dd>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
 
 export default function FAQSection() {
   const groupedFAQs = faqItems.reduce((acc, item) => {
@@ -94,17 +20,33 @@ export default function FAQSection() {
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-lg leading-8 text-[var(--md-sys-color-on-surface-variant)]">
-            Find answers to common questions about DigiServicesApp's features,
-            pricing, and support.
+            Find answers to common questions about DigiServicesApp&apos;s
+            features, pricing, and support.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-3xl">
+
+        <div className="mx-auto mt-16 max-w-3xl space-y-8">
           {Object.entries(groupedFAQs).map(([category, items]) => (
-            <FAQGroup
-              key={category}
-              category={category as FAQItem['category']}
-              items={items}
-            />
+            <div key={category}>
+              <h3 className="text-lg font-semibold text-[var(--md-sys-color-on-surface)] mb-4">
+                {category}
+              </h3>
+              <Accordion
+                items={items.map((item) => ({
+                  value: String(item.id),
+                  trigger: item.question,
+                  children: (
+                    <p className="mt-2 text-[var(--md-sys-color-on-surface-variant)]">
+                      {item.answer}
+                    </p>
+                  ),
+                }))}
+                type="single"
+                collapsible
+                variant="bordered"
+                defaultValue={String(items[0]?.id ?? '')}
+              />
+            </div>
           ))}
         </div>
       </Container>

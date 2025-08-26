@@ -6,12 +6,6 @@ import {
   RiBrainLine,
   RiPieChartLine,
   RiWindowLine,
-  RiTaskLine,
-  RiFileTextLine,
-  RiTeamLine,
-  RiSearchLine,
-  RiNotificationLine,
-  RiSettings4Line,
 } from 'react-icons/ri';
 
 export interface DetailedFeature {

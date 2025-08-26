@@ -17,10 +17,10 @@ export default function PrivacyPolicyPage() {
 
           <h2>1. Introduction</h2>
           <p>
-            DigiServicesApp ("we," "our," or "us") respects your privacy and is
-            committed to protecting your personal data. This privacy policy
-            explains how we collect, use, and safeguard your information when
-            you use our website and services.
+            DigiServicesApp (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
+            respects your privacy and is committed to protecting your personal
+            data. This privacy policy explains how we collect, use, and
+            safeguard your information when you use our website and services.
           </p>
 
           <h2>2. Information We Collect</h2>
@@ -92,7 +92,7 @@ export default function PrivacyPolicyPage() {
             policies.
           </p>
 
-          <h2>8. Children's Privacy</h2>
+          <h2>8. Children&apos;s Privacy</h2>
           <p>
             Our services are not intended for children under 13 years of age. We
             do not knowingly collect personal information from children under
@@ -103,7 +103,7 @@ export default function PrivacyPolicyPage() {
           <p>
             We may update this privacy policy from time to time. We will notify
             you of any changes by posting the new policy on this page and
-            updating the "Last updated" date.
+            updating the &quot;Last updated&quot; date.
           </p>
 
           <h2>10. Contact Us</h2>

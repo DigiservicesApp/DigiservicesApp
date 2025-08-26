@@ -1,7 +1,6 @@
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
 import { ToastProvider } from '@/components/ui/ToastContext';
-import { ClerkProvider } from '@clerk/nextjs';
 import ClientCookieConsent from '@/components/ClientCookieConsent';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });

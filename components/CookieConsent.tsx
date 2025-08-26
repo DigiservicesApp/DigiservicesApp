@@ -25,8 +25,8 @@ export default function CookieConsent() {
         <div className="flex-1">
           <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
             We use cookies to enhance your browsing experience, serve
-            personalized content, and analyze our traffic. By clicking "Accept",
-            you consent to our use of cookies. Read our{' '}
+            personalized content, and analyze our traffic. By clicking
+            &quot;Accept&quot;, you consent to our use of cookies. Read our{' '}
             <a
               href="/privacy-policy"
               className="text-[color:var(--md-sys-color-primary)] hover:opacity-90 underline"

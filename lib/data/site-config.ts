@@ -68,34 +68,21 @@ export const footerSections: FooterSection[] = [
     links: [
       { name: 'Features', href: '/features' },
       { name: 'How it Works', href: '/how-it-works' },
-      { name: 'Use Cases', href: '/use-cases' },
       { name: 'Pricing', href: '/pricing' },
-      { name: 'Security', href: '/security' },
-      { name: 'Enterprise', href: '/enterprise' },
     ],
   },
   {
     title: 'Resources',
     links: [
       { name: 'Documentation', href: '/docs' },
-      { name: 'API Reference', href: '/api' },
-      { name: 'Guides', href: '/guides' },
       { name: 'Blog', href: '/blog' },
       { name: 'Community', href: '/community' },
-      {
-        name: 'Status',
-        href: 'https://status.digiservicesapp.com',
-        isExternal: true,
-      },
     ],
   },
   {
     title: 'Company',
     links: [
       { name: 'About Us', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Press', href: '/press' },
-      { name: 'Partners', href: '/partners' },
       { name: 'Contact', href: '/contact' },
     ],
   },
@@ -105,8 +92,6 @@ export const footerSections: FooterSection[] = [
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms of Service', href: '/terms' },
       { name: 'Cookie Policy', href: '/privacy-policy#cookies' },
-      { name: 'GDPR', href: '/gdpr' },
-      { name: 'Accessibility', href: '/accessibility' },
     ],
   },
 ];

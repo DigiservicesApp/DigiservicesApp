@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import {
@@ -93,10 +94,14 @@ export default function Footer() {
                           <path d={item.icon as string} />
                         </svg>
                       ) : (
-                        item.icon && (
-                          // @ts-ignore - icon is a React component when not custom SVG
-                          <item.icon className="h-6 w-6" aria-hidden="true" />
-                        )
+                        item.icon &&
+                        // Render icon either as a React component or skip if not valid
+                        (typeof item.icon === 'function'
+                          ? React.createElement(item.icon as any, {
+                              className: 'h-6 w-6',
+                              'aria-hidden': 'true',
+                            })
+                          : null)
                       )}
                     </a>
                   ))}

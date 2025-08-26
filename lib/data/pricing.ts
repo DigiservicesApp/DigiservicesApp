@@ -1,6 +1,5 @@
 import { IconType } from 'react-icons';
 import {
-  RiCheckLine,
   RiCustomerService2Line,
   RiDashboardLine,
   RiFileTextLine,

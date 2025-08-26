@@ -7,16 +7,8 @@ import { Input } from '@/components/ui/Input';
 import TextArea from '@/components/ui/TextArea';
 import { Button } from '@/components/ui/Button';
 import { RadioGroup } from '@/components/ui/RadioGroup';
-import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { companyInfo } from '@/lib/data/site-config';
-import {
-  RiMailLine,
-  RiPhoneLine,
-  RiMapPin2Line,
-  RiCustomerServiceLine,
-  RiQuestionLine,
-  RiTeamLine,
-} from 'react-icons/ri';
+import { RiMailLine, RiPhoneLine, RiMapPin2Line } from 'react-icons/ri';
 
 export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
@@ -34,7 +26,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl text-[color:var(--md-sys-color-on-surface-variant)] max-w-2xl mx-auto">
-              Have questions about our services? Looking to collaborate? We're
+              Have questions about our services? Looking to collaborate? We are
               here to help you succeed.
             </p>
           </div>
@@ -160,7 +152,7 @@ export default function ContactPage() {
                     What are your business hours?
                   </h3>
                   <p className="text-[color:var(--md-sys-color-on-surface-variant)]">
-                    We're available Monday through Friday, 9:00 AM to 6:00 PM
+                    We are available Monday through Friday, 9:00 AM to 6:00 PM
                     EST.
                   </p>
                 </div>

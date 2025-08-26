@@ -50,7 +50,7 @@ export default function DashboardPage() {
           Dashboard
         </h1>
         <p className="mt-1 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
-          Welcome back! Here's an overview of your workspace.
+          Welcome back! Here is an overview of your workspace.
         </p>
       </div>
 

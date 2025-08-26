@@ -5,9 +5,6 @@ import {
   RiDashboardLine,
   RiTeamLine,
   RiPieChartLine,
-  RiTimeLine,
-  RiCheckboxCircleLine,
-  RiBarChartLine,
 } from 'react-icons/ri';
 
 export interface WorkflowStepDetails {
