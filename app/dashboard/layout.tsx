@@ -1,11 +1,26 @@
 'use client';
 
-import Container from '@/components/ui/Container';
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/auth/AuthProvider';
 import DashboardSidebar from '@/components/layout/DashboardSidebar';
 import DashboardHeader from '@/components/layout/DashboardHeader';
-import { withAuth } from '@/lib/auth';
+import Container from '@/components/ui/Container';
 
-function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!user) router.replace('/sign-in');
+  }, [user, router]);
+
+  if (!user) return null;
+
   return (
     <div className="min-h-screen bg-[color:var(--md-sys-color-surface)]">
       <DashboardHeader />
@@ -18,5 +33,3 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-export default withAuth(DashboardLayout);

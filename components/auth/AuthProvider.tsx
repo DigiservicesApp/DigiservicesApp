@@ -1,4 +1,7 @@
+'use client';
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type User = { id: string; name: string } | null;
 
@@ -12,7 +15,11 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export default function AuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [user, setUser] = useState<User>(() => {
     try {
       const raw = localStorage.getItem('ds_user');
@@ -39,35 +46,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-}
-
-export function withAuth<P extends object>(
-  WrappedComponent: React.ComponentType<P>
-) {
-  return function WithAuthComponent(props: P) {
-    const { isLoading, isAuthenticated } = useAuth();
-    const router = useRouter();
-
-    useEffect(() => {
-      if (!isLoading && !isAuthenticated) {
-        router.push('/sign-in');
-      }
-    }, [isLoading, isAuthenticated, router]);
-
-    if (isLoading) {
-      return <LoadingScreen />;
-    }
-
-    if (!isAuthenticated) {
-      return null;
-    }
-
-    return <WrappedComponent {...props} />;
-  };
 }

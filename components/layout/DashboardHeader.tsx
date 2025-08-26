@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import Link from 'next/link';
-import { useClerk, useUser } from '@clerk/clerk-react';
+import { useAuth } from '@/components/auth/AuthProvider';
 import {
   RiBellLine,
   RiSearchLine,
@@ -13,14 +13,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function DashboardHeader() {
-  //
-  const { user } = useUser();
-  const { signOut } = useClerk();
+  const { user, signOut } = useAuth();
   const router = useRouter();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleSignOut = () => {
+    signOut();
     router.push('/');
   };
 
@@ -57,7 +55,7 @@ export default function DashboardHeader() {
                   <RiUserLine className="h-5 w-5 text-[color:var(--md-sys-color-on-surface-variant)]" />
                 </div>
                 <span className="text-sm font-medium text-[color:var(--md-sys-color-on-surface)]">
-                  John Doe
+                  {user?.name ?? 'Guest'}
                 </span>
               </button>
 
