@@ -1,17 +1,18 @@
+'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
 const FeatureHero = () => {
   return (
-    <section className="relative py-20 overflow-hidden bg-linear-to-b from-primary/5 to-transparent">
+    <section className="relative py-20 overflow-hidden bg-[color-mix(in_srgb,var(--md-sys-color-primary)_5%,transparent)]">
       <Container>
         <div className="text-center max-w-3xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl xl:text-6xl dark:text-white"
+            className="text-4xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-5xl xl:text-6xl"
           >
             Transform Your Freelance Business with AI-Powered Features
           </motion.h1>
@@ -20,7 +21,7 @@ const FeatureHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-6 text-lg text-slate-600 dark:text-slate-400"
+            className="mt-6 text-lg text-[color:var(--md-sys-color-on-surface-variant)]"
           >
             Discover how our advanced features streamline your workflow,
             automate tedious tasks, and help you deliver outstanding results to

@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import Card from '@/components/ui/Card';
@@ -8,17 +9,23 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
     <Card className="flex flex-col overflow-hidden">
       <div className="flex-1 p-6">
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-            {<useCase.icon className="h-6 w-6 text-primary" />}
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))]">
+            {
+              <useCase.icon className="h-6 w-6 text-[color:var(--md-sys-color-primary)]" />
+            }
           </div>
-          <h3 className="text-xl font-semibold text-gray-900">
+          <h3 className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
             {useCase.title}
           </h3>
         </div>
-        <p className="mt-4 text-gray-600">{useCase.description}</p>
+        <p className="mt-4 text-[color:var(--md-sys-color-on-surface-variant)]">
+          {useCase.description}
+        </p>
 
         <div className="mt-6 space-y-4">
-          <h4 className="font-semibold text-gray-900">Key Benefits</h4>
+          <h4 className="font-semibold text-[color:var(--md-sys-color-on-surface)]">
+            Key Benefits
+          </h4>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {useCase.benefits.map((benefit) => (
               <div key={benefit.title} className="flex items-start gap-3">
@@ -26,8 +33,10 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
                   {<benefit.icon className="h-4 w-4 text-primary" />}
                 </div>
                 <div>
-                  <h5 className="font-medium text-gray-900">{benefit.title}</h5>
-                  <p className="mt-1 text-sm text-gray-600">
+                  <h5 className="font-medium text-[color:var(--md-sys-color-on-surface)]">
+                    {benefit.title}
+                  </h5>
+                  <p className="mt-1 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     {benefit.description}
                   </p>
                 </div>
@@ -37,21 +46,25 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
         </div>
 
         <div className="mt-8">
-          <h4 className="font-semibold text-gray-900">Key Metrics</h4>
+          <h4 className="font-semibold text-[color:var(--md-sys-color-on-surface)]">
+            Key Metrics
+          </h4>
           <div className="mt-4 grid grid-cols-3 gap-4">
             {useCase.metrics.map((metric) => (
               <div key={metric.label} className="text-center">
                 <div className="text-2xl font-bold text-primary">
                   {metric.value}
                 </div>
-                <div className="mt-1 text-sm text-gray-600">{metric.label}</div>
+                <div className="mt-1 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
+                  {metric.label}
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {useCase.testimonial && (
-          <div className="mt-8 rounded-lg bg-gray-50 p-6">
+          <div className="mt-8 rounded-lg bg-[color:var(--md-sys-color-surface-variant)] p-6">
             <div className="flex items-start gap-4">
               <div className="relative h-12 w-12 shrink-0">
                 <Image
@@ -62,14 +75,14 @@ function UseCaseCard({ useCase }: { useCase: UseCase }) {
                 />
               </div>
               <div>
-                <p className="text-gray-600 italic">
+                <p className="text-[color:var(--md-sys-color-on-surface-variant)] italic">
                   "{useCase.testimonial.quote}"
                 </p>
                 <div className="mt-2">
-                  <p className="font-medium text-gray-900">
+                  <p className="font-medium text-[color:var(--md-sys-color-on-surface)]">
                     {useCase.testimonial.author}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     {useCase.testimonial.role}, {useCase.testimonial.company}
                   </p>
                 </div>

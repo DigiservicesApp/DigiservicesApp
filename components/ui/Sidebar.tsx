@@ -74,8 +74,9 @@ export default function Sidebar({
       }}
       transition={{ type: 'spring', stiffness: 400, damping: 40 }}
       className={clsx(
-        'flex flex-col bg-white dark:bg-slate-800 h-full',
-        'border-slate-200 dark:border-slate-700',
+        'flex flex-col h-full',
+        'bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)]',
+        'border-[color:var(--md-sys-color-outline)]',
         position === 'left' ? 'border-r' : 'border-l',
         variant === 'fixed' ? 'z-40' : 'z-20',
         position === 'left' ? 'left-0' : 'right-0',
@@ -85,7 +86,7 @@ export default function Sidebar({
     >
       {/* Header */}
       {headerContent && (
-        <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+        <div className="p-4 border-b border-[color:var(--md-sys-color-outline)]">
           {headerContent}
         </div>
       )}
@@ -95,7 +96,7 @@ export default function Sidebar({
 
       {/* Footer */}
       {footerContent && (
-        <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+        <div className="p-4 border-t border-[color:var(--md-sys-color-outline)]">
           {footerContent}
         </div>
       )}
@@ -106,9 +107,9 @@ export default function Sidebar({
           onClick={handleToggle}
           className={clsx(
             'absolute top-4 p-2 rounded-full',
-            'bg-white dark:bg-slate-800',
-            'border border-slate-200 dark:border-slate-700',
-            'hover:bg-slate-50 dark:hover:bg-slate-700',
+            'bg-[color:var(--md-sys-color-surface)]',
+            'border-[color:var(--md-sys-color-outline)]',
+            'hover:bg-[color:color-mix(in srgb,var(--md-sys-color-on-surface)6%,transparent)]',
             'transition-colors duration-200',
             position === 'left'
               ? 'right-0 translate-x-1/2'

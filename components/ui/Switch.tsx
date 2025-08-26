@@ -1,126 +1,167 @@
 'use client';
-import { InputHTMLAttributes, forwardRef } from 'react';
-import { motion } from 'framer-motion';
-import { clsx } from 'clsx';
 
-interface SwitchProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const switchVariants = cva(
+  'peer relative inline-flex shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  {
+    variants: {
+      size: {
+        sm: 'h-5 w-9',
+        md: 'h-6 w-11',
+        lg: 'h-7 w-[3.25rem]',
+      },
+      variant: {
+        default: [
+          'bg-[color:var(--md-sys-color-surface-container-highest)]',
+          'border-2',
+          'border-[color:var(--md-sys-color-outline)]',
+          'hover:border-[color:var(--md-sys-color-on-surface)]',
+          'peer-checked:bg-[color:var(--md-sys-color-primary)]',
+          'peer-checked:border-[color:var(--md-sys-color-primary)]',
+          'focus-visible:ring-[color:var(--md-sys-color-primary)]',
+        ],
+        error: [
+          'bg-[color:var(--md-sys-color-error-container)]',
+          'border-[color:var(--md-sys-color-error)]',
+          'peer-checked:bg-[color:var(--md-sys-color-error)]',
+          'peer-checked:border-[color:var(--md-sys-color-error)]',
+          'focus-visible:ring-[color:var(--md-sys-color-error)]',
+        ],
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+      variant: 'default',
+    },
+  }
+);
+
+const thumbVariants = cva(
+  'pointer-events-none block rounded-full bg-[color:var(--md-sys-color-outline)] shadow-lg ring-0 transition-transform duration-200 ease-in-out',
+  {
+    variants: {
+      size: {
+        sm: 'h-4 w-4',
+        md: 'h-5 w-5',
+        lg: 'h-6 w-6',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  }
+);
+
+const labelVariants = cva(
+  'text-[color:var(--md-sys-color-on-surface)] select-none transition-colors',
+  {
+    variants: {
+      size: {
+        sm: 'text-sm',
+        md: 'text-base',
+        lg: 'text-lg',
+      },
+      disabled: {
+        true: 'opacity-50 cursor-not-allowed',
+        false: 'cursor-pointer',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+      disabled: false,
+    },
+  }
+);
+
+export interface SwitchProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+    VariantProps<typeof switchVariants> {
   label?: string;
-  error?: string;
-  className?: string;
-  // Optional icons for on/off states
-  iconOn?: React.ReactNode;
-  iconOff?: React.ReactNode;
+  helperText?: string;
+  error?: boolean;
+  errorText?: string;
 }
 
-const Switch = forwardRef<HTMLInputElement, SwitchProps>(
+const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   (
-    { label, error, className, disabled, checked, iconOn, iconOff, ...props },
+    {
+      className,
+      size,
+      variant,
+      label,
+      helperText,
+      error,
+      errorText,
+      disabled,
+      ...props
+    },
     ref
   ) => {
-    // Track width calculation based on design
-    const trackWidth = 44; // Material You-inspired dimensions
-    const thumbSize = 20;
-    const trackPadding = 2;
-    const travel = trackWidth - thumbSize - trackPadding * 2;
+    const id = React.useId();
+    const thumbPositions = {
+      sm: 'translate-x-4',
+      md: 'translate-x-5',
+      lg: 'translate-x-6',
+    };
 
     return (
-      <div className={clsx('relative flex items-start', className)}>
-        <div className="flex items-center h-6">
-          <input
-            type="checkbox"
-            ref={ref}
-            disabled={disabled}
-            checked={checked}
-            className="sr-only"
-            {...props}
-          />
-
-          {/* Track */}
-          <motion.div
-            className={clsx(
-              'relative rounded-full transition-colors duration-200',
-              'cursor-pointer',
-              {
-                'bg-electric-blue/90': checked,
-                'bg-gray-200': !checked,
-                'cursor-not-allowed opacity-50': disabled,
-              }
-            )}
-            style={{
-              width: trackWidth,
-              height: 24,
-            }}
-            animate={{
-              backgroundColor: checked
-                ? 'rgb(0, 123, 255, 0.9)'
-                : 'rgb(229, 231, 235)',
-            }}
-          >
-            {/* Thumb */}
-            <motion.div
-              className={clsx(
-                'absolute top-1/2 -translate-y-1/2',
-                'rounded-full shadow-lg',
-                'flex items-center justify-center',
-                'bg-white'
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <input
+              type="checkbox"
+              id={id}
+              ref={ref}
+              disabled={disabled}
+              className="sr-only"
+              {...props}
+            />
+            <div
+              className={cn(
+                switchVariants({
+                  size,
+                  variant: error ? 'error' : variant,
+                  className,
+                })
               )}
-              style={{
-                width: thumbSize,
-                height: thumbSize,
-                x: trackPadding,
-              }}
-              animate={{
-                x: checked ? travel + trackPadding : trackPadding,
-                scale: checked ? 1.1 : 1,
-                backgroundColor: checked
-                  ? 'rgb(255, 255, 255)'
-                  : 'rgb(255, 255, 255)',
-              }}
-              transition={{
-                type: 'spring',
-                stiffness: 400,
-                damping: 25,
-              }}
             >
-              {/* Icon container */}
-              <motion.div
-                initial={false}
-                animate={{ opacity: checked ? 1 : 0 }}
-                className="text-electric-blue"
-                style={{ fontSize: '12px' }}
-              >
-                {iconOn}
-              </motion.div>
-              <motion.div
-                initial={false}
-                animate={{ opacity: checked ? 0 : 1 }}
-                className="absolute text-gray-400"
-                style={{ fontSize: '12px' }}
-              >
-                {iconOff}
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {label && (
-          <div className="ml-3 select-none">
+              <div
+                className={cn(
+                  thumbVariants({ size }),
+                  'translate-x-0.5',
+                  'peer-checked:bg-[color:var(--md-sys-color-on-primary)]',
+                  'peer-checked:' + thumbPositions[size || 'md']
+                )}
+              />
+            </div>
+          </div>
+          {label && (
             <label
-              htmlFor={props.id}
-              className={clsx('text-sm font-medium', {
-                'text-dark-slate cursor-pointer': !disabled,
-                'text-gray-400 cursor-not-allowed': disabled,
-              })}
+              htmlFor={id}
+              className={cn(
+                labelVariants({
+                  size,
+                  disabled,
+                })
+              )}
             >
               {label}
             </label>
-          </div>
-        )}
-
-        {error && (
-          <p className="absolute -bottom-5 left-0 text-sm text-error">
-            {error}
+          )}
+        </div>
+        {(helperText || (error && errorText)) && (
+          <p
+            className={cn(
+              'text-sm transition-colors pl-[3.25rem]',
+              error
+                ? 'text-[color:var(--md-sys-color-error)]'
+                : 'text-[color:var(--md-sys-color-on-surface-variant)]'
+            )}
+          >
+            {error ? errorText : helperText}
           </p>
         )}
       </div>
@@ -130,4 +171,41 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
 Switch.displayName = 'Switch';
 
-export default Switch;
+export { Switch };
+
+// Usage example:
+/*
+import { Switch } from './Switch.new';
+
+// Basic switch
+<Switch label="Enable notifications" />
+
+// Different sizes
+<Switch size="sm" label="Small" />
+<Switch size="md" label="Medium" />
+<Switch size="lg" label="Large" />
+
+// With helper text
+<Switch
+  label="Dark mode"
+  helperText="Enable dark mode for better visibility at night"
+/>
+
+// Error state
+<Switch
+  label="Required setting"
+  error
+  errorText="This setting must be enabled"
+/>
+
+// Disabled state
+<Switch label="Maintenance mode" disabled />
+
+// Controlled
+const [enabled, setEnabled] = useState(false);
+<Switch
+  checked={enabled}
+  onChange={(e) => setEnabled(e.target.checked)}
+  label="Controlled switch"
+/>
+*/

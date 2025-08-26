@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import Container from '@/components/ui/Container';
 import Card from '@/components/ui/Card';
@@ -24,24 +25,30 @@ function PricingCard({
       }`}
     >
       {tier.popularChoice && (
-        <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-white">
+        <div className="rounded-t-lg bg-[color:var(--md-sys-color-primary)] px-4 py-1 text-center text-sm font-medium text-[color:var(--md-sys-color-on-primary)]">
           Popular Choice
         </div>
       )}
       <div className="flex flex-1 flex-col p-6">
         <div>
-          <h3 className="text-xl font-semibold text-gray-900">{tier.name}</h3>
-          <p className="mt-2 text-base text-gray-600">{tier.description}</p>
+          <h3 className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
+            {tier.name}
+          </h3>
+          <p className="mt-2 text-base text-[color:var(--md-sys-color-on-surface-variant)]">
+            {tier.description}
+          </p>
         </div>
         <div className="mt-6">
           <div className="flex items-baseline">
-            <span className="text-4xl font-bold text-gray-900">${price}</span>
-            <span className="ml-2 text-gray-600">
+            <span className="text-4xl font-bold text-[color:var(--md-sys-color-on-surface)]">
+              ${price}
+            </span>
+            <span className="ml-2 text-[color:var(--md-sys-color-on-surface-variant)]">
               /{isAnnual ? 'year' : 'month'}
             </span>
           </div>
           {isAnnual && savings > 0 && (
-            <p className="mt-1 text-sm text-green-600">
+            <p className="mt-1 text-sm text-[color:var(--md-sys-color-primary)]">
               Save {savings}% with annual billing
             </p>
           )}
@@ -49,8 +56,10 @@ function PricingCard({
         <ul className="mt-6 space-y-3">
           {tier.features.map((feature) => (
             <li key={feature} className="flex items-start gap-3">
-              <RiCheckLine className="h-5 w-5 shrink-0 text-primary" />
-              <span className="text-gray-600">{feature}</span>
+              <RiCheckLine className="h-5 w-5 shrink-0 text-[color:var(--md-sys-color-primary)]" />
+              <span className="text-[color:var(--md-sys-color-on-surface-variant)]">
+                {feature}
+              </span>
             </li>
           ))}
         </ul>
@@ -59,8 +68,8 @@ function PricingCard({
             href={tier.cta.href}
             className={`block w-full rounded-lg px-4 py-2.5 text-center text-sm font-semibold ${
               tier.popularChoice
-                ? 'bg-primary text-white hover:bg-primary-dark'
-                : 'bg-gray-900 text-white hover:bg-gray-800'
+                ? 'bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] hover:opacity-90'
+                : 'border border-[color:var(--md-sys-color-outline)] text-[color:var(--md-sys-color-on-surface)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)]'
             }`}
           >
             {tier.cta.text}
@@ -81,7 +90,9 @@ export function PricingTiers() {
           <div className="flex items-center gap-4">
             <span
               className={`text-sm ${
-                !isAnnual ? 'font-semibold text-gray-900' : 'text-gray-600'
+                !isAnnual
+                  ? 'font-semibold text-[color:var(--md-sys-color-on-surface)]'
+                  : 'text-[color:var(--md-sys-color-on-surface-variant)]'
               }`}
             >
               Monthly billing
@@ -94,7 +105,9 @@ export function PricingTiers() {
             />
             <span
               className={`text-sm ${
-                isAnnual ? 'font-semibold text-gray-900' : 'text-gray-600'
+                isAnnual
+                  ? 'font-semibold text-[color:var(--md-sys-color-on-surface)]'
+                  : 'text-[color:var(--md-sys-color-on-surface-variant)]'
               }`}
             >
               Annual billing

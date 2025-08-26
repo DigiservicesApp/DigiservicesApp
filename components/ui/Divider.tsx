@@ -20,9 +20,10 @@ const sizeClasses = {
 };
 
 const colorClasses = {
-  default: 'border-slate-200 dark:border-slate-700',
-  light: 'border-slate-100 dark:border-slate-800',
-  dark: 'border-slate-300 dark:border-slate-600',
+  default: 'border-[color:var(--md-sys-color-outline)]',
+  light:
+    'border-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_06%,transparent)]',
+  dark: 'border-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_14%,transparent)]',
 };
 
 const variantClasses = {
@@ -85,7 +86,7 @@ export default function Divider({
         <span
           className={clsx(
             'text-sm font-medium whitespace-nowrap',
-            'text-slate-500 dark:text-slate-400'
+            'text-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_68%,transparent)]'
           )}
         >
           {label}
@@ -168,7 +169,7 @@ export function SectionDivider({
       >
         <h3 className="text-lg font-semibold text-dark-slate">{title}</h3>
         {subtitle && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
             {subtitle}
           </p>
         )}

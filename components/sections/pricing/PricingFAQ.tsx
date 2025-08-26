@@ -1,3 +1,4 @@
+'use client';
 import Container from '@/components/ui/Container';
 import Accordion from '@/components/ui/Accordion';
 
@@ -39,7 +40,7 @@ export function PricingFAQ() {
     <section className="py-16 sm:py-20">
       <Container>
         <div className="mx-auto max-w-2xl">
-          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
+          <h2 className="text-center text-3xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)]">
             Frequently Asked Questions
           </h2>
           <div className="mt-10">

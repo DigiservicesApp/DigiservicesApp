@@ -35,14 +35,19 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage({ params }: Props) {
-  const post = blogPosts.find((post) => post.slug === params.slug);
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
+  const post = blogPosts.find((post) => post.slug === resolvedParams.slug);
 
   if (!post) {
     return (
       <Container>
         <div className="py-16 sm:py-20">
-          <h1 className="text-3xl font-bold text-center text-gray-900">
+          <h1 className="text-3xl font-bold text-center text-[color:var(--md-sys-color-on-surface)]">
             Post Not Found
           </h1>
         </div>
@@ -59,21 +64,28 @@ export default function BlogPostPage({ params }: Props) {
       {/* Hero */}
       <div className="relative h-[60vh] w-full">
         <Image src={post.image} alt="" fill className="object-cover" priority />
-        <div className="absolute inset-0 bg-black/60">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.35))',
+          }}
+        >
           <Container className="h-full">
             <div className="flex h-full flex-col justify-end pb-16">
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                <span className="inline-flex items-center rounded-full bg-[color:var(--md-sys-color-primary-container)] px-2.5 py-0.5 text-xs font-medium text-[color:var(--md-sys-color-on-primary-container)]">
                   {post.category}
                 </span>
-                <span className="text-sm text-gray-200">
+                <span className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                   {post.readingTime}
                 </span>
               </div>
-              <h1 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
+              <h1 className="mt-4 text-4xl font-bold text-[color:var(--md-sys-color-on-surface)] sm:text-5xl">
                 {post.title}
               </h1>
-              <p className="mt-4 text-lg text-gray-200">{post.description}</p>
+              <p className="mt-4 text-lg text-[color:var(--md-sys-color-on-surface-variant)]">
+                {post.description}
+              </p>
               <div className="mt-8 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="shrink-0">
@@ -87,8 +99,10 @@ export default function BlogPostPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <p className="font-medium text-white">{post.author.name}</p>
-                    <div className="flex space-x-1 text-gray-200">
+                    <p className="font-medium text-[color:var(--md-sys-color-on-surface)]">
+                      {post.author.name}
+                    </p>
+                    <div className="flex space-x-1 text-[color:var(--md-sys-color-on-surface-variant)]">
                       <time dateTime={post.date}>{formatDate(post.date)}</time>
                     </div>
                   </div>

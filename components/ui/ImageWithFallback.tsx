@@ -1,226 +1,101 @@
 'use client';
-import React, { useState } from 'react';
-import Image, { ImageProps } from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
-import { RiImageLine, RiAlertLine } from 'react-icons/ri';
 
-interface ImageWithFallbackProps extends Omit<ImageProps, 'src' | 'alt'> {
-  src: string;
-  alt: string;
+import React from 'react';
+import Image, { type ImageProps } from 'next/image';
+import { cn } from '@/lib/utils';
+
+export interface ImageWithFallbackProps extends Omit<ImageProps, 'onError'> {
   fallbackSrc?: string;
-  showLoadingState?: boolean;
-  showErrorState?: boolean;
-  fallbackComponent?: React.ReactNode;
-  errorComponent?: React.ReactNode;
-  aspectRatio?: '1/1' | '4/3' | '16/9' | '21/9';
-  rounded?: boolean;
-  containerClassName?: string;
+  fallbackAlt?: string;
+  fallbackClassName?: string;
 }
 
-const aspectRatioClasses = {
-  '1/1': 'aspect-square',
-  '4/3': 'aspect-4/3',
-  '16/9': 'aspect-video',
-  '21/9': 'aspect-21/9',
-};
-
-export default function ImageWithFallback({
+export function ImageWithFallback({
   src,
   alt,
-  fallbackSrc,
-  showLoadingState = true,
-  showErrorState = true,
-  fallbackComponent,
-  errorComponent,
-  aspectRatio,
-  rounded = false,
-  containerClassName,
+  fallbackSrc = '/placeholder-image.png',
+  fallbackAlt,
   className,
+  fallbackClassName,
   ...props
 }: ImageWithFallbackProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  // simple SVG placeholder data URL
-  const defaultFallback = `data:image/svg+xml;utf8,${encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'><rect width='100%' height='100%' fill='%23F3F4F6'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239CA3AF' font-family='Arial' font-size='20'>Image unavailable</text></svg>`
-  )}`;
-
-  const effectiveFallback = fallbackSrc || defaultFallback;
-
-  const handleLoad = () => {
-    setIsLoading(false);
-  };
-
-  const handleError = () => {
-    setError(true);
-    setIsLoading(false);
-
-    // If fallback image is provided, try to load it
-    if (fallbackSrc) {
-      const img = document.createElement('img');
-      img.src = fallbackSrc;
-      img.onload = () => {
-        setError(false);
-      };
-    }
-  };
-
-  // Default loading state
-  const LoadingState = () => (
-    <div
-      className={clsx(
-        'w-full h-full',
-        'flex items-center justify-center',
-        'bg-slate-100 dark:bg-slate-800',
-        'animate-pulse'
-      )}
-    >
-      <RiImageLine className="w-8 h-8 text-slate-400" />
-    </div>
-  );
-
-  // Default error state
-  const ErrorState = () => (
-    <div
-      className={clsx(
-        'w-full h-full',
-        'flex flex-col items-center justify-center gap-2',
-        'bg-error/5 text-error'
-      )}
-    >
-      <RiAlertLine className="w-8 h-8" />
-      <span className="text-sm">Failed to load image</span>
-    </div>
-  );
+  const [error, setError] = React.useState<boolean>(false);
 
   return (
-    <div
-      className={clsx(
-        'relative overflow-hidden',
-        aspectRatio && aspectRatioClasses[aspectRatio],
-        rounded && 'rounded-lg',
-        containerClassName
-      )}
-    >
-      <AnimatePresence mode="sync">
-        {isLoading && showLoadingState && (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0"
-          >
-            {fallbackComponent || <LoadingState />}
-          </motion.div>
-        )}
-
-        {error && showErrorState && (
-          <motion.div
-            key="error"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0"
-          >
-            {errorComponent || <ErrorState />}
-          </motion.div>
-        )}
-
-        {!error && (
-          <motion.div
-            key="image"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isLoading ? 0 : 1 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Image
-              src={error ? effectiveFallback : src}
-              alt={alt}
-              onLoad={handleLoad}
-              onError={handleError}
-              className={clsx(
-                'w-full h-full',
-                aspectRatio ? 'object-cover' : 'object-contain',
-                className
-              )}
-              {...props}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// Lazy loaded image component
-interface LazyImageProps extends ImageWithFallbackProps {
-  threshold?: number;
-}
-
-export function LazyImage({ threshold = 0.1, ...props }: LazyImageProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  return (
-    <div
-      className={props.containerClassName}
-      ref={(el) => {
-        if (!el) return;
-
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              setIsVisible(true);
-              observer.disconnect();
-            }
-          },
-          { threshold }
-        );
-
-        observer.observe(el);
-      }}
-    >
-      {isVisible ? (
-        <ImageWithFallback {...props} />
+    <>
+      {!error ? (
+        <Image
+          className={className}
+          src={src}
+          alt={alt}
+          onError={() => setError(true)}
+          {...props}
+        />
       ) : (
-        <div
-          className={clsx(
-            'w-full',
-            props.aspectRatio && aspectRatioClasses[props.aspectRatio],
-            'bg-slate-100 dark:bg-slate-800'
-          )}
+        <Image
+          className={cn(className, fallbackClassName)}
+          src={fallbackSrc}
+          alt={fallbackAlt ?? alt}
+          {...props}
         />
       )}
-    </div>
+    </>
   );
 }
 
-// Image grid component
-interface ImageGridProps {
-  images: Array<Omit<ImageWithFallbackProps, 'containerClassName'>>;
-  columns?: number;
-  gap?: number;
-  aspectRatio?: ImageWithFallbackProps['aspectRatio'];
-  className?: string;
-}
+// Usage example:
+/*
+import { ImageWithFallback } from './ImageWithFallback.new';
 
-export function ImageGrid({
-  images,
-  columns = 3,
-  gap = 4,
-  aspectRatio = '1/1',
-  className,
-}: ImageGridProps) {
+function Example() {
   return (
-    <div
-      className={clsx('grid gap-4', `grid-cols-${columns}`, className)}
-      style={{ gap: `${gap}px` }}
-    >
-      {images.map((image, index) => (
-        <ImageWithFallback key={index} {...image} aspectRatio={aspectRatio} />
-      ))}
-    </div>
+    <ImageWithFallback
+      src="/path/to/image.jpg"
+      alt="Main Image"
+      fallbackSrc="/path/to/fallback.jpg"
+      fallbackAlt="Fallback Image"
+      width={300}
+      height={200}
+      className="rounded-lg"
+      fallbackClassName="opacity-50"
+    />
   );
 }
+
+// Basic usage
+<ImageWithFallback
+  src="/image.jpg"
+  alt="Image"
+  width={200}
+  height={200}
+/>
+
+// With custom fallback
+<ImageWithFallback
+  src="/image.jpg"
+  alt="Image"
+  fallbackSrc="/custom-fallback.jpg"
+  fallbackAlt="Custom Fallback"
+  width={200}
+  height={200}
+/>
+
+// With different styles for main and fallback
+<ImageWithFallback
+  src="/image.jpg"
+  alt="Image"
+  className="rounded-lg shadow-md"
+  fallbackClassName="opacity-50 grayscale"
+  width={200}
+  height={200}
+/>
+
+// As a responsive image
+<ImageWithFallback
+  src="/image.jpg"
+  alt="Image"
+  className="w-full h-auto"
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  fill
+/>
+*/

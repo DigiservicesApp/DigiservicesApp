@@ -16,9 +16,11 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl xl:text-6xl dark:text-white">
+              <h1 className="text-4xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-5xl xl:text-6xl dark:text-[color:var(--md-sys-color-on-surface)]">
                 Manage Freelance Projects{' '}
-                <span className="text-primary">Smarter with AI.</span>
+                <span className="text-[color:var(--md-sys-color-primary)]">
+                  Smarter with AI.
+                </span>
               </h1>
             </motion.div>
 
@@ -26,7 +28,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-6 text-lg leading-relaxed text-slate-600 dark:text-slate-400"
+              className="mt-6 text-lg leading-relaxed text-[color:var(--md-sys-color-on-surface-variant)] dark:text-[color:var(--md-sys-color-on-surface-variant)]"
             >
               DigiServicesApp streamlines freelance workflows from planning to
               delivery, powered by AI. Boost productivity, meet deadlines, and
@@ -65,7 +67,7 @@ const HeroSection = () => {
                 alt="DigiServices Dashboard Preview"
                 width={720}
                 height={480}
-                className="rounded-xl shadow-2xl"
+                className="rounded-xl shadow-2xl bg-[color:var(--md-sys-color-surface)]"
                 fallbackSrc="/dashboard-fallback.png"
                 showLoadingState
               />
@@ -83,7 +85,7 @@ const HeroSection = () => {
                 }}
                 className="absolute -right-8 -top-8"
               >
-                <div className="p-4 bg-white rounded-lg shadow-lg dark:bg-slate-800">
+                <div className="p-4 bg-[color:var(--md-sys-color-surface)] rounded-lg shadow-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
                       <span className="text-sm font-medium text-green-600">
@@ -91,10 +93,10 @@ const HeroSection = () => {
                       </span>
                     </div>
                     <div className="text-sm">
-                      <p className="font-medium text-slate-900 dark:text-white">
+                      <p className="font-medium text-[color:var(--md-sys-color-on-surface)]">
                         AI Suggestion
                       </p>
-                      <p className="text-slate-500 dark:text-slate-400">
+                      <p className="text-[color:var(--md-sys-color-on-surface-variant)]">
                         Task optimization ready
                       </p>
                     </div>
@@ -110,10 +112,10 @@ const HeroSection = () => {
               transition={{ duration: 0.5, delay: 0.8 }}
               className="absolute -bottom-8 left-8 right-8"
             >
-              <div className="grid grid-cols-3 gap-4 p-4 bg-white rounded-lg shadow-lg dark:bg-slate-800">
+              <div className="grid grid-cols-3 gap-4 p-4 bg-[color:var(--md-sys-color-surface)] rounded-lg shadow-lg">
                 <div className="text-center">
                   <p className="text-2xl font-bold text-primary">85%</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     Time Saved
                   </p>
                 </div>

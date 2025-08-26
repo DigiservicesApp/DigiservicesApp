@@ -18,19 +18,21 @@ function BlogCard({ post }: { post: (typeof blogPosts)[0] }) {
           <Image src={post.image} alt="" fill className="object-cover" />
         </div>
       </div>
-      <div className="flex flex-1 flex-col justify-between bg-white p-6">
+      <div className="flex flex-1 flex-col justify-between bg-[color:var(--md-sys-color-surface)] p-6">
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+            <span className="inline-flex items-center rounded-full bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] px-2.5 py-0.5 text-xs font-medium text-[color:var(--md-sys-color-primary)]">
               {post.category}
             </span>
-            <span className="text-sm text-gray-500">{post.readingTime}</span>
+            <span className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
+              {post.readingTime}
+            </span>
           </div>
           <Link href={`/blog/${post.slug}`} className="mt-2 block">
-            <p className="text-xl font-semibold text-gray-900 group-hover:text-primary">
+            <p className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)] group-hover:text-[color:var(--md-sys-color-primary)]">
               {post.title}
             </p>
-            <p className="mt-3 text-base text-gray-500 line-clamp-2">
+            <p className="mt-3 text-base text-[color:var(--md-sys-color-on-surface-variant)] line-clamp-2">
               {post.description}
             </p>
           </Link>
@@ -46,8 +48,10 @@ function BlogCard({ post }: { post: (typeof blogPosts)[0] }) {
               </div>
             </div>
             <div className="text-sm">
-              <p className="font-medium text-gray-900">{post.author.name}</p>
-              <div className="flex space-x-1 text-gray-500">
+              <p className="font-medium text-[color:var(--md-sys-color-on-surface)]">
+                {post.author.name}
+              </p>
+              <div className="flex space-x-1 text-[color:var(--md-sys-color-on-surface-variant)]">
                 <time dateTime={post.date}>{formatDate(post.date)}</time>
               </div>
             </div>
@@ -60,13 +64,13 @@ function BlogCard({ post }: { post: (typeof blogPosts)[0] }) {
 
 export default function BlogPage() {
   return (
-    <div className="bg-gray-50 py-16 sm:py-20">
+    <div className="bg-[color:var(--md-sys-color-surface)] py-16 sm:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-4xl">
             Latest Insights
           </h1>
-          <p className="mt-2 text-lg leading-8 text-gray-600">
+          <p className="mt-2 text-lg leading-8 text-[color:var(--md-sys-color-on-surface-variant)]">
             Expert perspectives on AI, productivity, and project management.
           </p>
         </div>

@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
 import Card from '@/components/ui/Card';
@@ -6,7 +7,7 @@ import { workflowSteps } from '@/lib/data/workflow-details';
 
 const DetailedWorkflow = () => {
   return (
-    <section className="py-20 bg-white dark:bg-slate-800">
+    <section className="py-20 bg-[color:var(--md-sys-color-surface)]">
       <Container>
         <div className="space-y-32">
           {workflowSteps.map((step, index) => (
@@ -23,17 +24,17 @@ const DetailedWorkflow = () => {
               {/* Content */}
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10">
-                    <span className="text-2xl font-bold text-primary">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))]">
+                    <span className="text-2xl font-bold text-[color:var(--md-sys-color-primary)]">
                       {index + 1}
                     </span>
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-[color:var(--md-sys-color-on-surface)]">
                     {step.title}
                   </h2>
                 </div>
 
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
+                <p className="text-lg text-[color:var(--md-sys-color-on-surface-variant)] mb-8">
                   {step.description}
                 </p>
 
@@ -42,18 +43,18 @@ const DetailedWorkflow = () => {
                   {step.steps.map((subStep, subIndex) => (
                     <div
                       key={subStep.title}
-                      className="flex gap-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900"
+                      className="flex gap-4 p-4 rounded-lg bg-[color:var(--md-sys-color-surface-variant)]"
                     >
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
-                        <span className="text-sm font-medium text-primary">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] shrink-0">
+                        <span className="text-sm font-medium text-[color:var(--md-sys-color-primary)]">
                           {String.fromCharCode(97 + subIndex)}
                         </span>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-slate-900 dark:text-white">
+                        <h3 className="font-semibold text-[color:var(--md-sys-color-on-surface)]">
                           {subStep.title}
                         </h3>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                        <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                           {subStep.description}
                         </p>
                       </div>
@@ -63,17 +64,19 @@ const DetailedWorkflow = () => {
 
                 {/* Features */}
                 <Card className="p-6">
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+                  <h3 className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)] mb-4">
                     Key Features
                   </h3>
                   <ul className="grid gap-2">
                     {step.features.map((feature) => (
                       <li
                         key={feature}
-                        className="flex items-center gap-2 text-slate-600 dark:text-slate-400"
+                        className="flex items-center gap-2 text-[color:var(--md-sys-color-on-surface-variant)]"
                       >
-                        <span className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
-                          <span className="text-sm text-green-600">✓</span>
+                        <span className="w-5 h-5 rounded-full bg-[color:color-mix(in srgb,var(--md-sys-color-success)20%,transparent)] flex items-center justify-center shrink-0">
+                          <span className="text-sm text-[color:var(--md-sys-color-success)]">
+                            
+                          </span>
                         </span>
                         {feature}
                       </li>

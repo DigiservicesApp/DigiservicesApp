@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
 import Card from '@/components/ui/Card';
@@ -6,7 +7,7 @@ import { platformFeatures } from '@/lib/data/platform-features';
 
 const DetailedFeatures = () => {
   return (
-    <section className="py-20 bg-white dark:bg-slate-800">
+    <section className="py-20 bg-[color:var(--md-sys-color-surface)]">
       <Container>
         <div className="space-y-32">
           {platformFeatures.map((feature, index) => (
@@ -23,31 +24,33 @@ const DetailedFeatures = () => {
               {/* Content */}
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <feature.icon className="w-6 h-6 text-primary" />
+                  <div className="p-3 rounded-lg bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))]">
+                    <feature.icon className="w-6 h-6 text-[color:var(--md-sys-color-primary)]" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-[color:var(--md-sys-color-on-surface)]">
                     {feature.title}
                   </h2>
                 </div>
 
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
+                <p className="text-lg text-[color:var(--md-sys-color-on-surface-variant)] mb-8">
                   {feature.description}
                 </p>
 
                 {/* Benefits */}
                 <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+                  <h3 className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)] mb-4">
                     Key Benefits
                   </h3>
                   <ul className="grid gap-3">
                     {feature.benefits.map((benefit) => (
                       <li
                         key={benefit}
-                        className="flex items-center gap-3 text-slate-600 dark:text-slate-400"
+                        className="flex items-center gap-3 text-[color:var(--md-sys-color-on-surface-variant)]"
                       >
-                        <span className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
-                          <span className="text-sm text-green-600">✓</span>
+                        <span className="w-5 h-5 rounded-full bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] flex items-center justify-center">
+                          <span className="text-sm text-[color:var(--md-sys-color-primary)]">
+                            ✓
+                          </span>
                         </span>
                         {benefit}
                       </li>
@@ -59,16 +62,18 @@ const DetailedFeatures = () => {
                 <div className="grid gap-6 sm:grid-cols-2">
                   {feature.capabilities.map((capability) => (
                     <Card key={capability.title} className="p-6">
-                      <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+                      <h4 className="text-lg font-semibold text-[color:var(--md-sys-color-on-surface)] mb-4">
                         {capability.title}
                       </h4>
                       <ul className="space-y-2">
                         {capability.items.map((item) => (
                           <li
                             key={item}
-                            className="text-sm text-slate-600 dark:text-slate-400 flex items-start gap-2"
+                            className="text-sm text-[color:var(--md-sys-color-on-surface-variant)] flex items-start gap-2"
                           >
-                            <span className="text-primary mt-1">•</span>
+                            <span className="text-[color:var(--md-sys-color-primary)] mt-1">
+                              •
+                            </span>
                             {item}
                           </li>
                         ))}

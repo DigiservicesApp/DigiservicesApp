@@ -8,7 +8,10 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900" aria-labelledby="footer-heading">
+    <footer
+      className="bg-[color:var(--md-sys-color-surface)]"
+      aria-labelledby="footer-heading"
+    >
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
@@ -17,37 +20,44 @@ export default function Footer() {
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
             <div className="space-y-8">
               <div>
-                <Link href="/" className="text-white text-2xl font-bold">
+                <Link
+                  href="/"
+                  className="text-[color:var(--md-sys-color-on-surface)] text-2xl font-bold"
+                >
                   {companyInfo.name}
                 </Link>
-                <p className="mt-4 text-base text-gray-300">
+                <p className="mt-4 text-base text-[color:var(--md-sys-color-on-surface-variant)]">
                   {companyInfo.tagline}
                 </p>
-                <p className="mt-2 text-sm leading-6 text-gray-300">
+                <p className="mt-2 text-sm leading-6 text-[color:var(--md-sys-color-on-surface-variant)]">
                   {companyInfo.description}
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm font-medium text-white">Contact Us</p>
+                  <p className="text-sm font-medium text-[color:var(--md-sys-color-on-surface)]">
+                    Contact Us
+                  </p>
                   <ul className="mt-2 space-y-2">
                     <li>
                       <a
                         href={`mailto:${companyInfo.contact.email}`}
-                        className="text-sm text-gray-300 hover:text-white"
+                        className="text-sm text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
                       >
                         {companyInfo.contact.email}
                       </a>
                     </li>
-                    <li className="text-sm text-gray-300">
+                    <li className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                       {companyInfo.contact.phone}
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">Address</p>
-                  <address className="mt-2 not-italic text-sm text-gray-300">
+                  <p className="text-sm font-medium text-[color:var(--md-sys-color-on-surface)]">
+                    Address
+                  </p>
+                  <address className="mt-2 not-italic text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     {companyInfo.address.street}
                     <br />
                     {companyInfo.address.city}, {companyInfo.address.state}{' '}
@@ -59,7 +69,9 @@ export default function Footer() {
               </div>
 
               <div className="space-y-4">
-                <p className="text-sm font-medium text-white">Follow Us</p>
+                <p className="text-sm font-medium text-[color:var(--md-sys-color-on-surface)]">
+                  Follow Us
+                </p>
                 <div className="flex flex-wrap gap-4">
                   {socialLinks.map((item) => (
                     <a
@@ -67,7 +79,7 @@ export default function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-300 transition-colors"
+                      className="text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)] transition-colors"
                       title={item.name}
                     >
                       <span className="sr-only">{item.name}</span>
@@ -96,7 +108,7 @@ export default function Footer() {
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 {footerSections.slice(0, 2).map((section) => (
                   <div key={section.title} className="mt-10 first:mt-0 md:mt-0">
-                    <h3 className="text-sm font-semibold leading-6 text-white">
+                    <h3 className="text-sm font-semibold leading-6 text-[color:var(--md-sys-color-on-surface)]">
                       {section.title}
                     </h3>
                     <ul role="list" className="mt-6 space-y-4">
@@ -107,14 +119,14 @@ export default function Footer() {
                               href={item.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm leading-6 text-gray-300 hover:text-white"
+                              className="text-sm leading-6 text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
                             >
                               {item.name}
                             </a>
                           ) : (
                             <Link
                               href={item.href}
-                              className="text-sm leading-6 text-gray-300 hover:text-white"
+                              className="text-sm leading-6 text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
                             >
                               {item.name}
                             </Link>
@@ -128,7 +140,7 @@ export default function Footer() {
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 {footerSections.slice(2).map((section) => (
                   <div key={section.title} className="mt-10 first:mt-0 md:mt-0">
-                    <h3 className="text-sm font-semibold leading-6 text-white">
+                    <h3 className="text-sm font-semibold leading-6 text-[color:var(--md-sys-color-on-surface)]">
                       {section.title}
                     </h3>
                     <ul role="list" className="mt-6 space-y-4">
@@ -139,14 +151,14 @@ export default function Footer() {
                               href={item.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm leading-6 text-gray-300 hover:text-white"
+                              className="text-sm leading-6 text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
                             >
                               {item.name}
                             </a>
                           ) : (
                             <Link
                               href={item.href}
-                              className="text-sm leading-6 text-gray-300 hover:text-white"
+                              className="text-sm leading-6 text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
                             >
                               {item.name}
                             </Link>
@@ -160,20 +172,29 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mt-12 border-t border-gray-800 pt-8">
+          <div className="mt-12 border-t border-[color:var(--md-sys-color-outline)] pt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <p className="text-xs leading-5 text-gray-400">
+              <p className="text-xs leading-5 text-[color:var(--md-sys-color-on-surface-variant)]">
                 &copy; {new Date().getFullYear()} {companyInfo.name}. All rights
                 reserved.
               </p>
               <div className="flex items-center gap-4">
-                <a href="#" className="text-xs text-gray-400 hover:text-white">
+                <a
+                  href="#"
+                  className="text-xs text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
+                >
                   Sitemap
                 </a>
-                <a href="#" className="text-xs text-gray-400 hover:text-white">
+                <a
+                  href="#"
+                  className="text-xs text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
+                >
                   Accessibility
                 </a>
-                <a href="#" className="text-xs text-gray-400 hover:text-white">
+                <a
+                  href="#"
+                  className="text-xs text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
+                >
                   Do Not Sell My Personal Information
                 </a>
               </div>

@@ -1,187 +1,270 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronDown } from 'react-icons/fi';
-import { clsx } from 'clsx';
 
-interface Option {
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const selectWrapperVariants = cva('relative inline-flex w-full group', {
+  variants: {
+    variant: {
+      filled:
+        'rounded-t-lg bg-[color:var(--md-sys-color-surface-container-highest)]',
+      outlined: 'rounded-lg',
+    },
+  },
+  defaultVariants: {
+    variant: 'outlined',
+  },
+});
+
+const selectVariants = cva(
+  'w-full appearance-none bg-transparent text-[color:var(--md-sys-color-on-surface)] transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        filled: [
+          'px-4 pt-8 pb-2',
+          'border-b-2 border-[color:var(--md-sys-color-outline)]',
+          'focus:border-[color:var(--md-sys-color-primary)]',
+          'hover:border-[color:var(--md-sys-color-on-surface)]',
+          'hover:focus:border-[color:var(--md-sys-color-primary)]',
+        ],
+        outlined: [
+          'px-4 py-4',
+          'border-2 border-[color:var(--md-sys-color-outline)] rounded-lg',
+          'focus:border-[color:var(--md-sys-color-primary)] focus:ring-1 focus:ring-[color:var(--md-sys-color-primary)]',
+          'hover:border-[color:var(--md-sys-color-on-surface)]',
+          'hover:focus:border-[color:var(--md-sys-color-primary)]',
+        ],
+      },
+      error: {
+        true: 'border-[color:var(--md-sys-color-error)] focus:border-[color:var(--md-sys-color-error)] focus:ring-[color:var(--md-sys-color-error)]',
+      },
+      withLeadingIcon: {
+        true: 'pl-12',
+      },
+    },
+    defaultVariants: {
+      variant: 'outlined',
+    },
+  }
+);
+
+const labelVariants = cva(
+  'absolute left-4 text-[color:var(--md-sys-color-on-surface-variant)] pointer-events-none transition-all duration-200 peer-focus:text-[color:var(--md-sys-color-primary)]',
+  {
+    variants: {
+      variant: {
+        filled:
+          'top-2 text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-sm',
+        outlined:
+          '-top-3 text-sm bg-[color:var(--md-sys-color-background)] px-1 peer-placeholder-shown:top-4 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-sm peer-focus:bg-[color:var(--md-sys-color-background)]',
+      },
+      error: {
+        true: 'text-[color:var(--md-sys-color-error)] peer-focus:text-[color:var(--md-sys-color-error)]',
+      },
+    },
+    defaultVariants: {
+      variant: 'outlined',
+    },
+  }
+);
+
+export interface SelectOption {
   value: string;
   label: string;
-}
-
-interface SelectProps {
-  options: Option[];
-  value?: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
   disabled?: boolean;
-  error?: string;
-  label?: string;
-  className?: string;
 }
 
-export default function Select({
-  options,
-  value,
-  onChange,
-  placeholder = 'Select an option',
-  disabled = false,
-  error,
-  label,
-  className,
-}: SelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const listboxRef = useRef<HTMLUListElement>(null);
+export interface SelectProps
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'>,
+    VariantProps<typeof selectVariants> {
+  label: string;
+  options: SelectOption[];
+  error?: boolean;
+  errorMessage?: string;
+  helperText?: string;
+  leadingIcon?: React.ReactNode;
+}
 
-  const selectedOption = options.find((option) => option.value === value);
+const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
+  (
+    {
+      className,
+      variant,
+      label,
+      options,
+      error,
+      errorMessage,
+      helperText,
+      leadingIcon,
+      disabled,
+      required,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <div className="w-full space-y-1">
+        <div className={cn(selectWrapperVariants({ variant }))}>
+          {leadingIcon && (
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--md-sys-color-on-surface-variant)]">
+              {leadingIcon}
+            </div>
+          )}
 
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [handleClickOutside]);
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (disabled) return;
-
-    switch (event.key) {
-      case 'Enter':
-      case 'Space':
-        event.preventDefault();
-        if (isOpen && options[highlightedIndex]) {
-          onChange(options[highlightedIndex].value);
-          setIsOpen(false);
-        } else {
-          setIsOpen(true);
-        }
-        break;
-      case 'Escape':
-        setIsOpen(false);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        if (isOpen) {
-          setHighlightedIndex((prev) =>
-            prev > 0 ? prev - 1 : options.length - 1
-          );
-        }
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        if (isOpen) {
-          setHighlightedIndex((prev) =>
-            prev < options.length - 1 ? prev + 1 : 0
-          );
-        } else {
-          setIsOpen(true);
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
-  return (
-    <div className={clsx('relative w-full', className)} ref={containerRef}>
-      {label && (
-        <label className="block mb-2 text-sm font-medium text-dark-slate">
-          {label}
-        </label>
-      )}
-
-      <div
-        role="combobox"
-        aria-expanded={isOpen}
-        aria-haspopup="listbox"
-        aria-controls="select-listbox"
-        tabIndex={disabled ? -1 : 0}
-        onKeyDown={handleKeyDown}
-        onClick={() => !disabled && setIsOpen((prev) => !prev)}
-        className={clsx(
-          'relative w-full px-3 py-2 text-left bg-white rounded-lg',
-          'border transition-colors duration-200',
-          'focus:outline-none focus:ring-2 focus:ring-electric-blue focus:border-electric-blue',
-          {
-            'cursor-default': !disabled,
-            'cursor-not-allowed opacity-50 bg-gray-50': disabled,
-            'border-error': error,
-            'border-border-color': !error,
-          }
-        )}
-      >
-        <span
-          className={clsx('block truncate', !selectedOption && 'text-gray-500')}
-        >
-          {selectedOption ? selectedOption.label : placeholder}
-        </span>
-
-        <span className="absolute inset-y-0 right-0 flex items-center pr-2">
-          <motion.span
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <FiChevronDown className="w-5 h-5 text-gray-400" />
-          </motion.span>
-        </span>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.ul
-            id="select-listbox"
-            ref={listboxRef}
-            role="listbox"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className={clsx(
-              'absolute z-50 w-full py-1 mt-1 bg-white rounded-lg shadow-lg',
-              'border border-border-color max-h-60 overflow-auto focus:outline-none'
+          <select
+            ref={ref}
+            disabled={disabled}
+            required={required}
+            className={cn(
+              selectVariants({
+                variant,
+                error,
+                withLeadingIcon: !!leadingIcon,
+                className,
+              })
             )}
+            {...props}
           >
-            {options.map((option, index) => (
-              <motion.li
+            <option value="" disabled hidden>
+              Select an option
+            </option>
+            {options.map((option) => (
+              <option
                 key={option.value}
-                role="option"
-                aria-selected={option.value === value}
-                onClick={() => {
-                  onChange(option.value);
-                  setIsOpen(false);
-                }}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.03 }}
-                className={clsx(
-                  'px-3 py-2 cursor-default select-none',
-                  'transition-colors duration-200',
-                  {
-                    'bg-electric-blue/10 text-electric-blue':
-                      highlightedIndex === index,
-                    'text-dark-slate hover:bg-gray-50':
-                      highlightedIndex !== index,
-                    'font-medium': option.value === value,
-                  }
-                )}
+                value={option.value}
+                disabled={option.disabled}
               >
                 {option.label}
-              </motion.li>
+              </option>
             ))}
-          </motion.ul>
-        )}
-      </AnimatePresence>
+          </select>
 
-      {error && <p className="mt-1 text-sm text-error">{error}</p>}
-    </div>
-  );
-}
+          <label
+            className={cn(
+              labelVariants({
+                variant,
+                error,
+              })
+            )}
+          >
+            {label}
+            {required && (
+              <span className="text-[color:var(--md-sys-color-error)]">*</span>
+            )}
+          </label>
+
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[color:var(--md-sys-color-on-surface-variant)]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m6 9 4 4 4-4" />
+            </svg>
+          </div>
+        </div>
+
+        {(error && errorMessage) || helperText ? (
+          <p
+            className={cn(
+              'text-sm',
+              error
+                ? 'text-[color:var(--md-sys-color-error)]'
+                : 'text-[color:var(--md-sys-color-on-surface-variant)]'
+            )}
+          >
+            {error ? errorMessage : helperText}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+);
+
+Select.displayName = 'Select';
+
+export { Select };
+
+// Usage example:
+/*
+import { Select } from './Select.new';
+
+const options = [
+  { value: '1', label: 'Option 1' },
+  { value: '2', label: 'Option 2' },
+  { value: '3', label: 'Option 3', disabled: true },
+];
+
+// Basic select
+<Select
+  label="Choose an option"
+  options={options}
+/>
+
+// Outlined variant (default)
+<Select
+  variant="outlined"
+  label="Choose an option"
+  options={options}
+/>
+
+// Filled variant
+<Select
+  variant="filled"
+  label="Choose an option"
+  options={options}
+/>
+
+// With helper text
+<Select
+  label="Choose an option"
+  options={options}
+  helperText="Select the best option for you"
+/>
+
+// With error
+<Select
+  label="Choose an option"
+  options={options}
+  error
+  errorMessage="Please select an option"
+/>
+
+// Required
+<Select
+  label="Choose an option"
+  options={options}
+  required
+/>
+
+// With leading icon
+<Select
+  label="Choose an option"
+  options={options}
+  leadingIcon={<IconComponent />}
+/>
+
+// Disabled
+<Select
+  label="Choose an option"
+  options={options}
+  disabled
+/>
+
+// Controlled
+const [value, setValue] = useState('');
+<Select
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  label="Choose an option"
+  options={options}
+/>
+*/

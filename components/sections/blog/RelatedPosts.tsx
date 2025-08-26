@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDate } from '@/lib/utils/date';
@@ -6,7 +7,9 @@ import { blogPosts } from '@/lib/data/blog-posts';
 export function RelatedPosts({ posts }: { posts: typeof blogPosts }) {
   return (
     <section className="mt-16 border-t pt-16">
-      <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Posts</h2>
+      <h2 className="text-2xl font-bold text-[color:var(--md-sys-color-on-surface)] mb-8">
+        Related Posts
+      </h2>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <article
@@ -18,21 +21,21 @@ export function RelatedPosts({ posts }: { posts: typeof blogPosts }) {
                 <Image src={post.image} alt="" fill className="object-cover" />
               </div>
             </div>
-            <div className="flex flex-1 flex-col justify-between bg-white p-6">
+            <div className="flex flex-1 flex-col justify-between bg-[color:var(--md-sys-color-surface)] p-6">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                  <span className="inline-flex items-center rounded-full bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] px-2.5 py-0.5 text-xs font-medium text-[color:var(--md-sys-color-primary)]">
                     {post.category}
                   </span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     {post.readingTime}
                   </span>
                 </div>
                 <Link href={`/blog/${post.slug}`} className="mt-2 block">
-                  <p className="text-xl font-semibold text-gray-900 group-hover:text-primary">
+                  <p className="text-xl font-semibold text-[color:var(--md-sys-color-on-surface)] group-hover:text-[color:var(--md-sys-color-primary)]">
                     {post.title}
                   </p>
-                  <p className="mt-3 text-base text-gray-500 line-clamp-2">
+                  <p className="mt-3 text-base text-[color:var(--md-sys-color-on-surface-variant)] line-clamp-2">
                     {post.description}
                   </p>
                 </Link>
@@ -48,10 +51,10 @@ export function RelatedPosts({ posts }: { posts: typeof blogPosts }) {
                     </div>
                   </div>
                   <div className="text-sm">
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-[color:var(--md-sys-color-on-surface)]">
                       {post.author.name}
                     </p>
-                    <div className="flex space-x-1 text-gray-500">
+                    <div className="flex space-x-1 text-[color:var(--md-sys-color-on-surface-variant)]">
                       <time dateTime={post.date}>{formatDate(post.date)}</time>
                     </div>
                   </div>

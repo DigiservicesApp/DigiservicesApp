@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.31.4",
+    "@floating-ui/react": "^0.27.16",
     "@t3-oss/env-nextjs": "^0.13.8",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/react": "^19.1.11",

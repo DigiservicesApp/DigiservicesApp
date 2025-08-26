@@ -12,8 +12,8 @@ export function LoadingSpinner({
   color?: 'primary' | 'white';
 }) {
   const colors = {
-    primary: '#3B82F6', // blue-500
-    white: '#FFFFFF',
+    primary: 'var(--md-sys-color-primary)',
+    white: 'var(--md-sys-color-on-surface)',
   };
 
   return (
@@ -44,10 +44,12 @@ export function LoadingSpinner({
 
 export function LoadingScreen() {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white">
+    <div className="fixed inset-0 flex items-center justify-center bg-[color:var(--md-sys-color-surface)]">
       <div className="text-center">
         <LoadingSpinner size={48} />
-        <p className="mt-4 text-sm text-gray-600">Loading...</p>
+        <p className="mt-4 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
+          Loading...
+        </p>
       </div>
     </div>
   );
@@ -55,7 +57,7 @@ export function LoadingScreen() {
 
 export function LoadingOverlay() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+    <div className="absolute inset-0 flex items-center justify-center bg-[color:var(--md-sys-color-surface)]/80 backdrop-blur-sm">
       <LoadingSpinner size={40} />
     </div>
   );

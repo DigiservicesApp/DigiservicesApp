@@ -1,77 +1,151 @@
 'use client';
-import { InputHTMLAttributes, forwardRef } from 'react';
-import { IconType } from 'react-icons';
-import { motion } from 'framer-motion';
-import { clsx } from 'clsx';
 
-interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> {
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const inputWrapperVariants = cva('relative inline-flex w-full group', {
+  variants: {
+    variant: {
+      filled:
+        'rounded-t-lg bg-[color:var(--md-sys-color-surface-container-highest)]',
+      outlined: 'rounded-lg',
+    },
+  },
+  defaultVariants: {
+    variant: 'outlined',
+  },
+});
+
+const inputVariants = cva(
+  'w-full bg-transparent text-[color:var(--md-sys-color-on-surface)] transition-all duration-200 placeholder:text-transparent peer disabled:cursor-not-allowed disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        filled: [
+          'px-4 pt-8 pb-2',
+          'border-b-2 border-[color:var(--md-sys-color-outline)]',
+          'focus:border-[color:var(--md-sys-color-primary)]',
+          'hover:border-[color:var(--md-sys-color-on-surface)]',
+          'hover:focus:border-[color:var(--md-sys-color-primary)]',
+        ],
+        outlined: [
+          'px-4 py-4',
+          'border-2 border-[color:var(--md-sys-color-outline)] rounded-lg',
+          'focus:border-[color:var(--md-sys-color-primary)] focus:ring-1 focus:ring-[color:var(--md-sys-color-primary)]',
+          'hover:border-[color:var(--md-sys-color-on-surface)]',
+          'hover:focus:border-[color:var(--md-sys-color-primary)]',
+        ],
+      },
+      error: {
+        true: 'border-[color:var(--md-sys-color-error)] focus:border-[color:var(--md-sys-color-error)] focus:ring-[color:var(--md-sys-color-error)]',
+      },
+      withLeadingIcon: {
+        true: 'pl-12',
+      },
+      withTrailingIcon: {
+        true: 'pr-12',
+      },
+    },
+    defaultVariants: {
+      variant: 'outlined',
+    },
+  }
+);
+
+const labelVariants = cva(
+  'absolute left-4 text-[color:var(--md-sys-color-on-surface-variant)] pointer-events-none transition-all duration-200 peer-placeholder-shown:text-[color:var(--md-sys-color-on-surface-variant)] peer-focus:text-[color:var(--md-sys-color-primary)]',
+  {
+    variants: {
+      variant: {
+        filled:
+          'top-2 text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-sm',
+        outlined:
+          '-top-3 text-sm bg-[color:var(--md-sys-color-background)] px-1 peer-placeholder-shown:top-4 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-sm peer-focus:bg-[color:var(--md-sys-color-background)]',
+      },
+      error: {
+        true: 'text-[color:var(--md-sys-color-error)] peer-focus:text-[color:var(--md-sys-color-error)]',
+      },
+    },
+    defaultVariants: {
+      variant: 'outlined',
+    },
+  }
+);
+
+export interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+    VariantProps<typeof inputVariants> {
   label: string;
-  error?: string;
-  icon?: IconType;
-  className?: string;
+  error?: boolean;
+  errorMessage?: string;
+  leadingIcon?: React.ReactNode;
+  trailingIcon?: React.ReactNode;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, icon: Icon, className, ...props }, ref) => {
-    const inputId = props.id || props.name;
-    const isActive = props.value !== '' || props.placeholder;
-
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      className,
+      type = 'text',
+      variant,
+      label,
+      error,
+      errorMessage,
+      leadingIcon,
+      trailingIcon,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <div className={clsx('relative w-full', className)}>
-        {/* Label */}
-        <motion.label
-          htmlFor={inputId}
-          initial={false}
-          animate={{
-            y: isActive ? -20 : 0,
-            scale: isActive ? 0.85 : 1,
-            color: error
-              ? 'rgb(229, 62, 62)'
-              : props.disabled
-              ? 'rgb(156, 163, 175)'
-              : 'inherit',
-          }}
-          className={clsx(
-            'absolute left-3 cursor-text origin-[0%_50%]',
-            'pointer-events-none text-gray-500 transition-colors duration-200'
-          )}
-        >
-          {label}
-        </motion.label>
-
-        {/* Input Container */}
-        <div className="relative">
-          {Icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-              <Icon size={18} />
+      <div className="w-full space-y-1">
+        <div className={cn(inputWrapperVariants({ variant }))}>
+          {leadingIcon && (
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--md-sys-color-on-surface-variant)]">
+              {leadingIcon}
             </div>
           )}
 
-          {/* Input Field */}
           <input
+            type={type}
+            className={cn(
+              inputVariants({
+                variant,
+                error,
+                withLeadingIcon: !!leadingIcon,
+                withTrailingIcon: !!trailingIcon,
+                className,
+              })
+            )}
+            placeholder=" "
             ref={ref}
             {...props}
-            className={clsx(
-              // Base styles
-              'w-full rounded-lg border bg-white px-3 py-2 outline-none',
-              'transition-all duration-200 placeholder:text-transparent',
-
-              // Icon padding
-              Icon && 'pl-10',
-
-              // States
-              'focus:border-electric-blue focus:ring-1 focus:ring-electric-blue',
-              'disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed',
-
-              // Error state
-              error ? 'border-error' : 'border-border-color'
-            )}
           />
+
+          <label
+            className={cn(
+              labelVariants({
+                variant,
+                error,
+              })
+            )}
+          >
+            {label}
+          </label>
+
+          {trailingIcon && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[color:var(--md-sys-color-on-surface-variant)]">
+              {trailingIcon}
+            </div>
+          )}
         </div>
 
-        {/* Error Message */}
-        {error && <p className="mt-1 text-sm text-error">{error}</p>}
+        {error && errorMessage && (
+          <p className="text-sm text-[color:var(--md-sys-color-error)]">
+            {errorMessage}
+          </p>
+        )}
       </div>
     );
   }
@@ -79,4 +153,37 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-export default Input;
+export { Input, inputVariants };
+
+// Usage example:
+/*
+import { Input } from './Input.new';
+
+// Outlined input (default)
+<Input label="Email" />
+
+// Filled input
+<Input variant="filled" label="Email" />
+
+// With placeholder
+<Input label="Email" placeholder="Enter your email" />
+
+// With error
+<Input label="Email" error errorMessage="Please enter a valid email" />
+
+// With leading icon
+<Input
+  label="Search"
+  leadingIcon={<SearchIcon className="w-5 h-5" />}
+/>
+
+// With trailing icon
+<Input
+  label="Password"
+  type="password"
+  trailingIcon={<EyeIcon className="w-5 h-5" />}
+/>
+
+// Disabled
+<Input label="Username" disabled />
+*/

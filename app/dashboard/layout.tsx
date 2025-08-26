@@ -7,7 +7,7 @@ import { withAuth } from '@/lib/auth';
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[color:var(--md-sys-color-surface)]">
       <DashboardHeader />
       <div className="flex">
         <DashboardSidebar />

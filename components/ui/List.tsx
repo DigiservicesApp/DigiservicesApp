@@ -1,161 +1,159 @@
 'use client';
+
 import React from 'react';
-import { clsx } from 'clsx';
-import { motion, AnimatePresence } from 'framer-motion';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-interface ListProps<T> {
-  items: T[];
-  renderItem: (item: T, index: number) => React.ReactNode;
-  variant?: 'basic' | 'ordered' | 'unordered' | 'description' | 'action';
-  size?: 'sm' | 'md' | 'lg';
-  spacing?: 'none' | 'sm' | 'md' | 'lg';
-  divided?: boolean;
-  animated?: boolean;
-  className?: string;
-  emptyState?: React.ReactNode;
-}
-
-const sizeClasses = {
-  sm: 'text-sm',
-  md: 'text-base',
-  lg: 'text-lg',
-};
-
-const spacingClasses = {
-  none: 'space-y-0',
-  sm: 'space-y-1',
-  md: 'space-y-2',
-  lg: 'space-y-4',
-};
-
-export default function List<T>({
-  items,
-  renderItem,
-  variant = 'basic',
-  size = 'md',
-  spacing = 'md',
-  divided = false,
-  animated = false,
-  className,
-  emptyState,
-}: ListProps<T>) {
-  if (items.length === 0 && emptyState) {
-    return (
-      <div
-        className={clsx(
-          'text-center py-8 text-slate-500 dark:text-slate-400',
-          sizeClasses[size]
-        )}
-      >
-        {emptyState}
-      </div>
-    );
-  }
-
-  const ListComponent = variant === 'ordered' ? 'ol' : 'ul';
-  const listStyles = clsx(
-    sizeClasses[size],
-    spacingClasses[spacing],
-    divided && 'divide-y divide-slate-200 dark:divide-slate-700',
-    {
-      'list-none': variant === 'basic' || variant === 'action',
-      'list-decimal pl-4': variant === 'ordered',
-      'list-disc pl-4': variant === 'unordered',
+const listVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: '',
+      card: 'rounded-xl bg-[color:var(--md-sys-color-surface-container)] shadow-sm',
+      bordered:
+        'divide-y divide-[color:var(--md-sys-color-outline-variant)] rounded-xl border border-[color:var(--md-sys-color-outline-variant)]',
     },
-    className
-  );
+    size: {
+      sm: '[&_li]:p-2',
+      md: '[&_li]:p-3',
+      lg: '[&_li]:p-4',
+    },
+    hover: {
+      true: '[&_li:hover]:bg-[color:var(--md-sys-color-surface-container-highest)]',
+      false: '',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+    hover: true,
+  },
+});
 
-  const itemStyles = clsx(
-    divided && 'py-2',
-    variant === 'action' && [
-      'px-4 py-2 rounded-lg transition-colors duration-200',
-      'hover:bg-slate-50 dark:hover:bg-slate-800',
-      'cursor-pointer',
-    ]
-  );
+const listItemVariants = cva('flex items-center gap-4 transition-colors', {
+  variants: {
+    active: {
+      true: 'bg-[color:var(--md-sys-color-secondary-container)] text-[color:var(--md-sys-color-on-secondary-container)]',
+      false: '',
+    },
+    disabled: {
+      true: 'opacity-50 cursor-not-allowed',
+      false: '',
+    },
+  },
+  defaultVariants: {
+    active: false,
+    disabled: false,
+  },
+});
 
-  const renderAnimatedItem = (item: T, index: number) => (
-    <motion.li
-      key={index}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.2, delay: index * 0.1 }}
-      className={itemStyles}
-    >
-      {renderItem(item, index)}
-    </motion.li>
-  );
-
-  const renderStaticItem = (item: T, index: number) => (
-    <li key={index} className={itemStyles}>
-      {renderItem(item, index)}
-    </li>
-  );
-
-  return (
-    <ListComponent className={listStyles}>
-      {animated ? (
-        <AnimatePresence>
-          {items.map((item, index) => renderAnimatedItem(item, index))}
-        </AnimatePresence>
-      ) : (
-        items.map((item, index) => renderStaticItem(item, index))
-      )}
-    </ListComponent>
-  );
-}
-
-// Description List Component
-interface DescriptionListProps {
-  items: Array<{
-    term: React.ReactNode;
-    description: React.ReactNode;
-  }>;
-  size?: 'sm' | 'md' | 'lg';
-  layout?: 'horizontal' | 'vertical';
+export interface ListProps
+  extends React.HTMLAttributes<HTMLUListElement>,
+    VariantProps<typeof listVariants> {
   className?: string;
 }
 
-export function DescriptionList({
-  items,
-  size = 'md',
-  layout = 'vertical',
-  className,
-}: DescriptionListProps) {
-  return (
-    <dl
-      className={clsx(
-        'space-y-4',
-        layout === 'horizontal' &&
-          'divide-y divide-slate-200 dark:divide-slate-700',
-        className
-      )}
+export interface ListItemProps
+  extends React.LiHTMLAttributes<HTMLLIElement>,
+    VariantProps<typeof listItemVariants> {
+  className?: string;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
+}
+
+export const List = React.forwardRef<HTMLUListElement, ListProps>(
+  ({ className, variant, size, hover, ...props }, ref) => (
+    <ul
+      ref={ref}
+      className={cn(listVariants({ variant, size, hover }), className)}
+      {...props}
+    />
+  )
+);
+List.displayName = 'List';
+
+export const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>(
+  (
+    {
+      className,
+      active,
+      disabled,
+      startContent,
+      endContent,
+      children,
+      ...props
+    },
+    ref
+  ) => (
+    <li
+      ref={ref}
+      className={cn(listItemVariants({ active, disabled }), className)}
+      {...props}
     >
-      {items.map((item, index) => (
-        <div
-          key={index}
-          className={clsx(
-            layout === 'horizontal' && 'grid grid-cols-3 gap-4 py-4',
-            layout === 'vertical' && 'space-y-1'
-          )}
-        >
-          <dt
-            className={clsx('font-medium text-dark-slate', sizeClasses[size])}
-          >
-            {item.term}
-          </dt>
-          <dd
-            className={clsx(
-              'text-slate-600 dark:text-slate-300',
-              sizeClasses[size],
-              layout === 'horizontal' && 'col-span-2'
-            )}
-          >
-            {item.description}
-          </dd>
-        </div>
-      ))}
-    </dl>
+      {startContent && (
+        <span className="flex shrink-0 items-center">{startContent}</span>
+      )}
+      <span className="flex-1 min-w-0">{children}</span>
+      {endContent && (
+        <span className="flex shrink-0 items-center">{endContent}</span>
+      )}
+    </li>
+  )
+);
+ListItem.displayName = 'ListItem';
+
+// Usage example:
+/*
+import { List, ListItem } from './List.new';
+
+function Example() {
+  return (
+    <List variant="card" size="md">
+      <ListItem
+        startContent={<UserIcon className="h-5 w-5" />}
+        endContent={<ChevronRightIcon className="h-5 w-5" />}
+      >
+        Profile Settings
+      </ListItem>
+      <ListItem
+        startContent={<SettingsIcon className="h-5 w-5" />}
+        endContent={<ChevronRightIcon className="h-5 w-5" />}
+        active
+      >
+        Account Settings
+      </ListItem>
+      <ListItem
+        startContent={<LogOutIcon className="h-5 w-5" />}
+        endContent={<ChevronRightIcon className="h-5 w-5" />}
+        disabled
+      >
+        Log Out
+      </ListItem>
+    </List>
   );
 }
+
+// Variants
+<List variant="default">...</List>
+<List variant="card">...</List>
+<List variant="bordered">...</List>
+
+// Sizes
+<List size="sm">...</List>
+<List size="md">...</List>
+<List size="lg">...</List>
+
+// Disable hover effect
+<List hover={false}>...</List>
+
+// Active and disabled states
+<ListItem active>...</ListItem>
+<ListItem disabled>...</ListItem>
+
+// With start/end content
+<ListItem
+  startContent={<Icon />}
+  endContent={<Badge>New</Badge>}
+>
+  Content
+</ListItem>
+*/

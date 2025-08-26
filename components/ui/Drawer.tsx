@@ -1,233 +1,204 @@
 'use client';
-import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
-import { RiCloseLine } from 'react-icons/ri';
 
-interface DrawerProps {
+import React, { useEffect } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const drawerOverlayVariants = cva(
+  'fixed inset-0 z-50 bg-[color:var(--md-sys-color-scrim)] backdrop-blur-sm transition-opacity',
+  {
+    variants: {
+      open: {
+        true: 'opacity-100',
+        false: 'opacity-0 pointer-events-none',
+      },
+    },
+    defaultVariants: {
+      open: false,
+    },
+  }
+);
+
+const drawerContainerVariants = cva(
+  'fixed z-50 flex flex-col bg-[color:var(--md-sys-color-surface)] transition-transform duration-300 ease-in-out',
+  {
+    variants: {
+      position: {
+        left: 'left-0 top-0 h-full',
+        right: 'right-0 top-0 h-full',
+        top: 'top-0 left-0 w-full',
+        bottom: 'bottom-0 left-0 w-full',
+      },
+      size: {
+        sm: 'w-64 max-w-[80vw]',
+        md: 'w-80 max-w-[80vw]',
+        lg: 'w-96 max-w-[80vw]',
+        xl: 'w-[32rem] max-w-[80vw]',
+        full: 'w-screen',
+      },
+      open: {
+        true: '[transform:translate3d(0,0,0)]',
+        false: '',
+      },
+    },
+    compoundVariants: [
+      {
+        position: 'left',
+        open: false,
+        className: '[transform:translate3d(-100%,0,0)]',
+      },
+      {
+        position: 'right',
+        open: false,
+        className: '[transform:translate3d(100%,0,0)]',
+      },
+      {
+        position: 'top',
+        open: false,
+        className: '[transform:translate3d(0,-100%,0)]',
+      },
+      {
+        position: 'bottom',
+        open: false,
+        className: '[transform:translate3d(0,100%,0)]',
+      },
+      {
+        position: ['top', 'bottom'],
+        size: ['sm', 'md', 'lg', 'xl'],
+        className: 'w-full h-[380px]',
+      },
+    ],
+    defaultVariants: {
+      position: 'right',
+      size: 'md',
+      open: false,
+    },
+  }
+);
+
+export interface DrawerProps
+  extends VariantProps<typeof drawerContainerVariants> {
   open: boolean;
   onClose: () => void;
-  position?: 'left' | 'right' | 'top' | 'bottom';
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  overlay?: boolean;
-  closeOnOutsideClick?: boolean;
-  showCloseButton?: boolean;
-  className?: string;
-  header?: React.ReactNode;
-  footer?: React.ReactNode;
   children: React.ReactNode;
+  className?: string;
+  showCloseButton?: boolean;
+  closeOnOverlayClick?: boolean;
+  closeOnEsc?: boolean;
 }
 
-const sizeClasses = {
-  left: {
-    sm: 'w-64',
-    md: 'w-80',
-    lg: 'w-96',
-    xl: 'w-lg',
-    full: 'w-screen',
-  },
-  right: {
-    sm: 'w-64',
-    md: 'w-80',
-    lg: 'w-96',
-    xl: 'w-lg',
-    full: 'w-screen',
-  },
-  top: {
-    sm: 'h-32',
-    md: 'h-48',
-    lg: 'h-64',
-    xl: 'h-96',
-    full: 'h-screen',
-  },
-  bottom: {
-    sm: 'h-32',
-    md: 'h-48',
-    lg: 'h-64',
-    xl: 'h-96',
-    full: 'h-screen',
-  },
-};
+export interface DrawerHeaderProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
 
-const positionClasses = {
-  left: 'left-0 top-0 bottom-0',
-  right: 'right-0 top-0 bottom-0',
-  top: 'top-0 left-0 right-0',
-  bottom: 'bottom-0 left-0 right-0',
-};
+export interface DrawerFooterProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
 
-const slideAnimations = {
-  left: {
-    initial: { x: '-100%' },
-    animate: { x: 0 },
-    exit: { x: '-100%' },
-  },
-  right: {
-    initial: { x: '100%' },
-    animate: { x: 0 },
-    exit: { x: '100%' },
-  },
-  top: {
-    initial: { y: '-100%' },
-    animate: { y: 0 },
-    exit: { y: '-100%' },
-  },
-  bottom: {
-    initial: { y: '100%' },
-    animate: { y: 0 },
-    exit: { y: '100%' },
-  },
-};
-
-export default function Drawer({
+export function Drawer({
   open,
   onClose,
-  position = 'right',
-  size = 'md',
-  overlay = true,
-  closeOnOutsideClick = true,
-  showCloseButton = true,
-  className,
-  header,
-  footer,
+  position,
+  size,
   children,
+  className,
+  showCloseButton = true,
+  closeOnOverlayClick = true,
+  closeOnEsc = true,
 }: DrawerProps) {
-  // Lock body scroll when drawer is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
+    if (!open) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && closeOnEsc) {
+        onClose();
+      }
     };
-  }, [open]);
+
+    document.addEventListener('keydown', handleEsc);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [open, onClose, closeOnEsc]);
 
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          {/* Overlay */}
-          {overlay && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/50"
-              onClick={closeOnOutsideClick ? onClose : undefined}
-              aria-hidden="true"
-            />
-          )}
-
-          {/* Drawer */}
-          <motion.div
-            role="dialog"
-            aria-modal="true"
-            className={clsx(
-              'fixed z-50',
-              'bg-white dark:bg-slate-800',
-              'shadow-xl',
-              positionClasses[position],
-              sizeClasses[position][size],
-              className
+    <>
+      <div
+        className={drawerOverlayVariants({ open })}
+        onClick={closeOnOverlayClick ? onClose : undefined}
+        aria-hidden="true"
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        className={cn(
+          drawerContainerVariants({ position, size, open }),
+          'shadow-xl',
+          className
+        )}
+      >
+        {showCloseButton && (
+          <button
+            type="button"
+            className={cn(
+              'absolute right-4 top-4 rounded-full p-2',
+              'text-[color:var(--md-sys-color-on-surface-variant)]',
+              'hover:bg-[color:var(--md-sys-color-surface-container-highest)]',
+              'focus:outline-none focus:ring-2',
+              'focus:ring-[color:var(--md-sys-color-primary)]'
             )}
-            initial={slideAnimations[position].initial}
-            animate={slideAnimations[position].animate}
-            exit={slideAnimations[position].exit}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            onClick={onClose}
+            aria-label="Close drawer"
           >
-            <div className="flex flex-col h-full">
-              {/* Header */}
-              {(header || showCloseButton) && (
-                <div
-                  className={clsx(
-                    'flex items-center justify-between',
-                    'px-6 py-4',
-                    'border-b border-slate-200 dark:border-slate-700'
-                  )}
-                >
-                  {header}
-                  {showCloseButton && (
-                    <button
-                      onClick={onClose}
-                      className={clsx(
-                        'p-2 rounded-lg',
-                        '-mr-2',
-                        'text-slate-400 hover:text-slate-500',
-                        'hover:bg-slate-100 dark:hover:bg-slate-700',
-                        'transition-colors duration-200'
-                      )}
-                    >
-                      <RiCloseLine className="w-5 h-5" />
-                      <span className="sr-only">Close</span>
-                    </button>
-                  )}
-                </div>
-              )}
-
-              {/* Content */}
-              <div className="flex-1 overflow-y-auto p-6">{children}</div>
-
-              {/* Footer */}
-              {footer && (
-                <div
-                  className={clsx(
-                    'px-6 py-4',
-                    'border-t border-slate-200 dark:border-slate-700'
-                  )}
-                >
-                  {footer}
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        )}
+        <div className="flex-1 overflow-y-auto p-6">{children}</div>
+      </div>
+    </>
   );
 }
 
-// Action sheet variant for mobile
-interface ActionSheetProps extends Omit<DrawerProps, 'position'> {
-  actions: Array<{
-    label: string;
-    onClick: () => void;
-    icon?: React.ReactNode;
-    destructive?: boolean;
-    disabled?: boolean;
-  }>;
+export function DrawerHeader({
+  className,
+  children,
+  ...props
+}: DrawerHeaderProps) {
+  return (
+    <div className={cn('mb-6 pr-8', className)} {...props}>
+      {children}
+    </div>
+  );
 }
 
-export function ActionSheet({
-  actions,
-  size = 'sm',
+export function DrawerFooter({
+  className,
+  children,
   ...props
-}: ActionSheetProps) {
+}: DrawerFooterProps) {
   return (
-    <Drawer position="bottom" size={size} {...props}>
-      <div className="space-y-2">
-        {actions.map((action, index) => (
-          <button
-            key={index}
-            onClick={action.onClick}
-            disabled={action.disabled}
-            className={clsx(
-              'w-full flex items-center gap-3 px-4 py-3 rounded-lg',
-              'text-left text-base font-medium',
-              'transition-colors duration-200',
-              action.destructive
-                ? 'text-error hover:bg-error/10'
-                : 'text-dark-slate hover:bg-slate-100 dark:hover:bg-slate-700',
-              action.disabled && 'opacity-50 cursor-not-allowed'
-            )}
-          >
-            {action.icon}
-            {action.label}
-          </button>
-        ))}
-      </div>
-    </Drawer>
+    <div
+      className={cn('mt-6 flex flex-col-reverse gap-2', className)}
+      {...props}
+    >
+      {children}
+    </div>
   );
 }

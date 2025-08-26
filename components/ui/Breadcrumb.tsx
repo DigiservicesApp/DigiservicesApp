@@ -1,190 +1,256 @@
 'use client';
-import React from 'react';
-import { clsx } from 'clsx';
-import { RiArrowRightSLine, RiHome3Line } from 'react-icons/ri';
-import Link from 'next/link';
 
-interface BreadcrumbItem {
-  label: string;
+import React from 'react';
+import Link from 'next/link';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const breadcrumbVariants = cva('flex items-center', {
+  variants: {
+    variant: {
+      default: '',
+      filled: 'p-2 rounded-lg bg-[color:var(--md-sys-color-surface-container)]',
+    },
+    size: {
+      sm: 'text-sm gap-1',
+      md: 'text-base gap-2',
+      lg: 'text-lg gap-2',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
+
+const itemVariants = cva(
+  'inline-flex items-center transition-colors duration-200 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--md-sys-color-primary)] focus-visible:ring-offset-2',
+  {
+    variants: {
+      variant: {
+        default: [
+          'text-[color:var(--md-sys-color-on-surface-variant)]',
+          'hover:text-[color:var(--md-sys-color-on-surface)]',
+        ],
+        filled: [
+          'px-2 py-1',
+          'text-[color:var(--md-sys-color-on-surface-variant)]',
+          'hover:text-[color:var(--md-sys-color-on-surface)]',
+          'hover:bg-[color:var(--md-sys-color-surface-container-high)]',
+        ],
+      },
+      size: {
+        sm: 'text-sm gap-1',
+        md: 'text-base gap-1.5',
+        lg: 'text-lg gap-2',
+      },
+      current: {
+        true: 'font-medium text-[color:var(--md-sys-color-on-surface)] cursor-default pointer-events-none',
+        false: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+      current: false,
+    },
+  }
+);
+
+const separatorVariants = cva(
+  'text-[color:var(--md-sys-color-on-surface-variant)]',
+  {
+    variants: {
+      size: {
+        sm: 'mx-1',
+        md: 'mx-2',
+        lg: 'mx-2',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  }
+);
+
+export interface BreadcrumbProps
+  extends React.HTMLAttributes<HTMLElement>,
+    VariantProps<typeof breadcrumbVariants> {
+  separator?: React.ReactNode;
+}
+
+export interface BreadcrumbItemProps extends React.HTMLAttributes<HTMLElement> {
   href?: string;
   icon?: React.ReactNode;
+  current?: boolean;
+  variant?: VariantProps<typeof itemVariants>['variant'];
+  size?: VariantProps<typeof itemVariants>['size'];
 }
 
-interface BreadcrumbProps {
-  items: BreadcrumbItem[];
-  homeLink?: string;
-  separator?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-  maxItems?: number;
-  className?: string;
-}
-
-const sizeClasses = {
-  sm: 'text-sm',
-  md: 'text-base',
-  lg: 'text-lg',
-};
-
-const iconSizes = {
-  sm: 16,
-  md: 20,
-  lg: 24,
-};
-
-export default function Breadcrumb({
-  items,
-  homeLink = '/',
-  separator = <RiArrowRightSLine />,
-  size = 'md',
-  maxItems = 0,
+export function Breadcrumb({
+  children,
   className,
+  separator = '/',
+  variant,
+  size,
+  ...props
 }: BreadcrumbProps) {
-  const renderItems = maxItems > 0 ? truncateItems(items, maxItems) : items;
-  const iconSize = iconSizes[size];
+  const validChildren = React.Children.toArray(children).filter((child) =>
+    React.isValidElement(child)
+  );
 
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className={clsx('flex items-center', className)}
-    >
-      <ol
-        className={clsx('flex items-center flex-wrap gap-1', sizeClasses[size])}
-      >
-        {/* Home item */}
-        <li>
-          <Link
-            href={homeLink}
-            className={clsx(
-              'flex items-center text-slate-600 hover:text-electric-blue',
-              'transition-colors duration-200'
-            )}
-          >
-            <RiHome3Line size={iconSize} />
-            <span className="sr-only">Home</span>
-          </Link>
-        </li>
+    <nav aria-label="Breadcrumb" {...props}>
+      <ol className={cn(breadcrumbVariants({ variant, size }), className)}>
+        {validChildren.map((child, index) => {
+          if (!React.isValidElement(child)) return null;
 
-        {/* Separator after home */}
-        {renderItems.length > 0 && (
-          <li className="flex items-center text-slate-400" aria-hidden="true">
-            {separator}
-          </li>
-        )}
-
-        {/* Breadcrumb items */}
-        {renderItems.map((item, index) => (
-          <React.Fragment key={item.label}>
-            <li>
-              {index === renderItems.length - 1 ? (
-                // Current page (last item)
+          return (
+            <li key={index} className="flex items-center">
+              {index > 0 && (
                 <span
-                  className="flex items-center gap-1.5 font-medium text-dark-slate"
-                  aria-current="page"
+                  className={cn(separatorVariants({ size }), 'select-none')}
+                  aria-hidden="true"
                 >
-                  {item.icon && (
-                    <span className="text-slate-400">{item.icon}</span>
-                  )}
-                  {item.label}
+                  {separator}
                 </span>
-              ) : (
-                // Navigate links
-                <Link
-                  href={item.href || '#'}
-                  className={clsx(
-                    'flex items-center gap-1.5',
-                    'text-slate-600 hover:text-electric-blue',
-                    'transition-colors duration-200'
-                  )}
-                >
-                  {item.icon && (
-                    <span className="text-slate-400">{item.icon}</span>
-                  )}
-                  {item.label}
-                </Link>
+              )}
+              {React.cloneElement(
+                child as React.ReactElement<any>,
+                {
+                  variant,
+                  size,
+                } as BreadcrumbItemProps
               )}
             </li>
-
-            {/* Separator between items */}
-            {index < renderItems.length - 1 && (
-              <li
-                className="flex items-center text-slate-400"
-                aria-hidden="true"
-              >
-                {separator}
-              </li>
-            )}
-          </React.Fragment>
-        ))}
+          );
+        })}
       </ol>
     </nav>
   );
 }
 
-// Helper function to truncate items with ellipsis
-function truncateItems(
-  items: BreadcrumbItem[],
-  maxItems: number
-): BreadcrumbItem[] {
-  if (items.length <= maxItems) return items;
+Breadcrumb.displayName = 'Breadcrumb';
 
-  const firstItem = items[0];
-  const lastItems = items.slice(-Math.floor(maxItems / 2));
-  const ellipsisItem: BreadcrumbItem = {
-    label: '...',
-    href: undefined,
-  };
-
-  return [firstItem, ellipsisItem, ...lastItems];
-}
-
-// Compound component for individual breadcrumb items
-interface BreadcrumbItemProps extends BreadcrumbItem {
-  current?: boolean;
-  className?: string;
-}
-
-export function BreadcrumbItem({
-  label,
+function BreadcrumbItem({
+  children,
+  className,
   href,
   icon,
-  current = false,
-  className,
+  current,
+  variant,
+  size,
+  ...props
 }: BreadcrumbItemProps) {
-  const content = (
-    <>
-      {icon && <span className="text-slate-400">{icon}</span>}
-      {label}
-    </>
-  );
+  const itemClassName = cn(itemVariants({ variant, size, current }), className);
+  const commonProps = {
+    className: itemClassName,
+    'aria-current': current ? ('page' as const) : undefined,
+    ...props,
+  };
 
-  if (current) {
+  if (href) {
     return (
-      <span
-        className={clsx(
-          'flex items-center gap-1.5 font-medium text-dark-slate',
-          className
-        )}
-        aria-current="page"
-      >
-        {content}
-      </span>
+      <Link href={href} {...commonProps}>
+        {icon && <span className="opacity-70">{icon}</span>}
+        {children}
+      </Link>
+    );
+  }
+
+  if ('onClick' in props) {
+    return (
+      <button type="button" {...commonProps}>
+        {icon && <span className="opacity-70">{icon}</span>}
+        {children}
+      </button>
     );
   }
 
   return (
-    <Link
-      href={href || '#'}
-      className={clsx(
-        'flex items-center gap-1.5',
-        'text-slate-600 hover:text-electric-blue',
-        'transition-colors duration-200',
-        className
-      )}
+    <span {...commonProps}>
+      {icon && <span className="opacity-70">{icon}</span>}
+      {children}
+    </span>
+  );
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={cn(itemVariants({ variant, size, current }), className)}
+        {...props}
+      >
+        {icon && <span className="opacity-70">{icon}</span>}
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={cn(itemVariants({ variant, size, current }), className)}
+      {...props}
     >
-      {content}
-    </Link>
+      {icon && <span className="opacity-70">{icon}</span>}
+      {children}
+    </button>
   );
 }
 
-// Attach Item component to Breadcrumb
-Breadcrumb.Item = BreadcrumbItem;
+// Usage example:
+/*
+import { Breadcrumb, BreadcrumbItem } from './Breadcrumb.new';
+
+// Basic usage
+<Breadcrumb>
+  <BreadcrumbItem href="/">Home</BreadcrumbItem>
+  <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+  <BreadcrumbItem current>Categories</BreadcrumbItem>
+</Breadcrumb>
+
+// Different variants
+<Breadcrumb variant="default">...</Breadcrumb>
+<Breadcrumb variant="filled">...</Breadcrumb>
+
+// Different sizes
+<Breadcrumb size="sm">...</Breadcrumb>
+<Breadcrumb size="md">...</Breadcrumb>
+<Breadcrumb size="lg">...</Breadcrumb>
+
+// Custom separator
+<Breadcrumb separator=">">...</Breadcrumb>
+
+// With icons
+<Breadcrumb>
+  <BreadcrumbItem href="/" icon={<HomeIcon />}>
+    Home
+  </BreadcrumbItem>
+  <BreadcrumbItem
+    href="/products"
+    icon={<ShoppingCartIcon />}
+  >
+    Products
+  </BreadcrumbItem>
+</Breadcrumb>
+
+// Dynamic breadcrumbs
+const paths = [
+  { href: '/', label: 'Home' },
+  { href: '/products', label: 'Products' },
+  { href: '/products/categories', label: 'Categories' },
+];
+
+<Breadcrumb>
+  {paths.map((path, i) => (
+    <BreadcrumbItem
+      key={path.href}
+      href={path.href}
+      current={i === paths.length - 1}
+    >
+      {path.label}
+    </BreadcrumbItem>
+  ))}
+</Breadcrumb>
+*/

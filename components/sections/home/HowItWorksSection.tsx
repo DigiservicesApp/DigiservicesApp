@@ -37,7 +37,7 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="py-20 bg-white dark:bg-slate-800">
+    <section className="py-20 bg-[color:var(--md-sys-color-surface)]">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -46,10 +46,10 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+          <h2 className="text-3xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-4xl">
             How DigiServicesApp Works
           </h2>
-          <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
+          <p className="mt-4 text-lg text-[color:var(--md-sys-color-on-surface-variant)]">
             Get started in minutes and let AI handle the complexity of project
             management
           </p>
@@ -70,14 +70,14 @@ const HowItWorksSection = () => {
               {/* Content */}
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
-                    <step.icon className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))]">
+                    <step.icon className="w-6 h-6 text-[color:var(--md-sys-color-primary)]" />
                   </div>
-                  <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">
+                  <h3 className="text-2xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-lg text-slate-600 dark:text-slate-400">
+                <p className="text-lg text-[color:var(--md-sys-color-on-surface-variant)]">
                   {step.description}
                 </p>
               </div>

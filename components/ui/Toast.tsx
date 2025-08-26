@@ -1,114 +1,208 @@
 'use client';
-import { HTMLAttributes } from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
-import { clsx } from 'clsx';
-import {
-  FiAlertCircle,
-  FiCheckCircle,
-  FiInfo,
-  FiXCircle,
-  FiX,
-} from 'react-icons/fi';
 
-interface ToastProps
-  extends Omit<HTMLMotionProps<'div'>, keyof HTMLAttributes<HTMLDivElement>> {
+import React, { createContext, useCallback, useContext, useState } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+// Types
+type ToastVariant = 'info' | 'success' | 'warning' | 'error';
+
+interface Toast {
+  id: string;
   message: string;
+  variant?: ToastVariant;
   title?: string;
-  variant?: 'info' | 'success' | 'warning' | 'error';
+  duration?: number;
   onClose?: () => void;
 }
 
-const variants = {
-  info: {
-    bg: 'bg-electric-blue/10',
-    border: 'border-electric-blue/20',
-    text: 'text-electric-blue',
-    icon: FiInfo,
-  },
-  success: {
-    bg: 'bg-success/10',
-    border: 'border-success/20',
-    text: 'text-success',
-    icon: FiCheckCircle,
-  },
-  warning: {
-    bg: 'bg-yellow-500/10',
-    border: 'border-yellow-500/20',
-    text: 'text-yellow-700',
-    icon: FiAlertCircle,
-  },
-  error: {
-    bg: 'bg-error/10',
-    border: 'border-error/20',
-    text: 'text-error',
-    icon: FiXCircle,
-  },
-};
+interface ToastContextValue {
+  toasts: Toast[];
+  addToast: (toast: Omit<Toast, 'id'>) => void;
+  removeToast: (id: string) => void;
+}
 
-export default function Toast({
-  message,
-  title,
-  variant = 'info',
-  onClose,
-  ...props
-}: ToastProps) {
-  const variantStyles = variants[variant];
-  const Icon = variantStyles.icon;
+// Context
+const ToastContext = createContext<ToastContextValue | undefined>(undefined);
+
+// Styles
+const toastVariants = cva(
+  'relative rounded-lg shadow-lg transition-all duration-200 animate-slide-in',
+  {
+    variants: {
+      variant: {
+        info: [
+          'bg-[color:var(--md-sys-color-secondary-container)]',
+          'text-[color:var(--md-sys-color-on-secondary-container)]',
+          'border border-[color:var(--md-sys-color-secondary)]',
+        ],
+        success: [
+          'bg-[color:var(--md-sys-color-tertiary-container)]',
+          'text-[color:var(--md-sys-color-on-tertiary-container)]',
+          'border border-[color:var(--md-sys-color-tertiary)]',
+        ],
+        warning: [
+          'bg-[color:var(--md-sys-color-error-container)]',
+          'text-[color:var(--md-sys-color-on-error-container)]',
+          'border border-[color:var(--md-sys-color-error)]',
+        ],
+        error: [
+          'bg-[color:var(--md-sys-color-error-container)]',
+          'text-[color:var(--md-sys-color-on-error-container)]',
+          'border border-[color:var(--md-sys-color-error)]',
+        ],
+      },
+    },
+    defaultVariants: {
+      variant: 'info',
+    },
+  }
+);
+
+// Provider Component
+export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    const duration = toast.duration || 5000;
+
+    setToasts((prev) => [...prev, { ...toast, id }]);
+
+    setTimeout(() => {
+      removeToast(id);
+      toast.onClose?.();
+    }, duration);
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 20, scale: 0.95 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-      className={clsx(
-        'pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg border',
-        'shadow-lg backdrop-blur-sm',
-        variantStyles.bg,
-        variantStyles.border
-      )}
-      {...props}
-    >
-      <div className="p-4">
-        <div className="flex items-start">
-          <div className={clsx('shrink-0', variantStyles.text)}>
-            <Icon className="h-5 w-5" />
-          </div>
-
-          <div className="ml-3 w-0 flex-1">
-            {title && (
-              <p className={clsx('text-sm font-medium', variantStyles.text)}>
-                {title}
-              </p>
-            )}
-            <p
-              className={clsx(
-                'mt-1 text-sm',
-                title ? 'text-gray-600' : variantStyles.text
-              )}
-            >
-              {message}
-            </p>
-          </div>
-
-          {onClose && (
-            <div className="ml-4 flex shrink-0">
-              <button
-                onClick={onClose}
-                className={clsx(
-                  'inline-flex rounded-md p-1',
-                  'hover:bg-gray-900/5 focus:outline-none',
-                  'transition-colors duration-200',
-                  variantStyles.text
-                )}
-              >
-                <span className="sr-only">Close</span>
-                <FiX className="h-4 w-4" />
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </motion.div>
+    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+      {children}
+      <ToastContainer />
+    </ToastContext.Provider>
   );
 }
+
+// Toast Container Component
+function ToastContainer() {
+  const context = useContext(ToastContext);
+
+  if (!context) {
+    throw new Error('useToast must be used within ToastProvider');
+  }
+
+  const { toasts, removeToast } = context;
+
+  return (
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      className="fixed bottom-0 right-0 z-50 flex w-full flex-col items-end gap-2 p-4 sm:max-w-sm"
+    >
+      {toasts.map((toast) => (
+        <div
+          key={toast.id}
+          className={cn(
+            toastVariants({ variant: toast.variant }),
+            'w-full p-4 shadow-lg'
+          )}
+          role="alert"
+        >
+          <div className="flex w-full items-start gap-3 pr-8">
+            {toast.title && <div className="font-semibold">{toast.title}</div>}
+            <p className="text-sm">{toast.message}</p>
+            <button
+              onClick={() => removeToast(toast.id)}
+              className={cn(
+                'absolute right-2 top-2 p-1 rounded-full',
+                'hover:bg-[color:var(--md-sys-color-surface-container-highest)]',
+                'focus:outline-none focus:ring-2',
+                'focus:ring-[color:var(--md-sys-color-primary)]'
+              )}
+            >
+              <span className="sr-only">Close</span>
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Hook
+export function useToast() {
+  const context = useContext(ToastContext);
+
+  if (!context) {
+    throw new Error('useToast must be used within ToastProvider');
+  }
+
+  return context;
+}
+
+// Usage example:
+/*
+// First, wrap your app with ToastProvider
+import { ToastProvider } from './Toast.new';
+
+function App() {
+  return (
+    <ToastProvider>
+      <YourApp />
+    </ToastProvider>
+  );
+}
+
+// Then use the useToast hook in your components
+import { useToast } from './Toast.new';
+
+function YourComponent() {
+  const { addToast } = useToast();
+
+  // Show a simple toast
+  addToast({
+    message: 'This is a simple toast message',
+  });
+
+  // Show a success toast with title
+  addToast({
+    variant: 'success',
+    title: 'Success!',
+    message: 'Your changes have been saved.',
+  });
+
+  // Show an error toast with custom duration
+  addToast({
+    variant: 'error',
+    title: 'Error',
+    message: 'Something went wrong.',
+    duration: 10000, // 10 seconds
+  });
+
+  // Toast with callback
+  addToast({
+    variant: 'info',
+    message: 'Processing...',
+    onClose: () => {
+      console.log('Toast closed');
+    },
+  });
+}
+*/

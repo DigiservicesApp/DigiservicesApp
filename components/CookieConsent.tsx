@@ -5,63 +5,66 @@ export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Check if user has already accepted cookies
-    const hasAccepted = localStorage.getItem('cookieConsent');
-    if (!hasAccepted) {
-      setIsVisible(true);
-    }
+    const hasAccepted =
+      typeof window !== 'undefined' && localStorage.getItem('cookieConsent');
+    if (!hasAccepted) setIsVisible(true);
   }, []);
 
-  const acceptCookies = () => {
-    localStorage.setItem('cookieConsent', 'true');
+  function acceptCookies(mode: 'all' | 'necessary' = 'all') {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cookieConsent', mode);
+    }
     setIsVisible(false);
-  };
+  }
 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-lg border-t border-gray-200 p-4">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-[color:var(--md-sys-color-surface)] shadow-lg border-t border-[color:var(--md-sys-color-outline)] p-4">
       <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
         <div className="flex-1">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
             We use cookies to enhance your browsing experience, serve
             personalized content, and analyze our traffic. By clicking "Accept",
             you consent to our use of cookies. Read our{' '}
             <a
               href="/privacy-policy"
-              className="text-primary hover:text-primary-dark underline"
+              className="text-[color:var(--md-sys-color-primary)] hover:opacity-90 underline"
             >
               Privacy Policy
             </a>{' '}
             and{' '}
             <a
               href="/terms"
-              className="text-primary hover:text-primary-dark underline"
+              className="text-[color:var(--md-sys-color-primary)] hover:opacity-90 underline"
             >
               Terms of Service
             </a>{' '}
             to learn more.
           </p>
         </div>
+
         <div className="flex items-center gap-4 shrink-0">
           <button
-            onClick={acceptCookies}
-            className="rounded-md bg-primary px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark"
+            onClick={() => acceptCookies('all')}
+            className="rounded-md bg-[color:var(--md-sys-color-primary)] px-3.5 py-2 text-sm font-semibold text-[color:var(--md-sys-color-on-primary)] shadow-sm hover:opacity-90"
           >
             Accept All Cookies
           </button>
+
           <button
-            onClick={acceptCookies}
-            className="rounded-md border border-gray-300 px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50"
+            onClick={() => acceptCookies('necessary')}
+            className="rounded-md border border-[color:var(--md-sys-color-outline)] px-3.5 py-2 text-sm font-semibold text-[color:var(--md-sys-color-on-surface)] shadow-sm hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)]"
           >
             Accept Necessary Only
           </button>
+
           <button
-            onClick={acceptCookies}
-            className="rounded-full p-1 hover:bg-gray-100"
+            onClick={() => setIsVisible(false)}
+            className="rounded-full p-1 hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)]"
             aria-label="Close cookie consent"
           >
-            <RiCloseLine className="h-5 w-5 text-gray-500" />
+            <RiCloseLine className="h-5 w-5 text-[color:var(--md-sys-color-on-surface-variant)]" />
           </button>
         </div>
       </div>

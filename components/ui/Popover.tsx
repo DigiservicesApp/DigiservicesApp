@@ -1,232 +1,187 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
-import { RiCloseLine } from 'react-icons/ri';
 
-interface PopoverProps {
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  arrow,
+  autoUpdate,
+  useClick,
+  useDismiss,
+  useRole,
+  useInteractions,
+  FloatingPortal,
+  type Placement,
+} from '@floating-ui/react';
+
+const popoverVariants = cva(
+  'z-50 rounded-lg bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)] shadow-lg outline-none',
+  {
+    variants: {
+      variant: {
+        default: '',
+        info: 'bg-[color:var(--md-sys-color-secondary-container)] text-[color:var(--md-sys-color-on-secondary-container)]',
+        error:
+          'bg-[color:var(--md-sys-color-error-container)] text-[color:var(--md-sys-color-on-error-container)]',
+      },
+      size: {
+        sm: 'max-w-[200px] p-2 text-sm',
+        md: 'max-w-[300px] p-3',
+        lg: 'max-w-[400px] p-4',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+);
+
+const arrowVariants = cva('absolute rotate-45 w-2 h-2 bg-inherit', {
+  variants: {
+    variant: {
+      default: '',
+      info: 'bg-[color:var(--md-sys-color-secondary-container)]',
+      error: 'bg-[color:var(--md-sys-color-error-container)]',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
+export interface PopoverProps extends VariantProps<typeof popoverVariants> {
   trigger: React.ReactNode;
   content: React.ReactNode;
-  position?: 'top' | 'bottom' | 'left' | 'right';
-  align?: 'start' | 'center' | 'end';
-  offset?: number;
-  arrow?: boolean;
-  closeOnClick?: boolean;
-  closeOnOutsideClick?: boolean;
+  placement?: Placement;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   className?: string;
+  modal?: boolean;
 }
-
-const positionStyles = {
-  top: 'bottom-full mb-2',
-  bottom: 'top-full mt-2',
-  left: 'right-full mr-2',
-  right: 'left-full ml-2',
-};
-
-const alignStyles = {
-  start: '',
-  center: 'translate-x-[-50%]',
-  end: '-translate-x-full',
-};
-
-const arrowStyles = {
-  top: 'bottom-[-6px] rotate-45',
-  bottom: 'top-[-6px] rotate-45',
-  left: 'right-[-6px] rotate-45',
-  right: 'left-[-6px] rotate-45',
-};
 
 export function Popover({
   trigger,
   content,
-  position = 'bottom',
-  align = 'center',
-  offset = 8,
-  arrow = true,
-  closeOnClick = true,
-  closeOnOutsideClick = true,
+  placement = 'bottom',
   open: controlledOpen,
   onOpenChange,
+  variant,
+  size,
   className,
+  modal = false,
 }: PopoverProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const open = controlledOpen ?? isOpen;
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const arrowRef = useRef<HTMLDivElement>(null);
 
-  const handleOpen = (value: boolean) => {
-    if (controlledOpen === undefined) {
-      setIsOpen(value);
-    }
-    onOpenChange?.(value);
-  };
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = onOpenChange ?? setUncontrolledOpen;
 
-  useEffect(() => {
-    if (!closeOnOutsideClick) return;
+  const {
+    x,
+    y,
+    refs,
+    strategy,
+    context,
+    placement: finalPlacement,
+    middlewareData,
+  } = useFloating({
+    placement,
+    open,
+    onOpenChange: setOpen,
+    middleware: [offset(8), flip(), shift(), arrow({ element: arrowRef })],
+    whileElementsMounted: autoUpdate,
+  });
 
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        popoverRef.current &&
-        !popoverRef.current.contains(event.target as Node)
-      ) {
-        handleOpen(false);
-      }
-    };
+  const click = useClick(context, {
+    enabled: controlledOpen === undefined,
+  });
+  const dismiss = useDismiss(context);
+  const role = useRole(context);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [closeOnOutsideClick]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    click,
+    dismiss,
+    role,
+  ]);
+
+  const staticSide = {
+    top: 'bottom',
+    right: 'left',
+    bottom: 'top',
+    left: 'right',
+  }[finalPlacement.split('-')[0]];
 
   return (
-    <div className="relative inline-block" ref={popoverRef}>
-      <div onClick={() => handleOpen(!open)}>{trigger}</div>
-
-      <AnimatePresence>
+    <>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        {trigger}
+      </div>
+      <FloatingPortal>
         {open && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.1 }}
-            className={clsx(
-              'absolute z-50',
-              positionStyles[position],
-              align !== 'start' && alignStyles[align],
+          <div
+            ref={refs.setFloating}
+            className={cn(
+              popoverVariants({ variant, size }),
+              'animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
               className
             )}
-            onClick={closeOnClick ? () => handleOpen(false) : undefined}
             style={{
-              [position]: `${offset}px`,
+              position: strategy,
+              top: y ?? 0,
+              left: x ?? 0,
+              width: 'max-content',
             }}
+            {...getFloatingProps()}
           >
+            {content}
             <div
-              className={clsx(
-                'relative bg-white dark:bg-slate-800',
-                'rounded-lg shadow-lg border border-slate-200 dark:border-slate-700',
-                'p-4'
-              )}
-            >
-              {arrow && (
-                <div
-                  className={clsx(
-                    'absolute w-3 h-3 bg-inherit transform rotate-45',
-                    'border border-slate-200 dark:border-slate-700',
-                    arrowStyles[position]
-                  )}
-                />
-              )}
-              {content}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// Dialog Component
-interface DialogProps {
-  open: boolean;
-  onClose: () => void;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  closeOnOutsideClick?: boolean;
-  showCloseButton?: boolean;
-  className?: string;
-}
-
-const dialogSizes = {
-  sm: 'max-w-sm',
-  md: 'max-w-md',
-  lg: 'max-w-lg',
-  xl: 'max-w-xl',
-  full: 'max-w-full mx-4',
-};
-
-export function Dialog({
-  open,
-  onClose,
-  title,
-  description,
-  children,
-  size = 'md',
-  closeOnOutsideClick = true,
-  showCloseButton = true,
-  className,
-}: DialogProps) {
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [open]);
-
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/50"
-            onClick={closeOnOutsideClick ? onClose : undefined}
-          />
-
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.2 }}
-              className={clsx(
-                'relative w-full',
-                'bg-white dark:bg-slate-800',
-                'rounded-lg shadow-xl',
-                'border border-slate-200 dark:border-slate-700',
-                dialogSizes[size],
-                className
-              )}
-            >
-              {showCloseButton && (
-                <button
-                  onClick={onClose}
-                  className={clsx(
-                    'absolute top-4 right-4',
-                    'text-slate-400 hover:text-slate-500',
-                    'dark:text-slate-500 dark:hover:text-slate-400'
-                  )}
-                >
-                  <RiCloseLine className="w-5 h-5" />
-                  <span className="sr-only">Close</span>
-                </button>
-              )}
-
-              <div className="p-6">
-                {title && (
-                  <h2 className="text-lg font-semibold text-dark-slate mb-2">
-                    {title}
-                  </h2>
-                )}
-                {description && (
-                  <p className="text-slate-500 dark:text-slate-400 mb-4">
-                    {description}
-                  </p>
-                )}
-                {children}
-              </div>
-            </motion.div>
+              ref={arrowRef}
+              className={arrowVariants({ variant })}
+              style={{
+                left:
+                  middlewareData.arrow?.x != null
+                    ? `${middlewareData.arrow.x}px`
+                    : '',
+                top:
+                  middlewareData.arrow?.y != null
+                    ? `${middlewareData.arrow.y}px`
+                    : '',
+                right: '',
+                bottom: '',
+                [staticSide as string]: '-4px',
+              }}
+            />
           </div>
-        </>
-      )}
-    </AnimatePresence>
+        )}
+      </FloatingPortal>
+    </>
   );
 }
+
+// Usage example:
+/*
+import { Popover } from './Popover.new';
+import { Button } from './Button.new';
+
+function Example() {
+  return (
+    <Popover
+      trigger={<Button>Click me</Button>}
+      content={
+        <div>
+          <h3 className="font-medium">Popover Title</h3>
+          <p>This is the popover content.</p>
+        </div>
+      }
+      variant="info"
+      size="md"
+      placement="bottom"
+    />
+  );
+}
+*/

@@ -90,25 +90,34 @@ export default function Dropdown({
         className={clsx(
           'flex items-center justify-between gap-2',
           'rounded-lg transition-colors duration-200',
-          'focus:outline-none focus:ring-2 focus:ring-electric-blue/50',
+          'focus:outline-none focus:ring-2 focus:ring-[color:var(--md-sys-color-primary)]',
           sizeClasses[size],
           paddingClasses[size],
           fullWidth && 'w-full',
           variant === 'outline' && [
             'border',
             error
-              ? 'border-error text-error'
-              : 'border-slate-200 dark:border-slate-700',
-            !disabled && 'hover:border-electric-blue',
+              ? 'border-[color:var(--md-sys-color-error)] text-[color:var(--md-sys-color-error)]'
+              : 'border-[color:var(--md-sys-color-outline)]',
+            !disabled && 'hover:border-[color:var(--md-sys-color-primary)]',
           ],
           variant === 'filled' && [
-            error ? 'bg-error/5 text-error' : 'bg-slate-100 dark:bg-slate-800',
-            !disabled && 'hover:bg-slate-200 dark:hover:bg-slate-700',
+            error
+              ? 'bg-[color:color-mix(in_srgb,var(--md-sys-color-error)_06%,transparent)] text-[color:var(--md-sys-color-error)]'
+              : 'bg-[color:var(--md-sys-color-surface-variant)]',
+            !disabled &&
+              'hover:bg-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_06%,transparent)]',
           ],
           disabled && 'opacity-50 cursor-not-allowed'
         )}
       >
-        <span className={clsx('truncate', !selectedOption && 'text-slate-400')}>
+        <span
+          className={clsx(
+            'truncate',
+            !selectedOption &&
+              'text-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_46%,transparent)]'
+          )}
+        >
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <RiArrowDownSLine
@@ -128,9 +137,10 @@ export default function Dropdown({
             transition={{ duration: 0.2 }}
             className={clsx(
               'absolute z-50 w-full min-w-48 mt-1',
-              'bg-white dark:bg-slate-800',
-              'rounded-lg shadow-lg border border-slate-200 dark:border-slate-700',
+              'rounded-lg shadow-lg',
               'focus:outline-none',
+              'bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)]',
+              'border border-[color:var(--md-sys-color-outline)]',
               menuClassName
             )}
           >
@@ -153,10 +163,11 @@ export default function Dropdown({
                     option.disabled
                       ? 'opacity-50 cursor-not-allowed'
                       : [
-                          'hover:bg-slate-50 dark:hover:bg-slate-700',
                           'transition-colors duration-200',
+                          'hover:bg-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_04%,transparent)]',
                         ],
-                    value === option.value && 'text-electric-blue'
+                    value === option.value &&
+                      'text-[color:var(--md-sys-color-primary)]'
                   )}
                 >
                   {option.icon && (
@@ -170,7 +181,7 @@ export default function Dropdown({
                       )}
                     </div>
                     {option.description && (
-                      <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                      <p className="text-sm text-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_68%,transparent)] truncate">
                         {option.description}
                       </p>
                     )}

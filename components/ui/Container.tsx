@@ -155,9 +155,19 @@ export function MainLayout({
   children,
 }: MainLayoutProps) {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div
+      className="min-h-screen"
+      style={{ background: 'var(--md-sys-color-background)' }}
+    >
       {header && (
-        <header className="sticky top-0 z-30 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+        <header
+          className="sticky top-0 z-30"
+          style={{
+            background:
+              'color-mix(in srgb,var(--md-sys-color-surface) 80%, transparent)',
+            borderBottom: '1px solid var(--md-sys-color-outline)',
+          }}
+        >
           {header}
         </header>
       )}
@@ -171,7 +181,12 @@ export function MainLayout({
       </div>
 
       {footer && (
-        <footer className="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
+        <footer
+          style={{
+            background: 'var(--md-sys-color-surface)',
+            borderTop: '1px solid var(--md-sys-color-outline)',
+          }}
+        >
           {footer}
         </footer>
       )}

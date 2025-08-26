@@ -13,7 +13,7 @@ interface PageLayoutProps {
 const PageLayout = ({ children, breadcrumb }: PageLayoutProps) => {
   return (
     <>
-      <div className="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <div className="border-b border-[color:var(--md-sys-color-outline)] bg-[color:var(--md-sys-color-surface)]">
         <Container>
           <div className="py-4">
             <Breadcrumb items={[{ label: 'Home', href: '/' }, ...breadcrumb]} />

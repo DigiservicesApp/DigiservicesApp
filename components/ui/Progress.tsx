@@ -1,186 +1,153 @@
 'use client';
-import { HTMLAttributes } from 'react';
-import { motion } from 'framer-motion';
-import { clsx } from 'clsx';
 
-interface ProgressProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const progressVariants = cva(
+  'relative h-2 w-full overflow-hidden rounded-full bg-[color:var(--md-sys-color-surface-container-highest)]',
+  {
+    variants: {
+      variant: {
+        default: '',
+        success: '',
+        error: '',
+      },
+      size: {
+        sm: 'h-1',
+        md: 'h-2',
+        lg: 'h-3',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+);
+
+const progressBarVariants = cva('h-full w-full flex-1 transition-all', {
+  variants: {
+    variant: {
+      default: 'bg-[color:var(--md-sys-color-primary)]',
+      success: 'bg-[color:var(--md-sys-color-tertiary)]',
+      error: 'bg-[color:var(--md-sys-color-error)]',
+    },
+    animated: {
+      true: 'transition-transform duration-[2s] ease-in-out-sine',
+      false: '',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    animated: true,
+  },
+});
+
+const progressIndeterminateVariants = cva('absolute inset-0 flex w-full', {
+  variants: {
+    variant: {
+      default: '[&>div]:bg-[color:var(--md-sys-color-primary)]',
+      success: '[&>div]:bg-[color:var(--md-sys-color-tertiary)]',
+      error: '[&>div]:bg-[color:var(--md-sys-color-error)]',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
+export interface ProgressProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof progressVariants> {
   value?: number;
-  variant?: 'linear' | 'circular';
-  size?: 'sm' | 'md' | 'lg';
-  color?: 'default' | 'success' | 'error';
+  max?: number;
+  animated?: boolean;
   indeterminate?: boolean;
-  label?: string;
-  showValue?: boolean;
-  thickness?: number;
   className?: string;
 }
 
-const sizeClasses = {
-  linear: {
-    sm: 'h-1',
-    md: 'h-2',
-    lg: 'h-3',
-  },
-  circular: {
-    sm: 'w-8 h-8',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16',
-  },
-};
+export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
+  (
+    {
+      className,
+      value,
+      max = 100,
+      variant,
+      size,
+      animated = true,
+      indeterminate = false,
+      ...props
+    },
+    ref
+  ) => {
+    const percentage =
+      value != null ? Math.min(Math.max((value / max) * 100, 0), 100) : null;
 
-const colorClasses = {
-  default: {
-    base: 'bg-electric-blue',
-    track: 'bg-electric-blue/20',
-  },
-  success: {
-    base: 'bg-success',
-    track: 'bg-success/20',
-  },
-  error: {
-    base: 'bg-error',
-    track: 'bg-error/20',
-  },
-};
-
-export default function Progress({
-  value = 0,
-  variant = 'linear',
-  size = 'md',
-  color = 'default',
-  indeterminate = false,
-  label,
-  showValue,
-  thickness = 4,
-  className,
-  ...props
-}: ProgressProps) {
-  const normalizedValue = Math.min(100, Math.max(0, value));
-  const variantSize = sizeClasses[variant][size];
-  const variantColor = colorClasses[color];
-
-  // Linear Progress
-  if (variant === 'linear') {
     return (
-      <div className={clsx('w-full', className)} {...props}>
-        {(label || showValue) && (
-          <div className="flex justify-between mb-1">
-            {label && (
-              <span className="text-sm font-medium text-dark-slate">
-                {label}
-              </span>
-            )}
-            {showValue && (
-              <span className="text-sm font-medium text-dark-slate">
-                {normalizedValue}%
-              </span>
-            )}
+      <div
+        ref={ref}
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={max}
+        aria-valuenow={percentage !== null ? Math.round(percentage) : undefined}
+        className={cn(progressVariants({ variant, size }), className)}
+        {...props}
+      >
+        {indeterminate ? (
+          <div className={progressIndeterminateVariants({ variant })}>
+            <div className="h-full w-[60%] animate-[progress-linear-indeterminate1_2.1s_cubic-bezier(0.65,0.815,0.735,0.395)_infinite]" />
+            <div className="h-full w-[60%] animate-[progress-linear-indeterminate2_2.1s_cubic-bezier(0.165,0.84,0.44,1.0)_infinite]" />
           </div>
+        ) : (
+          <div
+            className={progressBarVariants({ variant, animated })}
+            style={{
+              transform: `translateX(-${100 - (percentage ?? 0)}%)`,
+            }}
+          />
         )}
-
-        <div
-          className={clsx(
-            'overflow-hidden rounded-full',
-            variantSize,
-            variantColor.track
-          )}
-        >
-          {indeterminate ? (
-            <motion.div
-              className={clsx('h-full rounded-full', variantColor.base)}
-              animate={{
-                x: ['-100%', '100%'],
-                transition: {
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: 'linear',
-                },
-              }}
-              style={{ width: '50%' }}
-            />
-          ) : (
-            <motion.div
-              className={clsx('h-full rounded-full', variantColor.base)}
-              initial={{ width: 0 }}
-              animate={{ width: `${normalizedValue}%` }}
-              transition={{ duration: 0.3 }}
-            />
-          )}
-        </div>
       </div>
     );
   }
+);
+Progress.displayName = 'Progress';
 
-  // Circular Progress
-  const center = 16;
-  const radius = 16 - thickness / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDasharray = circumference;
-  const strokeDashoffset =
-    circumference - (normalizedValue / 100) * circumference;
+// Usage example:
+/*
+import { Progress } from './Progress.new';
 
+function Example() {
   return (
-    <div
-      className={clsx(
-        'relative inline-flex items-center justify-center',
-        variantSize,
-        className
-      )}
-      {...props}
-    >
-      <svg className="w-full h-full -rotate-90">
-        {/* Background circle */}
-        <circle
-          cx={center}
-          cy={center}
-          r={radius}
-          strokeWidth={thickness}
-          className={clsx('fill-none', variantColor.track)}
-        />
+    <div className="flex flex-col gap-4 w-full max-w-md">
+      {/* Determinate progress 
+      <Progress value={75} max={100} variant="default" size="md" />
 
-        {indeterminate ? (
-          <motion.circle
-            cx={center}
-            cy={center}
-            r={radius}
-            strokeWidth={thickness}
-            className={clsx('fill-none', variantColor.base)}
-            animate={{
-              rotate: [0, 360],
-              strokeDashoffset: [0, circumference],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-            style={{
-              strokeDasharray: circumference,
-            }}
-          />
-        ) : (
-          <motion.circle
-            cx={center}
-            cy={center}
-            r={radius}
-            strokeWidth={thickness}
-            className={clsx('fill-none', variantColor.base)}
-            initial={{ strokeDashoffset: circumference }}
-            animate={{ strokeDashoffset }}
-            transition={{ duration: 0.3 }}
-            style={{
-              strokeDasharray: circumference,
-            }}
-          />
-        )}
-      </svg>
+      {/* Indeterminate progress *
+      <Progress indeterminate variant="default" size="md" />
 
-      {showValue && !indeterminate && (
-        <span className="absolute text-sm font-medium text-dark-slate">
-          {normalizedValue}%
-        </span>
-      )}
+      {/* Success variant 
+      <Progress value={100} variant="success" size="md" />
+
+      {/* Error variant 
+      <Progress value={25} variant="error" size="md" />
     </div>
   );
 }
+
+// Different variants
+<Progress variant="default" value={75} />
+<Progress variant="success" value={75} />
+<Progress variant="error" value={75} />
+
+// Different sizes
+<Progress size="sm" value={75} />
+<Progress size="md" value={75} />
+<Progress size="lg" value={75} />
+
+// Disable animation
+<Progress animated={false} value={75} />
+
+// Indeterminate state
+<Progress indeterminate />
+*/

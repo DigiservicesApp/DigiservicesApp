@@ -13,7 +13,7 @@ import { features } from '@/lib/data/features';
 
 const FeaturesSection = () => {
   return (
-    <section className="py-20 bg-slate-50 dark:bg-slate-900">
+    <section className="py-20 bg-[color:var(--md-sys-color-surface-variant)]">
       <Container>
         <div className="text-center">
           <motion.h2
@@ -21,7 +21,7 @@ const FeaturesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+            className="text-3xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-4xl"
           >
             AI-Powered Features for Modern Freelancers
           </motion.h2>
@@ -30,7 +30,7 @@ const FeaturesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-2xl mx-auto mt-6 text-lg text-slate-600 dark:text-slate-400"
+            className="max-w-2xl mx-auto mt-6 text-lg text-[color:var(--md-sys-color-on-surface-variant)]"
           >
             Experience the future of freelance project management with our
             cutting-edge AI features designed to boost your productivity.
@@ -46,15 +46,15 @@ const FeaturesSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
             >
-              <Card className="h-full p-6 transition-transform duration-300 hover:-translate-y-1">
+              <Card className="h-full p-6 transition-transform duration-300 hover:-translate-y-1 bg-[color:var(--md-sys-color-surface)]">
                 <div className="flex flex-col items-start">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <feature.icon className="w-6 h-6 text-primary" />
+                  <div className="p-3 rounded-lg bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))]">
+                    <feature.icon className="w-6 h-6 text-[color:var(--md-sys-color-primary)]" />
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold text-slate-900 dark:text-white">
+                  <h3 className="mt-4 text-xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-slate-600 dark:text-slate-400">
+                  <p className="mt-2 text-[color:var(--md-sys-color-on-surface-variant)]">
                     {feature.description}
                   </p>
                 </div>

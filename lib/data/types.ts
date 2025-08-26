@@ -19,7 +19,7 @@ export interface Benefit {
   icon: IconType;
   title: string;
   description: string;
-  color: 'blue' | 'green' | 'purple' | 'orange';
+  color: 'blue' | 'green' | 'orange';
 }
 
 export interface Stat {

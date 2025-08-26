@@ -79,7 +79,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             className={clsx(
               'absolute left-3 cursor-text',
               'pointer-events-none origin-[0%_50%]',
-              'text-gray-500 transition-colors duration-200'
+              'text-[color:var(--md-sys-color-on-surface-variant)] transition-colors duration-200'
             )}
           >
             {label}
@@ -96,19 +96,20 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           maxLength={maxLength}
           className={clsx(
             // Base styles
-            'w-full min-h-[100px] rounded-lg px-3 py-2',
-            'border bg-white transition-colors duration-200',
+            'w-full min-h-[100px] rounded-lg px-3 py-2 transition-colors duration-200',
+            'bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)]',
+            'border-[color:var(--md-sys-color-outline)]',
             'resize-none overflow-hidden',
-            'placeholder:text-transparent focus:placeholder:text-gray-400',
+            'placeholder:text-transparent focus:placeholder:text-[color:var(--md-sys-color-on-surface-variant)]',
 
             // Focus styles
-            'focus:outline-none focus:ring-2 focus:ring-electric-blue focus:border-electric-blue',
+            'focus:outline-none focus:ring-2 focus:ring-[color:var(--md-sys-color-primary)] focus:border-[color:var(--md-sys-color-primary)]',
 
             // States
             {
-              'border-error': error,
-              'border-border-color': !error,
-              'opacity-50 cursor-not-allowed bg-gray-50': disabled,
+              'border-[color:var(--md-sys-color-error)]': error,
+              'opacity-50 cursor-not-allowed bg-[color:color-mix(in_srgb,var(--md-sys-color-on-surface)_06%,transparent)]':
+                disabled,
             },
 
             // Label padding
@@ -124,7 +125,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           {showCount && maxLength && (
             <p
               className={clsx(
-                'ml-auto text-gray-500',
+                'ml-auto text-[color:var(--md-sys-color-on-surface-variant)]',
                 currentLength >= maxLength && 'text-error'
               )}
             >

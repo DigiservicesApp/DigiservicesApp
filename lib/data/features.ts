@@ -55,7 +55,7 @@ export const benefits: Benefit[] = [
     title: 'Performance Analytics',
     description:
       'Get AI-generated insights on productivity, resource allocation, and project profitability.',
-    color: 'purple',
+    color: 'blue',
   },
   {
     icon: RiTeamLine,

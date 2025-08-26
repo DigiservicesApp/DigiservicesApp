@@ -28,7 +28,7 @@ const benefits = [
     title: 'Performance Analytics',
     description:
       'Get AI-generated insights on productivity, resource allocation, and project profitability.',
-    color: 'purple',
+    color: 'blue',
   },
   {
     icon: RiTeamLine,
@@ -39,16 +39,17 @@ const benefits = [
   },
 ];
 
-const colorVariants = {
-  blue: 'bg-blue-500/10 text-blue-600',
-  green: 'bg-green-500/10 text-green-600',
-  purple: 'bg-purple-500/10 text-purple-600',
-  orange: 'bg-orange-500/10 text-orange-600',
+const colorVariants: Record<string, string> = {
+  blue: 'bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] text-[color:var(--md-sys-color-primary)]',
+  green:
+    'bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] text-[color:var(--md-sys-color-primary)]',
+  orange:
+    'bg-[color:color-mix(in srgb,var(--md-sys-color-primary)12%,var(--md-sys-color-surface))] text-[color:var(--md-sys-color-primary)]',
 };
 
 const BenefitsSection = () => {
   return (
-    <section className="py-20 bg-slate-50 dark:bg-slate-900">
+    <section className="py-20 bg-[color:var(--md-sys-color-surface-variant)]">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -57,10 +58,10 @@ const BenefitsSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+          <h2 className="text-3xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-4xl">
             Why Choose DigiServicesApp?
           </h2>
-          <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
+          <p className="mt-4 text-lg text-[color:var(--md-sys-color-on-surface-variant)]">
             Experience the power of AI-driven project management designed
             specifically for freelancers and agencies.
           </p>
@@ -74,7 +75,7 @@ const BenefitsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative p-6 bg-white rounded-xl shadow-sm dark:bg-slate-800"
+              className="relative p-6 bg-[color:var(--md-sys-color-surface)] rounded-xl shadow-sm"
             >
               <div
                 className={`inline-flex items-center justify-center w-12 h-12 mb-4 rounded-lg ${
@@ -83,10 +84,10 @@ const BenefitsSection = () => {
               >
                 <benefit.icon className="w-6 h-6" />
               </div>
-              <h3 className="mb-3 text-xl font-semibold text-slate-900 dark:text-white">
+              <h3 className="mb-3 text-xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
                 {benefit.title}
               </h3>
-              <p className="text-slate-600 dark:text-slate-400">
+              <p className="text-[color:var(--md-sys-color-on-surface-variant)]">
                 {benefit.description}
               </p>
             </motion.div>

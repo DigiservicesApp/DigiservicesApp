@@ -1,177 +1,249 @@
 'use client';
-import React from 'react';
-import { clsx } from 'clsx';
-import {
-  RiArrowLeftSLine,
-  RiArrowRightSLine,
-  RiMoreLine,
-} from 'react-icons/ri';
 
-interface PaginationProps {
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const paginationVariants = cva('flex items-center gap-1', {
+  variants: {
+    variant: {
+      default: '',
+      filled: 'p-1 rounded-lg bg-[color:var(--md-sys-color-surface-container)]',
+    },
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
+
+const pageButtonVariants = cva(
+  'inline-flex items-center justify-center rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--md-sys-color-primary)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default: [
+          'text-[color:var(--md-sys-color-on-surface-variant)]',
+          'hover:bg-[color:var(--md-sys-color-surface-container-highest)]',
+          'hover:text-[color:var(--md-sys-color-on-surface)]',
+          'data-[current=true]:bg-[color:var(--md-sys-color-primary)]',
+          'data-[current=true]:text-[color:var(--md-sys-color-on-primary)]',
+        ],
+        filled: [
+          'text-[color:var(--md-sys-color-on-surface-variant)]',
+          'hover:bg-[color:var(--md-sys-color-surface-container-highest)]',
+          'hover:text-[color:var(--md-sys-color-on-surface)]',
+          'data-[current=true]:bg-[color:var(--md-sys-color-primary)]',
+          'data-[current=true]:text-[color:var(--md-sys-color-on-primary)]',
+        ],
+      },
+      size: {
+        sm: 'h-8 w-8 text-sm',
+        md: 'h-10 w-10 text-base',
+        lg: 'h-12 w-12 text-lg',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+);
+
+export interface PaginationProps
+  extends React.HTMLAttributes<HTMLElement>,
+    VariantProps<typeof paginationVariants> {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
   siblingCount?: number;
-  size?: 'sm' | 'md' | 'lg';
   showFirstLast?: boolean;
-  className?: string;
 }
 
-const sizeClasses = {
-  sm: 'h-8 w-8 text-sm',
-  md: 'h-10 w-10 text-base',
-  lg: 'h-12 w-12 text-lg',
-};
+function usePagination({
+  currentPage,
+  totalPages,
+  siblingCount = 1,
+}: {
+  currentPage: number;
+  totalPages: number;
+  siblingCount: number;
+}) {
+  const pages = React.useMemo(() => {
+    const createRange = (start: number, end: number) =>
+      Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
-const buttonBaseClasses =
-  'flex items-center justify-center rounded-lg transition-colors duration-200';
-const activeClasses = 'bg-electric-blue text-white hover:bg-electric-blue/90';
-const inactiveClasses =
-  'text-slate-600 hover:bg-slate-100 hover:text-electric-blue dark:text-slate-400 dark:hover:bg-slate-800';
-const disabledClasses = 'text-slate-300 cursor-not-allowed dark:text-slate-600';
+    const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+    const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
 
-export default function Pagination({
+    const shouldShowLeftDots = leftSiblingIndex > 2;
+    const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
+
+    if (!shouldShowLeftDots && shouldShowRightDots) {
+      const leftRange = createRange(1, 3 + 2 * siblingCount);
+      return [...leftRange, 'dots', totalPages];
+    }
+
+    if (shouldShowLeftDots && !shouldShowRightDots) {
+      const rightRange = createRange(
+        totalPages - (3 + 2 * siblingCount) + 1,
+        totalPages
+      );
+      return [1, 'dots', ...rightRange];
+    }
+
+    if (shouldShowLeftDots && shouldShowRightDots) {
+      const middleRange = createRange(leftSiblingIndex, rightSiblingIndex);
+      return [1, 'dots', ...middleRange, 'dots', totalPages];
+    }
+
+    return createRange(1, totalPages);
+  }, [currentPage, totalPages, siblingCount]);
+
+  return pages;
+}
+
+export function Pagination({
   currentPage,
   totalPages,
   onPageChange,
   siblingCount = 1,
-  size = 'md',
   showFirstLast = true,
+  variant,
+  size,
   className,
+  ...props
 }: PaginationProps) {
-  const range = getPageRange(currentPage, totalPages, siblingCount);
-
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    onPageChange(page);
-  };
-
-  const renderPageButton = (pageNumber: number | string, isActive = false) => (
-    <button
-      key={pageNumber}
-      onClick={() =>
-        typeof pageNumber === 'number' && handlePageChange(pageNumber)
-      }
-      disabled={typeof pageNumber !== 'number'}
-      className={clsx(
-        buttonBaseClasses,
-        sizeClasses[size],
-        typeof pageNumber === 'number'
-          ? isActive
-            ? activeClasses
-            : inactiveClasses
-          : disabledClasses
-      )}
-      aria-current={isActive ? 'page' : undefined}
-    >
-      {pageNumber}
-    </button>
-  );
+  const pages = usePagination({ currentPage, totalPages, siblingCount });
 
   return (
     <nav
       role="navigation"
       aria-label="Pagination"
-      className={clsx('flex items-center gap-2', className)}
+      className={cn(paginationVariants({ variant, size }), className)}
+      {...props}
     >
-      {/* First page button */}
       {showFirstLast && (
         <button
-          onClick={() => handlePageChange(1)}
+          type="button"
+          className={cn(pageButtonVariants({ variant, size }))}
+          onClick={() => onPageChange(1)}
           disabled={currentPage === 1}
-          className={clsx(
-            buttonBaseClasses,
-            sizeClasses[size],
-            currentPage === 1 ? disabledClasses : inactiveClasses
-          )}
-          aria-label="First page"
+          aria-label="Go to first page"
         >
-          <RiArrowLeftSLine className="w-5 h-5" />
-          <RiArrowLeftSLine className="-ml-4 w-5 h-5" />
+          ««
         </button>
       )}
 
-      {/* Previous page button */}
       <button
-        onClick={() => handlePageChange(currentPage - 1)}
+        type="button"
+        className={cn(pageButtonVariants({ variant, size }))}
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={clsx(
-          buttonBaseClasses,
-          sizeClasses[size],
-          currentPage === 1 ? disabledClasses : inactiveClasses
-        )}
-        aria-label="Previous page"
+        aria-label="Go to previous page"
       >
-        <RiArrowLeftSLine className="w-5 h-5" />
+        «
       </button>
 
-      {/* Page numbers */}
-      {range.map((pageNumber, i) =>
-        renderPageButton(pageNumber, pageNumber === currentPage)
-      )}
+      {pages.map((page, i) => {
+        if (page === 'dots') {
+          return (
+            <span
+              key={`dots-${i}`}
+              className="w-10 text-center text-[color:var(--md-sys-color-on-surface-variant)]"
+            >
+              ...
+            </span>
+          );
+        }
 
-      {/* Next page button */}
+        return (
+          <button
+            key={page}
+            type="button"
+            className={cn(pageButtonVariants({ variant, size }))}
+            data-current={currentPage === page}
+            onClick={() => onPageChange(page as number)}
+            aria-label={`Page ${page}`}
+            aria-current={currentPage === page ? 'page' : undefined}
+          >
+            {page}
+          </button>
+        );
+      })}
+
       <button
-        onClick={() => handlePageChange(currentPage + 1)}
+        type="button"
+        className={cn(pageButtonVariants({ variant, size }))}
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={clsx(
-          buttonBaseClasses,
-          sizeClasses[size],
-          currentPage === totalPages ? disabledClasses : inactiveClasses
-        )}
-        aria-label="Next page"
+        aria-label="Go to next page"
       >
-        <RiArrowRightSLine className="w-5 h-5" />
+        »
       </button>
 
-      {/* Last page button */}
       {showFirstLast && (
         <button
-          onClick={() => handlePageChange(totalPages)}
+          type="button"
+          className={cn(pageButtonVariants({ variant, size }))}
+          onClick={() => onPageChange(totalPages)}
           disabled={currentPage === totalPages}
-          className={clsx(
-            buttonBaseClasses,
-            sizeClasses[size],
-            currentPage === totalPages ? disabledClasses : inactiveClasses
-          )}
-          aria-label="Last page"
+          aria-label="Go to last page"
         >
-          <RiArrowRightSLine className="w-5 h-5" />
-          <RiArrowRightSLine className="-ml-4 w-5 h-5" />
+          »»
         </button>
       )}
     </nav>
   );
 }
 
-// Helper function to generate page range
-function getPageRange(
-  currentPage: number,
-  totalPages: number,
-  siblingCount: number
-): (number | string)[] {
-  const range: (number | string)[] = [];
-  const dots = '...';
+// Usage example:
+/*
+import { Pagination } from './Pagination.new';
 
-  // Calculate range bounds
-  const leftBound = Math.max(1, currentPage - siblingCount);
-  const rightBound = Math.min(totalPages, currentPage + siblingCount);
-  const showLeftDots = leftBound > 2;
-  const showRightDots = rightBound < totalPages - 1;
+// Basic usage
+const [currentPage, setCurrentPage] = useState(1);
+<Pagination
+  currentPage={currentPage}
+  totalPages={10}
+  onPageChange={setCurrentPage}
+/>
 
-  // Generate range array
-  if (showLeftDots && showRightDots) {
-    return [1, dots, ...makeRange(leftBound, rightBound), dots, totalPages];
-  } else if (showLeftDots) {
-    return [1, dots, ...makeRange(leftBound, totalPages)];
-  } else if (showRightDots) {
-    return [...makeRange(1, rightBound), dots, totalPages];
-  } else {
-    return makeRange(1, totalPages);
-  }
-}
+// Different variants
+<Pagination variant="default" ... />
+<Pagination variant="filled" ... />
 
-// Helper function to generate a range of numbers
-function makeRange(start: number, end: number): number[] {
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-}
+// Different sizes
+<Pagination size="sm" ... />
+<Pagination size="md" ... />
+<Pagination size="lg" ... />
+
+// Custom sibling count
+<Pagination siblingCount={2} ... />
+
+// Without first/last buttons
+<Pagination showFirstLast={false} ... />
+
+// With custom styling
+<Pagination
+  className="justify-center"
+  ...
+/>
+
+// Complete example
+<Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  onPageChange={setCurrentPage}
+  siblingCount={1}
+  showFirstLast={true}
+  variant="filled"
+  size="md"
+  className="justify-center mt-4"
+/>
+*/

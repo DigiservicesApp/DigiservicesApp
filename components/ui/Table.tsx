@@ -1,241 +1,212 @@
 'use client';
+
 import React from 'react';
-import { clsx } from 'clsx';
-import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-interface Column<T> {
-  key: string;
-  title: React.ReactNode;
-  render?: (item: T) => React.ReactNode;
-  sortable?: boolean;
-  width?: string | number;
-  align?: 'left' | 'center' | 'right';
-}
+const tableVariants = cva('w-full border-collapse text-left', {
+  variants: {
+    variant: {
+      default: '',
+      striped:
+        '[&_tr:nth-child(odd)]:bg-[color:var(--md-sys-color-surface-container)]',
+      bordered: 'border border-[color:var(--md-sys-color-outline-variant)]',
+      hoverable:
+        '[&_tr:hover]:bg-[color:var(--md-sys-color-surface-container-highest)]',
+    },
+    density: {
+      comfortable: '[&_td]:py-4 [&_th]:py-3',
+      compact: '[&_td]:py-2 [&_th]:py-2',
+      condensed: '[&_td]:py-1 [&_th]:py-1',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    density: 'comfortable',
+  },
+});
 
-interface SortConfig {
-  key: string;
-  direction: 'asc' | 'desc';
-}
+const tableCellVariants = cva(
+  'px-4 align-middle [&:first-child]:pl-6 [&:last-child]:pr-6',
+  {
+    variants: {
+      align: {
+        left: 'text-left',
+        center: 'text-center',
+        right: 'text-right',
+      },
+    },
+    defaultVariants: {
+      align: 'left',
+    },
+  }
+);
 
-interface TableProps<T> {
-  columns: Column<T>[];
-  data: T[];
-  onSort?: (sortConfig: SortConfig) => void;
-  sortConfig?: SortConfig;
-  loading?: boolean;
-  emptyState?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-  hover?: boolean;
-  striped?: boolean;
-  bordered?: boolean;
-  rounded?: boolean;
-  stickyHeader?: boolean;
-  maxHeight?: string | number;
+export interface TableProps
+  extends React.HTMLAttributes<HTMLTableElement>,
+    VariantProps<typeof tableVariants> {
   className?: string;
-  rowClassName?: string | ((item: T, index: number) => string);
 }
 
-const sizeClasses = {
-  sm: 'text-sm',
-  md: 'text-base',
-  lg: 'text-lg',
-};
+export interface TableHeaderProps
+  extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string;
+}
 
-const cellPaddingClasses = {
-  sm: 'px-3 py-2',
-  md: 'px-4 py-3',
-  lg: 'px-6 py-4',
-};
+export interface TableBodyProps
+  extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string;
+}
 
-export default function Table<T extends Record<string, any>>({
-  columns,
-  data,
-  onSort,
-  sortConfig,
-  loading = false,
-  emptyState,
-  size = 'md',
-  hover = true,
-  striped = false,
-  bordered = false,
-  rounded = true,
-  stickyHeader = false,
-  maxHeight,
-  className,
-  rowClassName,
-}: TableProps<T>) {
-  const handleSort = (column: Column<T>) => {
-    if (!column.sortable || !onSort) return;
+export interface TableFooterProps
+  extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string;
+}
 
-    const direction =
-      sortConfig?.key === column.key && sortConfig.direction === 'asc'
-        ? 'desc'
-        : 'asc';
+export interface TableRowProps
+  extends React.HTMLAttributes<HTMLTableRowElement> {
+  className?: string;
+}
 
-    onSort({ key: column.key, direction });
-  };
+export interface TableHeadProps
+  extends Omit<React.ThHTMLAttributes<HTMLTableCellElement>, 'align'>,
+    VariantProps<typeof tableCellVariants> {
+  className?: string;
+}
 
-  const renderSortIcon = (column: Column<T>) => {
-    if (!column.sortable) return null;
+export interface TableCellProps
+  extends Omit<React.TdHTMLAttributes<HTMLTableCellElement>, 'align'>,
+    VariantProps<typeof tableCellVariants> {
+  className?: string;
+}
 
-    const isActive = sortConfig?.key === column.key;
-    const direction = sortConfig?.direction;
+export interface TableCaptionProps
+  extends React.HTMLAttributes<HTMLTableCaptionElement> {
+  className?: string;
+}
 
-    return (
-      <span
-        className={clsx(
-          'inline-flex ml-2',
-          isActive ? 'text-electric-blue' : 'text-slate-400'
-        )}
-      >
-        {direction === 'asc' && isActive ? (
-          <RiArrowUpSLine className="w-5 h-5" />
-        ) : (
-          <RiArrowDownSLine className="w-5 h-5" />
-        )}
-      </span>
-    );
-  };
-
-  const tableContent = (
-    <>
-      <thead
-        className={clsx(
-          stickyHeader && 'sticky top-0 z-10 bg-white dark:bg-slate-800'
-        )}
-      >
-        <tr
-          className={clsx(
-            'border-b border-slate-200 dark:border-slate-700',
-            sizeClasses[size]
-          )}
-        >
-          {columns.map((column) => (
-            <th
-              key={column.key}
-              className={clsx(
-                cellPaddingClasses[size],
-                'font-semibold text-dark-slate whitespace-nowrap',
-                column.sortable &&
-                  'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700',
-                {
-                  'text-left': column.align === 'left' || !column.align,
-                  'text-center': column.align === 'center',
-                  'text-right': column.align === 'right',
-                }
-              )}
-              style={{ width: column.width }}
-              onClick={() => handleSort(column)}
-            >
-              <div className="flex items-center justify-between">
-                <span>{column.title}</span>
-                {renderSortIcon(column)}
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-
-      <tbody
-        className={clsx(
-          'divide-y divide-slate-200 dark:divide-slate-700',
-          sizeClasses[size]
-        )}
-      >
-        {data.map((item, rowIndex) => (
-          <tr
-            key={rowIndex}
-            className={clsx(
-              hover && 'hover:bg-slate-50 dark:hover:bg-slate-700',
-              striped &&
-                rowIndex % 2 === 1 &&
-                'bg-slate-50 dark:bg-slate-800/50',
-              typeof rowClassName === 'function'
-                ? rowClassName(item, rowIndex)
-                : rowClassName
-            )}
-          >
-            {columns.map((column) => (
-              <td
-                key={column.key}
-                className={clsx(cellPaddingClasses[size], {
-                  'text-left': column.align === 'left' || !column.align,
-                  'text-center': column.align === 'center',
-                  'text-right': column.align === 'right',
-                })}
-              >
-                {column.render ? column.render(item) : item[column.key]}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </>
-  );
-
-  if (loading) {
-    return (
-      <div
-        className={clsx(
-          'w-full animate-pulse',
-          'bg-slate-100 dark:bg-slate-800',
-          rounded && 'rounded-lg',
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  ({ className, variant, density, ...props }, ref) => (
+    <div className="relative w-full overflow-auto">
+      <table
+        ref={ref}
+        className={cn(
+          tableVariants({ variant, density }),
+          'text-[color:var(--md-sys-color-on-surface)]',
           className
         )}
-      >
-        <div className="h-64" />
-      </div>
-    );
-  }
+        {...props}
+      />
+    </div>
+  )
+);
+Table.displayName = 'Table';
 
-  if (!data.length && emptyState) {
-    return (
-      <div
-        className={clsx(
-          'w-full p-8 text-center',
-          'bg-white dark:bg-slate-800',
-          bordered && 'border border-slate-200 dark:border-slate-700',
-          rounded && 'rounded-lg',
-          className
-        )}
-      >
-        {emptyState}
-      </div>
-    );
-  }
-
-  const table = (
-    <table className="w-full border-collapse">{tableContent}</table>
-  );
-
-  if (maxHeight) {
-    return (
-      <div
-        className={clsx(
-          'w-full overflow-auto',
-          'bg-white dark:bg-slate-800',
-          bordered && 'border border-slate-200 dark:border-slate-700',
-          rounded && 'rounded-lg',
-          className
-        )}
-        style={{ maxHeight }}
-      >
-        {table}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className={clsx(
-        'w-full overflow-auto',
-        'bg-white dark:bg-slate-800',
-        bordered && 'border border-slate-200 dark:border-slate-700',
-        rounded && 'rounded-lg',
+const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
+  ({ className, ...props }, ref) => (
+    <thead
+      ref={ref}
+      className={cn(
+        'border-b border-[color:var(--md-sys-color-outline-variant)] bg-[color:var(--md-sys-color-surface-container-low)]',
         className
       )}
-    >
-      {table}
-    </div>
-  );
-}
+      {...props}
+    />
+  )
+);
+TableHeader.displayName = 'TableHeader';
+
+const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
+  ({ className, ...props }, ref) => (
+    <tbody
+      ref={ref}
+      className={cn(
+        'divide-y divide-[color:var(--md-sys-color-outline-variant)]',
+        className
+      )}
+      {...props}
+    />
+  )
+);
+TableBody.displayName = 'TableBody';
+
+const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
+  ({ className, ...props }, ref) => (
+    <tfoot
+      ref={ref}
+      className={cn(
+        'border-t border-[color:var(--md-sys-color-outline-variant)] bg-[color:var(--md-sys-color-surface-container-low)] font-medium',
+        className
+      )}
+      {...props}
+    />
+  )
+);
+TableFooter.displayName = 'TableFooter';
+
+const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
+  ({ className, ...props }, ref) => (
+    <tr
+      ref={ref}
+      className={cn(
+        'transition-colors',
+        '[&_td]:border-b [&_td]:border-[color:var(--md-sys-color-outline-variant)]',
+        className
+      )}
+      {...props}
+    />
+  )
+);
+TableRow.displayName = 'TableRow';
+
+const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
+  ({ className, align, ...props }, ref) => (
+    <th
+      ref={ref}
+      className={cn(
+        tableCellVariants({ align }),
+        'font-medium text-[color:var(--md-sys-color-on-surface-variant)]',
+        className
+      )}
+      {...props}
+    />
+  )
+);
+TableHead.displayName = 'TableHead';
+
+const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
+  ({ className, align, ...props }, ref) => (
+    <td
+      ref={ref}
+      className={cn(tableCellVariants({ align }), className)}
+      {...props}
+    />
+  )
+);
+TableCell.displayName = 'TableCell';
+
+const TableCaption = React.forwardRef<
+  HTMLTableCaptionElement,
+  TableCaptionProps
+>(({ className, ...props }, ref) => (
+  <caption
+    ref={ref}
+    className={cn(
+      'mt-4 text-sm text-[color:var(--md-sys-color-on-surface-variant)]',
+      className
+    )}
+    {...props}
+  />
+));
+TableCaption.displayName = 'TableCaption';
+
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+};

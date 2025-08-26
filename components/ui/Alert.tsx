@@ -1,119 +1,171 @@
 'use client';
-import { HTMLAttributes } from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
-import { clsx } from 'clsx';
-import {
-  FiAlertCircle,
-  FiCheckCircle,
-  FiInfo,
-  FiXCircle,
-  FiX,
-} from 'react-icons/fi';
 
-interface AlertProps
-  extends Omit<HTMLMotionProps<'div'>, keyof HTMLAttributes<HTMLDivElement>> {
-  variant?: 'info' | 'success' | 'warning' | 'error';
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const alertVariants = cva(
+  'relative rounded-lg p-4 transition-all duration-200',
+  {
+    variants: {
+      variant: {
+        info: [
+          'bg-[color:var(--md-sys-color-secondary-container)]',
+          'text-[color:var(--md-sys-color-on-secondary-container)]',
+          'border border-[color:var(--md-sys-color-secondary)]',
+        ],
+        success: [
+          'bg-[color:var(--md-sys-color-tertiary-container)]',
+          'text-[color:var(--md-sys-color-on-tertiary-container)]',
+          'border border-[color:var(--md-sys-color-tertiary)]',
+        ],
+        warning: [
+          'bg-[color:var(--md-sys-color-error-container)]',
+          'text-[color:var(--md-sys-color-on-error-container)]',
+          'border border-[color:var(--md-sys-color-error)]',
+        ],
+        error: [
+          'bg-[color:var(--md-sys-color-error-container)]',
+          'text-[color:var(--md-sys-color-on-error-container)]',
+          'border border-[color:var(--md-sys-color-error)]',
+        ],
+      },
+      size: {
+        sm: 'text-sm',
+        md: 'text-base',
+        lg: 'text-lg',
+      },
+    },
+    defaultVariants: {
+      variant: 'info',
+      size: 'md',
+    },
+  }
+);
+
+const iconWrapperVariants = cva('absolute left-4 top-4 flex-shrink-0', {
+  variants: {
+    size: {
+      sm: 'h-5 w-5',
+      md: 'h-6 w-6',
+      lg: 'h-7 w-7',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+export interface AlertProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof alertVariants> {
   title?: string;
-  children: React.ReactNode;
+  icon?: React.ReactNode;
   onClose?: () => void;
-  className?: string;
 }
 
-const variants = {
-  info: {
-    bg: 'bg-electric-blue/10',
-    border: 'border-electric-blue/20',
-    text: 'text-electric-blue',
-    icon: FiInfo,
-  },
-  success: {
-    bg: 'bg-success/10',
-    border: 'border-success/20',
-    text: 'text-success',
-    icon: FiCheckCircle,
-  },
-  warning: {
-    bg: 'bg-yellow-500/10',
-    border: 'border-yellow-500/20',
-    text: 'text-yellow-700',
-    icon: FiAlertCircle,
-  },
-  error: {
-    bg: 'bg-error/10',
-    border: 'border-error/20',
-    text: 'text-error',
-    icon: FiXCircle,
-  },
-};
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  (
+    { className, variant, size, title, children, icon, onClose, ...props },
+    ref
+  ) => {
+    return (
+      <div
+        ref={ref}
+        role="alert"
+        className={cn(alertVariants({ variant, size, className }))}
+        {...props}
+      >
+        <div className={cn('flex w-full', { 'pl-12': icon })}>
+          {icon && <div className={iconWrapperVariants({ size })}>{icon}</div>}
 
-export default function Alert({
-  variant = 'info',
-  title,
-  children,
-  onClose,
-  className,
-  ...props
-}: AlertProps) {
-  const variantStyles = variants[variant];
-  const Icon = variantStyles.icon;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className={clsx(
-        // Base styles
-        'relative rounded-lg border p-4',
-        'backdrop-blur-sm shadow-sm',
-
-        // Variant styles
-        variantStyles.bg,
-        variantStyles.border,
-
-        // Custom classes
-        className
-      )}
-      {...props}
-    >
-      <div className="flex gap-3">
-        {/* Icon */}
-        <div className={clsx('shrink-0', variantStyles.text)}>
-          <Icon className="h-5 w-5" />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1">
-          {title && (
-            <h3 className={clsx('mb-1 font-medium', variantStyles.text)}>
-              {title}
-            </h3>
-          )}
-          <div
-            className={clsx(
-              'text-sm',
-              title ? 'text-gray-600' : variantStyles.text
-            )}
-          >
-            {children}
+          <div className="w-full pr-8">
+            {title && <div className="font-semibold mb-1">{title}</div>}
+            <div className="text-current">{children}</div>
           </div>
-        </div>
 
-        {/* Close button */}
-        {onClose && (
-          <button
-            onClick={onClose}
-            className={clsx(
-              'shrink-0 rounded-full p-1',
-              'hover:bg-gray-900/5 transition-colors duration-200',
-              variantStyles.text
-            )}
-          >
-            <FiX className="h-4 w-4" />
-            <span className="sr-only">Dismiss</span>
-          </button>
-        )}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className={cn(
+                'absolute right-4 top-4 p-1 rounded-full',
+                'hover:bg-[color:var(--md-sys-color-surface-container-highest)]',
+                'focus:outline-none focus:ring-2 focus:ring-offset-2',
+                'focus:ring-[color:var(--md-sys-color-primary)]'
+              )}
+            >
+              <span className="sr-only">Close</span>
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M6 6l8 8m0-8l-8 8"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
-    </motion.div>
-  );
-}
+    );
+  }
+);
+
+Alert.displayName = 'Alert';
+
+export { Alert };
+
+// Usage example:
+/*
+import { Alert } from './Alert.new';
+
+// Basic alert
+<Alert>This is a simple alert</Alert>
+
+// With title
+<Alert title="Information">
+  Here's some important information.
+</Alert>
+
+// Different variants
+<Alert variant="info">Info alert</Alert>
+<Alert variant="success">Success alert</Alert>
+<Alert variant="warning">Warning alert</Alert>
+<Alert variant="error">Error alert</Alert>
+
+// Different sizes
+<Alert size="sm">Small alert</Alert>
+<Alert size="md">Medium alert</Alert>
+<Alert size="lg">Large alert</Alert>
+
+// With icon
+<Alert
+  icon={<InfoIcon className="h-full w-full" />}
+  title="Note"
+>
+  This alert has an icon
+</Alert>
+
+// Dismissible
+<Alert
+  onClose={() => console.log('Alert closed')}
+>
+  Click the X to dismiss this alert
+</Alert>
+
+// Full example
+<Alert
+  variant="success"
+  size="md"
+  title="Success!"
+  icon={<CheckCircleIcon className="h-full w-full" />}
+  onClose={() => console.log('Alert closed')}
+>
+  Your changes have been saved successfully.
+</Alert>
+*/

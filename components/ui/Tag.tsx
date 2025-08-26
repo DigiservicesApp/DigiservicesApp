@@ -1,229 +1,194 @@
 'use client';
-import React from 'react';
-import { clsx } from 'clsx';
-import { RiCloseLine } from 'react-icons/ri';
-import { motion, AnimatePresence } from 'framer-motion';
 
-interface TagProps {
-  children: React.ReactNode;
-  variant?: 'solid' | 'outline' | 'subtle';
-  color?: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
-  size?: 'sm' | 'md' | 'lg';
-  rounded?: boolean;
-  removable?: boolean;
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const tagVariants = cva(
+  'inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[color:var(--md-sys-color-outline)] focus:ring-offset-2',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-[color:var(--md-sys-color-secondary-container)] text-[color:var(--md-sys-color-on-secondary-container)]',
+        primary:
+          'bg-[color:var(--md-sys-color-primary-container)] text-[color:var(--md-sys-color-on-primary-container)]',
+        error:
+          'bg-[color:var(--md-sys-color-error-container)] text-[color:var(--md-sys-color-on-error-container)]',
+        outline:
+          'border border-[color:var(--md-sys-color-outline)] text-[color:var(--md-sys-color-on-surface)]',
+      },
+      size: {
+        sm: 'px-2 py-0.5 text-xs',
+        md: 'px-2.5 py-0.5 text-sm',
+        lg: 'px-3 py-1 text-base',
+      },
+      clickable: {
+        true: 'cursor-pointer hover:opacity-80',
+        false: '',
+      },
+      removable: {
+        true: '[&>button]:hover:bg-[color:var(--md-sys-color-surface-container-highest)] [&>button]:focus:ring-2',
+        false: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+      clickable: false,
+      removable: false,
+    },
+  }
+);
+
+export interface TagProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof tagVariants> {
+  className?: string;
   onRemove?: () => void;
   icon?: React.ReactNode;
-  interactive?: boolean;
-  disabled?: boolean;
-  className?: string;
 }
 
-const sizeClasses = {
-  sm: 'text-xs px-2 py-0.5',
-  md: 'text-sm px-2.5 py-1',
-  lg: 'text-base px-3 py-1.5',
-};
+export const Tag = React.forwardRef<HTMLDivElement, TagProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      clickable,
+      removable,
+      icon,
+      onRemove,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const handleRemove = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onRemove?.();
+    };
 
-const iconSizeClasses = {
-  sm: 'w-3 h-3',
-  md: 'w-4 h-4',
-  lg: 'w-5 h-5',
-};
-
-const colorClasses = {
-  solid: {
-    default:
-      'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-100',
-    primary: 'bg-electric-blue text-white',
-    success: 'bg-success text-white',
-    warning: 'bg-warning text-slate-900',
-    error: 'bg-error text-white',
-    info: 'bg-info text-white',
-  },
-  outline: {
-    default:
-      'border border-slate-200 text-slate-800 dark:border-slate-600 dark:text-slate-100',
-    primary: 'border border-electric-blue text-electric-blue',
-    success: 'border border-success text-success',
-    warning: 'border border-warning text-warning',
-    error: 'border border-error text-error',
-    info: 'border border-info text-info',
-  },
-  subtle: {
-    default:
-      'bg-slate-100/50 text-slate-800 dark:bg-slate-700/50 dark:text-slate-100',
-    primary: 'bg-electric-blue/10 text-electric-blue',
-    success: 'bg-success/10 text-success',
-    warning: 'bg-warning/10 text-warning',
-    error: 'bg-error/10 text-error',
-    info: 'bg-info/10 text-info',
-  },
-};
-
-const interactiveClasses = {
-  solid: {
-    default: 'hover:bg-slate-200 dark:hover:bg-slate-600',
-    primary: 'hover:bg-electric-blue/90',
-    success: 'hover:bg-success/90',
-    warning: 'hover:bg-warning/90',
-    error: 'hover:bg-error/90',
-    info: 'hover:bg-info/90',
-  },
-  outline: {
-    default: 'hover:bg-slate-100 dark:hover:bg-slate-800',
-    primary: 'hover:bg-electric-blue/10',
-    success: 'hover:bg-success/10',
-    warning: 'hover:bg-warning/10',
-    error: 'hover:bg-error/10',
-    info: 'hover:bg-info/10',
-  },
-  subtle: {
-    default: 'hover:bg-slate-200/50 dark:hover:bg-slate-600/50',
-    primary: 'hover:bg-electric-blue/20',
-    success: 'hover:bg-success/20',
-    warning: 'hover:bg-warning/20',
-    error: 'hover:bg-error/20',
-    info: 'hover:bg-info/20',
-  },
-};
-
-export default function Tag({
-  children,
-  variant = 'solid',
-  color = 'default',
-  size = 'md',
-  rounded = true,
-  removable = false,
-  onRemove,
-  icon,
-  interactive = false,
-  disabled = false,
-  className,
-}: TagProps) {
-  const handleRemove = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!disabled && onRemove) {
-      onRemove();
-    }
-  };
-
-  const tagContent = (
-    <span className="flex items-center gap-1.5">
-      {icon && (
-        <span className={clsx('shrink-0', iconSizeClasses[size])}>
-          {icon}
-        </span>
-      )}
-      {children}
-      {removable && (
-        <button
-          type="button"
-          onClick={handleRemove}
-          disabled={disabled}
-          className={clsx(
-            'shrink-0 -mr-1 ml-1',
-            'hover:opacity-75',
-            'focus:outline-none focus:ring-2 focus:ring-offset-2',
-            'focus:ring-electric-blue/50',
-            disabled && 'cursor-not-allowed opacity-50'
-          )}
-        >
-          <RiCloseLine className={iconSizeClasses[size]} />
-          <span className="sr-only">Remove</span>
-        </button>
-      )}
-    </span>
-  );
-
-  const baseClasses = clsx(
-    'inline-flex items-center font-medium',
-    'transition-colors duration-200',
-    sizeClasses[size],
-    colorClasses[variant][color],
-    rounded && 'rounded-full',
-    interactive &&
-      !disabled && ['cursor-pointer', interactiveClasses[variant][color]],
-    disabled && 'opacity-50 cursor-not-allowed',
-    className
-  );
-
-  return interactive ? (
-    <button type="button" disabled={disabled} className={baseClasses}>
-      {tagContent}
-    </button>
-  ) : (
-    <span className={baseClasses}>{tagContent}</span>
-  );
-}
-
-// Group component for managing multiple tags
-interface TagGroupProps {
-  children: React.ReactNode;
-  spacing?: 'sm' | 'md' | 'lg';
-  className?: string;
-}
-
-export function TagGroup({
-  children,
-  spacing = 'md',
-  className,
-}: TagGroupProps) {
-  return (
-    <div
-      className={clsx(
-        'flex flex-wrap',
-        {
-          'gap-1': spacing === 'sm',
-          'gap-2': spacing === 'md',
-          'gap-3': spacing === 'lg',
-        },
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-// Animated tag group for tag lists that change
-interface AnimatedTagGroupProps<T> {
-  items: T[];
-  renderTag: (item: T) => React.ReactNode;
-  spacing?: 'sm' | 'md' | 'lg';
-  className?: string;
-}
-
-export function AnimatedTagGroup<T>({
-  items,
-  renderTag,
-  spacing = 'md',
-  className,
-}: AnimatedTagGroupProps<T>) {
-  return (
-    <div
-      className={clsx(
-        'flex flex-wrap',
-        {
-          'gap-1': spacing === 'sm',
-          'gap-2': spacing === 'md',
-          'gap-3': spacing === 'lg',
-        },
-        className
-      )}
-    >
-      <AnimatePresence initial={false}>
-        {items.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          tagVariants({ variant, size, clickable, removable }),
+          className
+        )}
+        {...props}
+      >
+        {icon && <span className="mr-1 -ml-1">{icon}</span>}
+        {children}
+        {removable && (
+          <button
+            type="button"
+            className="ml-1 -mr-1 rounded-full p-0.5 focus:outline-none"
+            onClick={handleRemove}
+            aria-label="Remove tag"
           >
-            {renderTag(item)}
-          </motion.div>
-        ))}
-      </AnimatePresence>
+            <svg
+              className="h-3 w-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+    );
+  }
+);
+Tag.displayName = 'Tag';
+
+// Usage example:
+/*
+import { Tag } from './Tag.new';
+
+function Example() {
+  return (
+    <div className="flex gap-2">
+      {/* Basic tag
+      <Tag>New</Tag>
+
+      {/* With icon
+      <Tag
+        icon={
+          <svg
+            className="h-3 w-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        }
+        variant="primary"
+      >
+        Completed
+      </Tag>
+
+      {/* Removable tag 
+      <Tag
+        removable
+        onRemove={() => console.log('Tag removed')}
+        variant="error"
+      >
+        Remove me
+      </Tag>
+
+      {/* Clickable tag
+      <Tag
+        clickable
+        onClick={() => console.log('Tag clicked')}
+        variant="outline"
+      >
+        Click me
+      </Tag>
     </div>
   );
 }
+
+// Different variants
+<Tag variant="default">Default</Tag>
+<Tag variant="primary">Primary</Tag>
+<Tag variant="error">Error</Tag>
+<Tag variant="outline">Outline</Tag>
+
+// Different sizes
+<Tag size="sm">Small</Tag>
+<Tag size="md">Medium</Tag>
+<Tag size="lg">Large</Tag>
+
+// Interactive tags
+<Tag clickable onClick={() => {}}>Clickable</Tag>
+<Tag removable onRemove={() => {}}>Removable</Tag>
+
+// With icon
+<Tag icon={<Icon />}>With Icon</Tag>
+
+// Combining features
+<Tag
+  variant="primary"
+  size="lg"
+  clickable
+  removable
+  icon={<Icon />}
+  onClick={() => {}}
+  onRemove={() => {}}
+>
+  Interactive Tag
+</Tag>
+*/

@@ -46,8 +46,10 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-2xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
+          Dashboard
+        </h1>
+        <p className="mt-1 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
           Welcome back! Here's an overview of your workspace.
         </p>
       </div>
@@ -56,23 +58,23 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+            className="overflow-hidden rounded-lg bg-[color:var(--md-sys-color-surface)] px-4 py-5 shadow sm:p-6"
           >
             <div className="flex items-center">
               <div className="shrink-0">
                 <stat.icon
-                  className="h-6 w-6 text-gray-400"
+                  className="h-6 w-6 text-[color:var(--md-sys-color-on-surface-variant)]"
                   aria-hidden="true"
                 />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="truncate text-sm font-medium text-gray-500">
+                  <dt className="truncate text-sm font-medium text-[color:var(--md-sys-color-on-surface-variant)]">
                     {stat.name}
                   </dt>
                   <dd>
                     <div className="flex items-baseline">
-                      <p className="text-2xl font-semibold text-gray-900">
+                      <p className="text-2xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
                         {stat.value}
                       </p>
                       <p
@@ -81,7 +83,7 @@ export default function DashboardPage() {
                             ? 'text-green-600'
                             : stat.changeType === 'decrease'
                             ? 'text-red-600'
-                            : 'text-gray-500'
+                            : 'text-[color:var(--md-sys-color-on-surface-variant)]'
                         }`}
                       >
                         {stat.change}
@@ -97,17 +99,19 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Placeholder for charts and widgets */}
-        <div className="min-h-[400px] rounded-lg bg-white p-6 shadow">
-          <h2 className="text-lg font-medium text-gray-900">Recent Activity</h2>
-          <p className="mt-4 text-sm text-gray-500">
+        <div className="min-h-[400px] rounded-lg bg-[color:var(--md-sys-color-surface)] p-6 shadow">
+          <h2 className="text-lg font-medium text-[color:var(--md-sys-color-on-surface)]">
+            Recent Activity
+          </h2>
+          <p className="mt-4 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
             Activity chart will be displayed here
           </p>
         </div>
-        <div className="min-h-[400px] rounded-lg bg-white p-6 shadow">
-          <h2 className="text-lg font-medium text-gray-900">
+        <div className="min-h-[400px] rounded-lg bg-[color:var(--md-sys-color-surface)] p-6 shadow">
+          <h2 className="text-lg font-medium text-[color:var(--md-sys-color-on-surface)]">
             Task Distribution
           </h2>
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
             Task distribution chart will be displayed here
           </p>
         </div>

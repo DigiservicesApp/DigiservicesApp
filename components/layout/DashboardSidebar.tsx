@@ -34,7 +34,7 @@ export default function DashboardSidebar() {
     <div
       className={`${
         isCollapsed ? 'w-16' : 'w-64'
-      } flex flex-col fixed left-0 top-16 bottom-0 bg-white border-r border-gray-200 transition-all duration-300`}
+      } flex flex-col fixed left-0 top-16 bottom-0 bg-[color:var(--md-sys-color-surface)] border-r border-[color:var(--md-sys-color-outline)] transition-all duration-300`}
     >
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <nav className="mt-5 flex-1 px-2 space-y-1">
@@ -46,15 +46,15 @@ export default function DashboardSidebar() {
                 href={item.href}
                 className={`${
                   isActive
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-[color:color-mix(in srgb,var(--md-sys-color-primary)10%,var(--md-sys-color-surface))] text-[color:var(--md-sys-color-on-surface)]'
+                    : 'text-[color:var(--md-sys-color-on-surface-variant)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)] hover:text-[color:var(--md-sys-color-on-surface)]'
                 } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
               >
                 <item.icon
                   className={`${
                     isActive
-                      ? 'text-gray-500'
-                      : 'text-gray-400 group-hover:text-gray-500'
+                      ? 'text-[color:var(--md-sys-color-on-surface-variant)]'
+                      : 'text-[color:var(--md-sys-color-on-surface-variant)] group-hover:text-[color:var(--md-sys-color-on-surface)]'
                   } mr-3 shrink-0 h-6 w-6`}
                   aria-hidden="true"
                 />
@@ -64,7 +64,7 @@ export default function DashboardSidebar() {
           })}
         </nav>
 
-        <div className="mt-5 shrink-0 border-t border-gray-200 px-2 pt-4 space-y-1">
+        <div className="mt-5 shrink-0 border-t border-[color:var(--md-sys-color-outline)] px-2 pt-4 space-y-1">
           {secondaryNavigation.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -73,15 +73,15 @@ export default function DashboardSidebar() {
                 href={item.href}
                 className={`${
                   isActive
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-[color:color-mix(in srgb,var(--md-sys-color-primary)10%,var(--md-sys-color-surface))] text-[color:var(--md-sys-color-on-surface)]'
+                    : 'text-[color:var(--md-sys-color-on-surface-variant)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)] hover:text-[color:var(--md-sys-color-on-surface)]'
                 } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
               >
                 <item.icon
                   className={`${
                     isActive
-                      ? 'text-gray-500'
-                      : 'text-gray-400 group-hover:text-gray-500'
+                      ? 'text-[color:var(--md-sys-color-on-surface-variant)]'
+                      : 'text-[color:var(--md-sys-color-on-surface-variant)] group-hover:text-[color:var(--md-sys-color-on-surface)]'
                   } mr-3 shrink-0 h-6 w-6`}
                   aria-hidden="true"
                 />
@@ -94,12 +94,12 @@ export default function DashboardSidebar() {
 
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="flex items-center justify-center h-12 w-full border-t border-gray-200 hover:bg-gray-50"
+        className="flex items-center justify-center h-12 w-full border-t border-[color:var(--md-sys-color-outline)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)]"
       >
         {isCollapsed ? (
-          <RiMenuUnfoldLine className="h-6 w-6 text-gray-400" />
+          <RiMenuUnfoldLine className="h-6 w-6 text-[color:var(--md-sys-color-on-surface-variant)]" />
         ) : (
-          <RiMenuFoldLine className="h-6 w-6 text-gray-400" />
+          <RiMenuFoldLine className="h-6 w-6 text-[color:var(--md-sys-color-on-surface-variant)]" />
         )}
       </button>
     </div>
