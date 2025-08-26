@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Container from '@/components/ui/Container';
-import Card from '@/components/ui/Card';
-import Switch from '@/components/ui/Switch';
+import { Card } from '@/components/ui/Card';
+import { Switch } from '@/components/ui/Switch';
 import { pricingTiers, PricingTier as IPricingTier } from '@/lib/data/pricing';
 import { RiCheckLine } from 'react-icons/ri';
 

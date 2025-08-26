@@ -206,3 +206,52 @@ function YourComponent() {
   });
 }
 */
+
+// Presentational single-toast component (default export) used by ToastContext
+export default function Toast({
+  message,
+  title,
+  variant = 'info',
+  onClose,
+}: {
+  message: string;
+  title?: string;
+  variant?: ToastVariant;
+  onClose?: () => void;
+}) {
+  return (
+    <div
+      className={cn(toastVariants({ variant }), 'w-full p-4 shadow-lg')}
+      role="alert"
+    >
+      <div className="flex w-full items-start gap-3 pr-8">
+        {title && <div className="font-semibold">{title}</div>}
+        <p className="text-sm">{message}</p>
+        <button
+          onClick={onClose}
+          className={cn(
+            'absolute right-2 top-2 p-1 rounded-full',
+            'hover:bg-[color:var(--md-sys-color-surface-container-highest)]',
+            'focus:outline-none focus:ring-2',
+            'focus:ring-[color:var(--md-sys-color-primary)]'
+          )}
+        >
+          <span className="sr-only">Close</span>
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}

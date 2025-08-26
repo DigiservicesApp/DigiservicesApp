@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { RiPlayCircleLine } from 'react-icons/ri';
 
 const WorkflowHero = () => {
@@ -34,10 +34,10 @@ const WorkflowHero = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
           >
-            <Button size="lg" variant="primary">
+            <Button size="lg" variant="filled">
               Try It Free
             </Button>
-            <Button size="lg" variant="secondary" className="gap-2">
+            <Button size="lg" variant="outlined" className="gap-2">
               <RiPlayCircleLine className="w-5 h-5" />
               Watch Demo
             </Button>

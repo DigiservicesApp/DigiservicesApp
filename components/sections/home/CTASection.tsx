@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { RiArrowRightLine } from 'react-icons/ri';
 
 const CTASection = () => {
@@ -39,14 +39,14 @@ const CTASection = () => {
           >
             <Button
               size="lg"
-              variant="primary"
+              variant="filled"
               className="min-w-[200px] bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] hover:opacity-90"
             >
               Start Free Trial
             </Button>
             <Button
               size="lg"
-              variant="ghost"
+              variant="text"
               className="min-w-[200px] text-[color:var(--md-sys-color-on-primary)] border border-[color:var(--md-sys-color-on-primary)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-on-primary)10%,transparent)]"
             >
               Schedule Demo

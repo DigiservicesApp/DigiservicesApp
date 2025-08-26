@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Container from '@/components/ui/Container';
-import Card from '@/components/ui/Card';
-import Avatar from '@/components/ui/Avatar';
+import { Card } from '@/components/ui/Card';
+import { Avatar } from '@/components/ui/Avatar';
 import { testimonials as testimonialsData } from '@/lib/data/testimonials';
 
 export default function MaterialTestimonials() {
@@ -119,7 +119,7 @@ export default function MaterialTestimonials() {
                           className="w-12 h-12 rounded-full object-cover"
                         />
                       ) : (
-                        <Avatar name={t.author} size="md" />
+                        <Avatar alt={t.author} size="md" />
                       )}
                       <div>
                         <div className="font-medium">{t.author}</div>

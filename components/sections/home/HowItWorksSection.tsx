@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
-import ImageWithFallback from '@/components/ui/ImageWithFallback';
+import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from 'react-icons/ri';
 
 const steps = [
@@ -90,7 +90,6 @@ const HowItWorksSection = () => {
                   width={540}
                   height={360}
                   className="rounded-lg shadow-lg"
-                  showLoadingState
                 />
               </div>
             </motion.div>

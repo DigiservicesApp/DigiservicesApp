@@ -1,8 +1,8 @@
 'use client';
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
-import Card from '@/components/ui/Card';
-import ImageWithFallback from '@/components/ui/ImageWithFallback';
+import { Card } from '@/components/ui/Card';
+import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 import { platformFeatures } from '@/lib/data/platform-features';
 
 const DetailedFeatures = () => {

@@ -132,7 +132,7 @@ export function Breadcrumb({
 
 Breadcrumb.displayName = 'Breadcrumb';
 
-function BreadcrumbItem({
+export function BreadcrumbItem({
   children,
   className,
   href,

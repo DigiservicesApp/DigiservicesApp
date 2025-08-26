@@ -1,8 +1,9 @@
 'use client';
 import { motion } from 'framer-motion';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
-import ImageWithFallback from '@/components/ui/ImageWithFallback';
+import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
+import { Card } from '@/components/ui/Card';
 
 const HeroSection = () => {
   return (
@@ -42,13 +43,13 @@ const HeroSection = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-col items-center gap-4 mt-8 lg:flex-row lg:justify-start"
             >
-              <Button size="lg" variant="primary">
+              <Button size="lg" variant="filled">
                 Start Managing
               </Button>
-              <Button size="lg" variant="secondary">
+              <Button size="lg" variant="outlined">
                 See How It Works
               </Button>
-              <Button size="lg" variant="ghost" className="text-primary">
+              <Button size="lg" variant="text" className="text-primary">
                 Request Demo
               </Button>
             </motion.div>
@@ -69,7 +70,6 @@ const HeroSection = () => {
                 height={480}
                 className="rounded-xl shadow-2xl bg-[color:var(--md-sys-color-surface)]"
                 fallbackSrc="/dashboard-fallback.png"
-                showLoadingState
               />
 
               {/* Floating Elements */}
@@ -85,7 +85,7 @@ const HeroSection = () => {
                 }}
                 className="absolute -right-8 -top-8"
               >
-                <div className="p-4 bg-[color:var(--md-sys-color-surface)] rounded-lg shadow-lg">
+                <Card className="p-4">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
                       <span className="text-sm font-medium text-green-600">
@@ -101,7 +101,7 @@ const HeroSection = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </Card>
               </motion.div>
             </div>
 
@@ -112,25 +112,27 @@ const HeroSection = () => {
               transition={{ duration: 0.5, delay: 0.8 }}
               className="absolute -bottom-8 left-8 right-8"
             >
-              <div className="grid grid-cols-3 gap-4 p-4 bg-[color:var(--md-sys-color-surface)] rounded-lg shadow-lg">
-                <div className="text-center">
+              <div className="grid grid-cols-3 gap-4">
+                <Card className="p-4 text-center">
                   <p className="text-2xl font-bold text-primary">85%</p>
                   <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     Time Saved
                   </p>
-                </div>
-                <div className="text-center">
+                </Card>
+
+                <Card className="p-4 text-center">
                   <p className="text-2xl font-bold text-primary">2.5x</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     Productivity
                   </p>
-                </div>
-                <div className="text-center">
+                </Card>
+
+                <Card className="p-4 text-center">
                   <p className="text-2xl font-bold text-primary">98%</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
                     Satisfaction
                   </p>
-                </div>
+                </Card>
               </div>
             </motion.div>
           </motion.div>

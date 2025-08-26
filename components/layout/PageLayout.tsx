@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import { Breadcrumb, BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import Container from '@/components/ui/Container';
 
 interface PageLayoutProps {
@@ -16,7 +16,14 @@ const PageLayout = ({ children, breadcrumb }: PageLayoutProps) => {
       <div className="border-b border-[color:var(--md-sys-color-outline)] bg-[color:var(--md-sys-color-surface)]">
         <Container>
           <div className="py-4">
-            <Breadcrumb items={[{ label: 'Home', href: '/' }, ...breadcrumb]} />
+            <Breadcrumb>
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              {breadcrumb.map((b) => (
+                <BreadcrumbItem key={b.href} href={b.href}>
+                  {b.label}
+                </BreadcrumbItem>
+              ))}
+            </Breadcrumb>
           </div>
         </Container>
       </div>

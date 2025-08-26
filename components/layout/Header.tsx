@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { RiMenuLine } from 'react-icons/ri';
 import { useState } from 'react';
 
@@ -10,8 +10,8 @@ const navigationItems = [
   { label: 'Home', href: '/' },
   { label: 'Features', href: '/features' },
   { label: 'How It Works', href: '/how-it-works' },
-  { label: 'Use Cases', href: '/use-cases' },
   { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const Header = () => {
@@ -54,8 +54,8 @@ const Header = () => {
 
           {/* CTA Buttons + Theme Toggle */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="secondary">Sign In</Button>
-            <Button variant="primary">Start Free</Button>
+            <Button variant="outlined">Sign In</Button>
+            <Button variant="filled">Start Free</Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -85,10 +85,10 @@ const Header = () => {
               ))}
             </nav>
             <div className="flex flex-col space-y-2 mt-4 px-4">
-              <Button variant="secondary" className="w-full">
+              <Button variant="outlined" className="w-full">
                 Sign In
               </Button>
-              <Button variant="primary" className="w-full">
+              <Button variant="filled" className="w-full">
                 Start Free
               </Button>
             </div>

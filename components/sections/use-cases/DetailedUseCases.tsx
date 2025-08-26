@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Container from '@/components/ui/Container';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { useCases, UseCase } from '@/lib/data/use-cases';
 
 function UseCaseCard({ useCase }: { useCase: UseCase }) {

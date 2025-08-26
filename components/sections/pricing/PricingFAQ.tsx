@@ -1,6 +1,6 @@
 'use client';
 import Container from '@/components/ui/Container';
-import Accordion from '@/components/ui/Accordion';
+import { Accordion } from '@/components/ui/Accordion';
 
 const faqs = [
   {
@@ -44,17 +44,15 @@ export function PricingFAQ() {
             Frequently Asked Questions
           </h2>
           <div className="mt-10">
-            <Accordion>
-              {faqs.map((faq, idx) => (
-                <Accordion.Item
-                  key={idx}
-                  id={`faq-${idx}`}
-                  title={faq.question}
-                >
-                  {faq.answer}
-                </Accordion.Item>
-              ))}
-            </Accordion>
+            <Accordion
+              items={faqs.map((faq, idx) => ({
+                value: `faq-${idx}`,
+                trigger: faq.question,
+                children: faq.answer,
+              }))}
+              type="single"
+              defaultValue="faq-0"
+            />
           </div>
         </div>
       </Container>
