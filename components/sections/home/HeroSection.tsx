@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 import { Card } from '@/components/ui/Card';
+import Link from 'next/link';
 
 const HeroSection = () => {
   return (
@@ -43,15 +44,21 @@ const HeroSection = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-col items-center gap-4 mt-8 lg:flex-row lg:justify-start"
             >
-              <Button size="lg" variant="filled">
-                Start Managing
-              </Button>
-              <Button size="lg" variant="outlined">
-                See How It Works
-              </Button>
-              <Button size="lg" variant="text" className="text-primary">
-                Request Demo
-              </Button>
+              <Link href="/dashboard" passHref>
+                <Button size="lg" variant="filled">
+                  Start Managing
+                </Button>
+              </Link>
+              <Link href="/how-it-works" passHref>
+                <Button size="lg" variant="outlined">
+                  See How It Works
+                </Button>
+              </Link>
+              <Link href="/contact" passHref>
+                <Button size="lg" variant="text" className="text-primary">
+                  Request Demo
+                </Button>
+              </Link>
             </motion.div>
           </div>
 

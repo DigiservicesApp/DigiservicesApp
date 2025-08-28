@@ -7,7 +7,15 @@ import { formatDate } from '@/lib/utils/date';
 
 export const metadata: Metadata = {
   title: 'Blog - DigiServicesApp',
-  description: 'Latest insights on AI, productivity, and project management.',
+  description:
+    'Latest insights on AI, productivity, and project management. Practical how-tos, case studies, and leadership guidance for product teams.',
+  keywords: ['AI', 'Productivity', 'Project Management', 'Remote Work'],
+  openGraph: {
+    title: 'DigiServicesApp Blog',
+    description:
+      'Practical how-tos, case studies, and leadership guidance for product teams.',
+    images: [{ url: '/blog/og/blog-index-og.jpg' }],
+  },
 };
 
 function BlogCard({ post }: { post: (typeof blogPosts)[0] }) {
@@ -68,10 +76,12 @@ export default function BlogPage() {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-4xl">
-            Latest Insights
+            Latest Insights & Practical Guides
           </h1>
           <p className="mt-2 text-lg leading-8 text-[color:var(--md-sys-color-on-surface-variant)]">
-            Expert perspectives on AI, productivity, and project management.
+            Expert perspectives and hands-on guides about AI, productivity,
+            project management, and team leadership. Browse case studies,
+            frameworks, and actionable checklists to apply immediately.
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

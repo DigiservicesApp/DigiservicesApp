@@ -3,8 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Container from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
-import { Avatar } from '@/components/ui/Avatar';
 import { testimonials as testimonialsData } from '@/lib/data/testimonials';
+
+// Helper to generate consistent colors from a string
+const stringToColor = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = hash % 360;
+  return `hsl(${hue}, 70%, 85%)`; // Light pastel color
+};
 
 export default function MaterialTestimonials() {
   const items = Array.isArray(testimonialsData) ? testimonialsData : [];
@@ -110,17 +119,15 @@ export default function MaterialTestimonials() {
                   }}
                   className="box-border scroll-snap-align-start px-2"
                 >
-                  <Card className="p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-full bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)]">
+                  <Card className="p-8 flex flex-col justify-center rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-full min-h-80 bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)]">
                     <div className="flex items-center gap-6 mb-6">
-                      {t.image ? (
-                        <img
-                          src={t.image}
-                          alt={t.author}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                      ) : (
-                        <Avatar alt={t.author} size="md" />
-                      )}
+                      <div
+                        style={{ backgroundColor: stringToColor(t.author) }}
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-semibold"
+                        title={t.author}
+                      >
+                        {t.author[0].toUpperCase()}
+                      </div>
                       <div>
                         <div className="font-medium">{t.author}</div>
                         <div className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
@@ -128,7 +135,9 @@ export default function MaterialTestimonials() {
                         </div>
                       </div>
                     </div>
-                    <p className="text-[16px] leading-relaxed">“{t.content}”</p>
+                    <p className="text-[16px] rounded-2xl min-h-5/8 bg-[color:var(--md-sys-color-background)] p-4 leading-relaxed">
+                      “{t.content}”
+                    </p>
                   </Card>
                 </div>
               ))}

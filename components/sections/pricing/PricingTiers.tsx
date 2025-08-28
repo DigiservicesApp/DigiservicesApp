@@ -25,7 +25,7 @@ function PricingCard({
       }`}
     >
       {tier.popularChoice && (
-        <div className="rounded-t-lg bg-[color:var(--md-sys-color-primary)] px-4 py-1 text-center text-sm font-medium text-[color:var(--md-sys-color-on-primary)]">
+        <div className="rounded-t-lg bg-[color:var(--md-sys-color-primary)] px-4 py-2 text-center text-sm font-semibold text-[color:var(--md-sys-color-on-primary)] shadow-sm">
           Popular Choice
         </div>
       )}
@@ -84,30 +84,30 @@ export function PricingTiers() {
   const [isAnnual, setIsAnnual] = useState(true);
 
   return (
-    <section id="pricing" className="py-16 sm:py-20">
+    <section id="pricing" className="">
       <Container>
         <div className="mb-12 flex flex-col items-center">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center gap-6 rounded-full bg-[color:var(--md-sys-color-surface-container)] px-6 py-3">
+            <Switch
+              checked={isAnnual}
+              onCheckedChange={setIsAnnual}
+              size="md"
+              className="shadow-sm"
+            />
             <span
-              className={`text-sm ${
+              className={`text-sm transition-colors ${
                 !isAnnual
                   ? 'font-semibold text-[color:var(--md-sys-color-on-surface)]'
-                  : 'text-[color:var(--md-sys-color-on-surface-variant)]'
+                  : 'hidden'
               }`}
             >
               Monthly billing
             </span>
-            <Switch
-              checked={isAnnual}
-              onChange={(e) => setIsAnnual(e.target.checked)}
-              label="Billing period"
-              className="sr-only"
-            />
             <span
-              className={`text-sm ${
+              className={`text-sm transition-colors ${
                 isAnnual
                   ? 'font-semibold text-[color:var(--md-sys-color-on-surface)]'
-                  : 'text-[color:var(--md-sys-color-on-surface-variant)]'
+                  : 'hidden'
               }`}
             >
               Annual billing

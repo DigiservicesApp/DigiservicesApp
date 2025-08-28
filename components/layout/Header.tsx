@@ -2,7 +2,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Container from '@/components/ui/Container';
+import Logo from './Logo';
 import { Button } from '@/components/ui/Button';
+import { useAuth } from '@/lib/AuthContext';
 import { RiMenuLine } from 'react-icons/ri';
 import { useState } from 'react';
 
@@ -18,6 +20,13 @@ const navigationItems = [
 const Header = () => {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
+
+  const isActive = (href: string) => {
+    if (!pathname) return false;
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
+  };
 
   return (
     <header
@@ -27,12 +36,7 @@ const Header = () => {
       <Container>
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold text-[color:var(--md-sys-color-primary)]"
-          >
-            DigiServicesApp
-          </Link>
+          <Logo />
 
           {/* Desktop Navigation */}
           <nav
@@ -45,8 +49,9 @@ const Header = () => {
                 key={item.href}
                 href={item.href}
                 className={`nav-link px-4 py-2 text-sm rounded-lg transition-colors ${
-                  pathname === item.href ? 'nav-active' : ''
+                  isActive(item.href) ? 'nav-active' : ''
                 }`}
+                aria-current={isActive(item.href) ? 'page' : undefined}
               >
                 {item.label}
               </Link>
@@ -55,8 +60,20 @@ const Header = () => {
 
           {/* CTA Buttons + Theme Toggle */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outlined">Sign In</Button>
-            <Button variant="filled">Start Free</Button>
+            {user ? (
+              <Link href="/dashboard">
+                <Button variant="filled">Dashboard</Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/sign-in">
+                  <Button variant="outlined">Sign In</Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button variant="filled">Start Free</Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -77,8 +94,9 @@ const Header = () => {
                   key={item.href}
                   href={item.href}
                   className={`nav-link px-4 py-2 text-sm rounded-lg transition-colors ${
-                    pathname === item.href ? 'nav-active' : ''
+                    isActive(item.href) ? 'nav-active' : ''
                   }`}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
@@ -86,12 +104,26 @@ const Header = () => {
               ))}
             </nav>
             <div className="flex flex-col space-y-2 mt-4 px-4">
-              <Button variant="outlined" className="w-full">
-                Sign In
-              </Button>
-              <Button variant="filled" className="w-full">
-                Start Free
-              </Button>
+              {user ? (
+                <Link href="/dashboard">
+                  <Button variant="filled" className="w-full">
+                    Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/sign-in">
+                    <Button variant="outlined" className="w-full">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/sign-up">
+                    <Button variant="filled" className="w-full">
+                      Start Free
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}

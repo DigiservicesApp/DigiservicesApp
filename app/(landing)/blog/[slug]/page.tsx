@@ -8,6 +8,8 @@ import { ShareButtons } from '@/components/sections/blog/ShareButtons';
 import { RelatedPosts } from '@/components/sections/blog/RelatedPosts';
 import { generateTableOfContents, getRelatedPosts } from '@/lib/utils/blog';
 import { marked } from 'marked';
+import { mangle } from 'marked-mangle';
+import { gfmHeadingId } from 'marked-gfm-heading-id';
 import PageLayout from '@/components/layout/PageLayout';
 
 type Props = {
@@ -30,7 +32,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${post.title} - DigiServicesApp Blog`,
-    description: post.description,
+    description: post.seoDescription || post.description,
+    openGraph: {
+      title: post.title,
+      description: post.seoDescription || post.description,
+      images: post.ogImage ? [{ url: post.ogImage }] : [{ url: post.image }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.seoDescription || post.description,
+    },
+    keywords: post.tags,
   };
 }
 
@@ -61,8 +74,17 @@ export default async function BlogPostPage({
   }
 
   const toc = generateTableOfContents(post.content);
-  const relatedPosts = getRelatedPosts(post, blogPosts);
+  function stripIcon(p: (typeof blogPosts)[number]) {
+    const { icon: _icon, ...rest } = p;
+    return rest as Omit<typeof p, 'icon'>;
+  }
+
+  const relatedPosts = getRelatedPosts(post, blogPosts).map(stripIcon);
   const currentUrl = '';
+
+  marked.use(mangle());
+  marked.use(gfmHeadingId());
+
   const htmlContent = marked.parse(post.content);
 
   return (

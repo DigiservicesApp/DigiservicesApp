@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 const FeatureHero = () => {
   return (
@@ -34,12 +35,16 @@ const FeatureHero = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
           >
-            <Button size="lg" variant="filled">
-              Start Free Trial
-            </Button>
-            <Button size="lg" variant="outlined">
-              Watch Demo
-            </Button>
+            <Link href="/dashboard" passHref>
+              <Button size="lg" variant="filled">
+                Start Free Trial
+              </Button>
+            </Link>
+            <Link href="/contact" passHref>
+              <Button size="lg" variant="outlined">
+                Schedule a Demo
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </Container>

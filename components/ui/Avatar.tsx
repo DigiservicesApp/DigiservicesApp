@@ -134,33 +134,6 @@ export const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
 );
 Avatar.displayName = 'Avatar';
 
-export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
-  ({ children, className, spacing, max, total, ...props }, ref) => {
-    const avatars = React.Children.toArray(children);
-    const displayAvatars = max ? avatars.slice(0, max) : avatars;
-    const remainingCount = total ?? (max ? avatars.length - max : 0);
-
-    return (
-      <div
-        ref={ref}
-        className={cn(avatarGroupVariants({ spacing }), className)}
-        {...props}
-      >
-        {displayAvatars}
-        {remainingCount > 0 && (
-          <Avatar
-            className="!relative !inline-flex"
-            variant="secondary"
-            fallback={`+${remainingCount}`}
-            showFallback
-          />
-        )}
-      </div>
-    );
-  }
-);
-AvatarGroup.displayName = 'AvatarGroup';
-
 // Usage example:
 /*
 import { Avatar, AvatarGroup } from './Avatar.new';

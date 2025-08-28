@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
 import { ToastProvider } from '@/components/ui/ToastContext';
 import ClientCookieConsent from '@/components/ClientCookieConsent';
+import { AuthProvider } from '@/lib/AuthContext';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -19,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <ToastProvider>
-          {children}
-          <ClientCookieConsent />
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            {children}
+            <ClientCookieConsent />
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );

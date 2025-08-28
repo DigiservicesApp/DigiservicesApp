@@ -91,13 +91,16 @@ export const footerSections: FooterSection[] = [
     links: [
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms of Service', href: '/terms' },
-      { name: 'Cookie Policy', href: '/privacy-policy#cookies' },
+      { name: 'Cookie Policy', href: '/cookie-policy' },
     ],
   },
 ];
 
 export const companyInfo = {
   name: 'DigiServicesApp',
+  // Optional logo entry. Can be a string (src) or an object { src }.
+  // Optional logo entry. Leave undefined to use text fallback.
+  logo: '/images/logo.webp',
   tagline: 'AI-powered project management for digital professionals',
   description:
     'Streamline your workflow with intelligent task management, team collaboration, and automated project insights.',

@@ -1,11 +1,7 @@
-'use client';
-
-import AuthProvider from '@/components/auth/AuthProvider';
-
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <div className="min-h-screen flex flex-col">{children}</div>;
 }

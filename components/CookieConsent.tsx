@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
+import { Button } from '@/components/ui/Button';
 
 export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false);
@@ -45,27 +46,31 @@ export default function CookieConsent() {
         </div>
 
         <div className="flex items-center gap-4 shrink-0">
-          <button
+          <Button
+            variant="filled"
             onClick={() => acceptCookies('all')}
-            className="rounded-md bg-[color:var(--md-sys-color-primary)] px-3.5 py-2 text-sm font-semibold text-[color:var(--md-sys-color-on-primary)] shadow-sm hover:opacity-90"
+            className="px-3.5 py-2 text-sm font-semibold"
           >
             Accept All Cookies
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="outlined"
             onClick={() => acceptCookies('necessary')}
-            className="rounded-md border border-[color:var(--md-sys-color-outline)] px-3.5 py-2 text-sm font-semibold text-[color:var(--md-sys-color-on-surface)] shadow-sm hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)]"
+            className="px-3.5 py-2 text-sm font-semibold"
           >
             Accept Necessary Only
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="text"
             onClick={() => setIsVisible(false)}
-            className="rounded-full p-1 hover:bg-[color:color-mix(in srgb,var(--md-sys-color-surface)96%,var(--md-sys-color-on-surface)4%)]"
+            className="rounded-full p-1"
             aria-label="Close cookie consent"
+            size="sm"
           >
             <RiCloseLine className="h-5 w-5 text-[color:var(--md-sys-color-on-surface-variant)]" />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -59,9 +59,9 @@ const labelVariants = cva(
     variants: {
       variant: {
         filled:
-          'top-2 text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-sm',
+          'top-2 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-sm',
         outlined:
-          '-top-3 text-sm bg-[color:var(--md-sys-color-background)] px-1 peer-placeholder-shown:top-4 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-sm peer-focus:bg-[color:var(--md-sys-color-background)]',
+          '-top-3 text-sm bg-[color:var(--md-sys-color-background)] px-1 peer-placeholder-shown:top-2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-sm peer-focus:bg-[color:var(--md-sys-color-background)]',
       },
       error: {
         true: 'text-[color:var(--md-sys-color-error)] peer-focus:text-[color:var(--md-sys-color-error)]',

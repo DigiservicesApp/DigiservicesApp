@@ -9,11 +9,98 @@ import { Button } from '@/components/ui/Button';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { companyInfo } from '@/lib/data/site-config';
 import { RiMailLine, RiPhoneLine, RiMapPin2Line } from 'react-icons/ri';
+import { useToast } from '@/components/ui/ToastContext';
+import { useState, useEffect, useRef } from 'react';
+import { useTurnstile } from 'react-turnstile';
+
+function TurnstileWidget({
+  sitekey,
+  onVerify,
+  onError,
+  onExpire,
+}: {
+  sitekey: string;
+  onVerify: (token: string) => void;
+  onError?: () => void;
+  onExpire?: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const turnstile = useTurnstile();
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    turnstile.render(ref.current, {
+      sitekey,
+      callback: onVerify,
+      'error-callback': onError,
+      'expired-callback': onExpire,
+    });
+
+    return () => {
+      turnstile.reset();
+    };
+  }, [sitekey, onVerify, onError, onExpire, turnstile]);
+
+  return <div ref={ref} />;
+}
 
 export default function ContactPage() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const toast = useToast();
+  const [submitting, setSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Implement form submission
+    if (submitting) return;
+    setSubmitting(true);
+
+    if (!turnstileToken) {
+      toast.show({
+        message: 'Please complete the Turnstile verification',
+        variant: 'error',
+      });
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+      payload.turnstileToken = turnstileToken;
+
+      const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(
+        companyInfo.contact.email
+      )}`;
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        throw new Error(err?.message || 'Failed to send message');
+      }
+
+      toast.show({
+        message: 'Message sent — we will reply soon.',
+        variant: 'success',
+      });
+      form.reset();
+    } catch (err) {
+      toast.show({
+        message: (err as Error).message || 'Failed to send message',
+        variant: 'error',
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -106,19 +193,10 @@ export default function ContactPage() {
                 />
 
                 <RadioGroup
-                  //   label="What can we help you with?"
                   name="inquiryType"
                   options={[
                     {
                       value: 'support',
-                      label: 'Technical Support',
-                    },
-                    {
-                      value: 'sales',
-                      label: 'Sales Inquiry',
-                    },
-                    {
-                      value: 'general',
                       label: 'General Question',
                     },
                   ]}
@@ -131,6 +209,18 @@ export default function ContactPage() {
                   placeholder="Tell us how we can help you"
                   rows={5}
                 />
+
+                <div className="mb-4">
+                  <TurnstileWidget
+                    sitekey={
+                      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+                      '1x00000000000000000000AA'
+                    } // Replace this with your actual site key
+                    onVerify={setTurnstileToken}
+                    onError={() => setTurnstileToken(null)}
+                    onExpire={() => setTurnstileToken(null)}
+                  />
+                </div>
 
                 <Button
                   type="submit"

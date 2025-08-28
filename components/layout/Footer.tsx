@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
+import Logo from './Logo';
 import {
   footerSections,
   socialLinks,
@@ -21,12 +22,8 @@ export default function Footer() {
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
             <div className="space-y-8">
               <div>
-                <Link
-                  href="/"
-                  className="text-[color:var(--md-sys-color-on-surface)] text-2xl font-bold"
-                >
-                  {companyInfo.name}
-                </Link>
+                {/* Logo + company name */}
+                <Logo />
                 <p className="mt-4 text-base text-[color:var(--md-sys-color-on-surface-variant)]">
                   {companyInfo.tagline}
                 </p>
@@ -180,29 +177,15 @@ export default function Footer() {
           <div className="mt-12 border-t border-[color:var(--md-sys-color-outline)] pt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-xs leading-5 text-[color:var(--md-sys-color-on-surface-variant)]">
-                &copy; {new Date().getFullYear()} {companyInfo.name}. All rights
-                reserved.
+                &copy; {new Date().getFullYear()}
+                <Link
+                  href="/"
+                  className="ml-1 hover:text-[color:var(--md-sys-color-on-surface-variant)]"
+                >
+                  {companyInfo.name}
+                </Link>
+                . All rights reserved.
               </p>
-              <div className="flex items-center gap-4">
-                <a
-                  href="#"
-                  className="text-xs text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
-                >
-                  Sitemap
-                </a>
-                <a
-                  href="#"
-                  className="text-xs text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
-                >
-                  Accessibility
-                </a>
-                <a
-                  href="#"
-                  className="text-xs text-[color:var(--md-sys-color-on-surface-variant)] hover:text-[color:var(--md-sys-color-on-surface)]"
-                >
-                  Do Not Sell My Personal Information
-                </a>
-              </div>
             </div>
           </div>
         </div>

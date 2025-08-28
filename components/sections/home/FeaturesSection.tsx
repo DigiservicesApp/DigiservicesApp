@@ -2,13 +2,6 @@
 import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
-import {
-  RiRocketLine,
-  RiBrainLine,
-  RiTimeLine,
-  RiBarChartLine,
-} from 'react-icons/ri';
-
 import { features } from '@/lib/data/features';
 
 const FeaturesSection = () => {

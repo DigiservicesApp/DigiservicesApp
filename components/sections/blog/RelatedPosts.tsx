@@ -4,7 +4,11 @@ import Image from 'next/image';
 import { formatDate } from '@/lib/utils/date';
 import { blogPosts } from '@/lib/data/blog-posts';
 
-export function RelatedPosts({ posts }: { posts: typeof blogPosts }) {
+export function RelatedPosts({
+  posts,
+}: {
+  posts: Array<Omit<(typeof blogPosts)[number], 'icon'>>;
+}) {
   return (
     <section className="mt-16 border-t pt-16">
       <h2 className="text-2xl font-bold text-[color:var(--md-sys-color-on-surface)] mb-8">

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Container from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { RiArrowRightLine } from 'react-icons/ri';
+import Link from 'next/link';
 
 const CTASection = () => {
   return (
@@ -37,21 +38,25 @@ const CTASection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col items-center gap-4 mt-10 sm:flex-row sm:justify-center"
           >
-            <Button
-              size="lg"
-              variant="filled"
-              className="min-w-[200px] bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] hover:opacity-90"
-            >
-              Start Free Trial
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              className="min-w-[200px] text-[color:var(--md-sys-color-on-primary)] border border-[color:var(--md-sys-color-on-primary)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-on-primary)10%,transparent)]"
-            >
-              Schedule Demo
-              <RiArrowRightLine className="ml-2" />
-            </Button>
+            <Link href="/dashboard" passHref>
+              <Button
+                size="lg"
+                variant="filled"
+                className="min-w-[200px] bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] hover:opacity-90"
+              >
+                Start Free Trial
+              </Button>
+            </Link>
+            <Link href="/contact" passHref>
+              <Button
+                size="lg"
+                variant="text"
+                className="min-w-[200px] text-[color:var(--md-sys-color-on-primary)] border border-[color:var(--md-sys-color-on-primary)] hover:bg-[color:color-mix(in srgb,var(--md-sys-color-on-primary)10%,transparent)]"
+              >
+                Schedule Demo
+                <RiArrowRightLine className="ml-2" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </Container>

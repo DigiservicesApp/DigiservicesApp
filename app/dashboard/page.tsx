@@ -42,6 +42,8 @@ const stats = [
   },
 ];
 
+import DashboardOverview from '@/components/dashboard/DashboardOverview';
+
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
@@ -54,68 +56,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.name}
-            className="overflow-hidden rounded-lg bg-[color:var(--md-sys-color-surface)] px-4 py-5 shadow sm:p-6"
-          >
-            <div className="flex items-center">
-              <div className="shrink-0">
-                <stat.icon
-                  className="h-6 w-6 text-[color:var(--md-sys-color-on-surface-variant)]"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="truncate text-sm font-medium text-[color:var(--md-sys-color-on-surface-variant)]">
-                    {stat.name}
-                  </dt>
-                  <dd>
-                    <div className="flex items-baseline">
-                      <p className="text-2xl font-semibold text-[color:var(--md-sys-color-on-surface)]">
-                        {stat.value}
-                      </p>
-                      <p
-                        className={`ml-2 flex items-baseline text-sm font-semibold ${
-                          stat.changeType === 'increase'
-                            ? 'text-green-600'
-                            : stat.changeType === 'decrease'
-                            ? 'text-red-600'
-                            : 'text-[color:var(--md-sys-color-on-surface-variant)]'
-                        }`}
-                      >
-                        {stat.change}
-                      </p>
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Placeholder for charts and widgets */}
-        <div className="min-h-[400px] rounded-lg bg-[color:var(--md-sys-color-surface)] p-6 shadow">
-          <h2 className="text-lg font-medium text-[color:var(--md-sys-color-on-surface)]">
-            Recent Activity
-          </h2>
-          <p className="mt-4 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
-            Activity chart will be displayed here
-          </p>
-        </div>
-        <div className="min-h-[400px] rounded-lg bg-[color:var(--md-sys-color-surface)] p-6 shadow">
-          <h2 className="text-lg font-medium text-[color:var(--md-sys-color-on-surface)]">
-            Task Distribution
-          </h2>
-          <p className="mt-4 text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
-            Task distribution chart will be displayed here
-          </p>
-        </div>
-      </div>
+      <DashboardOverview />
     </div>
   );
 }

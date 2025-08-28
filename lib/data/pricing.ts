@@ -92,7 +92,7 @@ export const pricingTiers: PricingTier[] = [
     ],
     cta: {
       text: 'Start with Starter',
-      href: '/register?plan=starter',
+      href: '/contact?plan=starter',
     },
   },
   {
@@ -117,7 +117,7 @@ export const pricingTiers: PricingTier[] = [
     ],
     cta: {
       text: 'Choose Professional',
-      href: '/register?plan=professional',
+      href: '/contact?plan=professional',
     },
     popularChoice: true,
   },
