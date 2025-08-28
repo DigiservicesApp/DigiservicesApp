@@ -10,7 +10,7 @@ import { RadioGroup } from '@/components/ui/RadioGroup';
 import { companyInfo } from '@/lib/data/site-config';
 import { RiMailLine, RiPhoneLine, RiMapPin2Line } from 'react-icons/ri';
 import { useToast } from '@/components/ui/ToastContext';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 function TurnstileWidget({
   sitekey,
@@ -24,26 +24,46 @@ function TurnstileWidget({
   onExpire?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const scriptLoadedRef = useRef(false);
+  const widgetIdRef = useRef<string | undefined>(undefined);
+  const configRef = useRef({
+    sitekey,
+    callback: onVerify,
+    'error-callback': onError,
+    'expired-callback': onExpire,
+  });
+
+  // Update config ref when props change
+  useEffect(() => {
+    configRef.current = {
+      sitekey,
+      callback: onVerify,
+      'error-callback': onError,
+      'expired-callback': onExpire,
+    };
+  }, [sitekey, onVerify, onError, onExpire]);
 
   useEffect(() => {
-    let widgetId: string | undefined;
-
     const renderTurnstile = () => {
       if (!window.turnstile || !ref.current) return;
 
-      widgetId = window.turnstile.render(ref.current, {
-        sitekey,
-        callback: onVerify,
-        'error-callback': onError,
-        'expired-callback': onExpire,
-      });
+      // Remove existing widget if it exists
+      if (widgetIdRef.current) {
+        window.turnstile.remove(widgetIdRef.current);
+      }
+
+      widgetIdRef.current = window.turnstile.render(
+        ref.current,
+        configRef.current
+      );
     };
 
     // If turnstile is already loaded
     if (window.turnstile) {
       renderTurnstile();
-    } else {
-      // If turnstile is not loaded, wait for it
+    } else if (!scriptLoadedRef.current) {
+      // Only load the script once
+      scriptLoadedRef.current = true;
       const script = document.createElement('script');
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
       script.async = true;
@@ -53,11 +73,11 @@ function TurnstileWidget({
     }
 
     return () => {
-      if (widgetId && window.turnstile) {
-        window.turnstile.remove(widgetId);
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current);
       }
     };
-  }, [sitekey, onVerify, onError, onExpire]);
+  }, []);
 
   return <div ref={ref} />;
 }
@@ -66,6 +86,42 @@ export default function ContactPage() {
   const toast = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    message: '',
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileToken(null);
+    toast.show({
+      message: 'Verification failed, please try again',
+      variant: 'error',
+    });
+  }, [toast]);
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken(null);
+    toast.show({
+      message: 'Verification expired, please try again',
+      variant: 'warning',
+    });
+  }, [toast]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -74,7 +130,7 @@ export default function ContactPage() {
 
     if (!turnstileToken) {
       toast.show({
-        message: 'Please complete the Turnstile verification',
+        message: 'Please complete the CAPTCHA verification',
         variant: 'error',
       });
       setSubmitting(false);
@@ -82,10 +138,9 @@ export default function ContactPage() {
     }
 
     try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const payload = Object.fromEntries(formData.entries());
-      payload.turnstileToken = turnstileToken;
+      const payload = {
+        ...formData,
+      };
 
       const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(
         companyInfo.contact.email
@@ -109,7 +164,12 @@ export default function ContactPage() {
         message: 'Message sent — we will reply soon.',
         variant: 'success',
       });
-      form.reset();
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        message: '',
+      });
     } catch (err) {
       toast.show({
         message: (err as Error).message || 'Failed to send message',
@@ -191,6 +251,8 @@ export default function ContactPage() {
                     type="text"
                     required
                     placeholder="Enter your first name"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                   />
                   <Input
                     label="Last Name"
@@ -198,6 +260,8 @@ export default function ContactPage() {
                     type="text"
                     required
                     placeholder="Enter your last name"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -207,24 +271,17 @@ export default function ContactPage() {
                   type="email"
                   required
                   placeholder="Enter your email address"
+                  value={formData.email}
+                  onChange={handleInputChange}
                 />
-
-                <RadioGroup
-                  name="inquiryType"
-                  options={[
-                    {
-                      value: 'support',
-                      label: 'General Question',
-                    },
-                  ]}
-                />
-
                 <TextArea
                   label="Message"
                   name="message"
                   required
                   placeholder="Tell us how we can help you"
                   rows={5}
+                  value={formData.message}
+                  onChange={handleInputChange}
                 />
 
                 <div className="mb-4">
@@ -233,9 +290,9 @@ export default function ContactPage() {
                       process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
                       '1x00000000000000000000AA'
                     } // Replace this with your actual site key
-                    onVerify={setTurnstileToken}
-                    onError={() => setTurnstileToken(null)}
-                    onExpire={() => setTurnstileToken(null)}
+                    onVerify={handleTurnstileVerify}
+                    onError={handleTurnstileError}
+                    onExpire={handleTurnstileExpire}
                   />
                 </div>
 
