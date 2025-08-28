@@ -87,7 +87,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-[color:var(--md-sys-color-outline)]">
+          <div className="md:hidden h-screen py-4 border-t border-[color:var(--md-sys-color-outline)]">
             <nav className="flex flex-col space-y-1">
               {navigationItems.map((item) => (
                 <Link
@@ -111,18 +111,18 @@ const Header = () => {
                   </Button>
                 </Link>
               ) : (
-                <>
+                <div className="flex flex-row gap-2">
                   <Link href="/sign-in">
-                    <Button variant="outlined" className="w-full">
+                    <Button variant="outlined" className="">
                       Sign In
                     </Button>
                   </Link>
                   <Link href="/sign-up">
-                    <Button variant="filled" className="w-full">
+                    <Button variant="filled" className="">
                       Start Free
                     </Button>
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </div>

@@ -19,7 +19,7 @@ const HeroSection = () => {
               transition={{ duration: 0.5 }}
             >
               <h1 className="text-4xl font-bold tracking-tight text-[color:var(--md-sys-color-on-surface)] sm:text-5xl xl:text-6xl dark:text-[color:var(--md-sys-color-on-surface)]">
-                Manage Freelance Projects{' '}
+                Manage Y Projects{' '}
                 <span className="text-[color:var(--md-sys-color-primary)]">
                   Smarter with AI.
                 </span>

@@ -22,7 +22,7 @@ export default function CookieConsent() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-[color:var(--md-sys-color-surface)] shadow-lg border-t border-[color:var(--md-sys-color-outline)] p-4">
-      <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
+      <div className="container mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex-1">
           <p className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
             We use cookies to enhance your browsing experience, serve
@@ -45,7 +45,7 @@ export default function CookieConsent() {
           </p>
         </div>
 
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex items-center gap-4 ">
           <Button
             variant="filled"
             onClick={() => acceptCookies('all')}
