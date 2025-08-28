@@ -11,7 +11,6 @@ import { companyInfo } from '@/lib/data/site-config';
 import { RiMailLine, RiPhoneLine, RiMapPin2Line } from 'react-icons/ri';
 import { useToast } from '@/components/ui/ToastContext';
 import { useState, useEffect, useRef } from 'react';
-import { useTurnstile } from 'react-turnstile';
 
 function TurnstileWidget({
   sitekey,
@@ -25,22 +24,40 @@ function TurnstileWidget({
   onExpire?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const turnstile = useTurnstile();
 
   useEffect(() => {
-    if (!ref.current) return;
+    let widgetId: string | undefined;
 
-    turnstile.render(ref.current, {
-      sitekey,
-      callback: onVerify,
-      'error-callback': onError,
-      'expired-callback': onExpire,
-    });
+    const renderTurnstile = () => {
+      if (!window.turnstile || !ref.current) return;
+
+      widgetId = window.turnstile.render(ref.current, {
+        sitekey,
+        callback: onVerify,
+        'error-callback': onError,
+        'expired-callback': onExpire,
+      });
+    };
+
+    // If turnstile is already loaded
+    if (window.turnstile) {
+      renderTurnstile();
+    } else {
+      // If turnstile is not loaded, wait for it
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      script.async = true;
+      script.defer = true;
+      script.onload = renderTurnstile;
+      document.head.appendChild(script);
+    }
 
     return () => {
-      turnstile.reset();
+      if (widgetId && window.turnstile) {
+        window.turnstile.remove(widgetId);
+      }
     };
-  }, [sitekey, onVerify, onError, onExpire, turnstile]);
+  }, [sitekey, onVerify, onError, onExpire]);
 
   return <div ref={ref} />;
 }
