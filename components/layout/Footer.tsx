@@ -88,7 +88,7 @@ export default function Footer() {
                           className="h-6 w-6"
                           aria-hidden="true"
                         >
-                          <path d={item.icon as string} />
+                          {item.svg}
                         </svg>
                       ) : (
                         item.icon &&

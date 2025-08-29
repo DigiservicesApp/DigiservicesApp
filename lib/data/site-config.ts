@@ -6,6 +6,10 @@ import {
   RiInstagramLine,
   RiYoutubeLine,
   RiDiscordFill,
+  RiFacebookFill,
+  RiTwitterXFill,
+  RiPinterestFill,
+  RiYoutubeFill,
 } from 'react-icons/ri';
 
 export interface SocialLink {
@@ -13,6 +17,7 @@ export interface SocialLink {
   href: string;
   icon: IconType | string; // Can be either a React Icon or an SVG path
   isCustomSvg?: boolean;
+  svg?: string;
 }
 
 export interface FooterLink {
@@ -28,14 +33,14 @@ export interface FooterSection {
 
 export const socialLinks: SocialLink[] = [
   {
-    name: 'Twitter',
-    href: 'https://twitter.com/digiservicesapp',
-    icon: RiTwitterFill,
+    name: 'X',
+    href: 'https://x.com/digiservicesapp',
+    icon: RiTwitterXFill,
   },
   {
-    name: 'GitHub',
-    href: 'https://github.com/digiservicesapp',
-    icon: RiGithubFill,
+    name: 'Facebook',
+    href: 'https://www.facebook.com/DigiServicesApp',
+    icon: RiFacebookFill,
   },
   {
     name: 'LinkedIn',
@@ -43,19 +48,14 @@ export const socialLinks: SocialLink[] = [
     icon: RiLinkedinBoxFill,
   },
   {
-    name: 'Instagram',
-    href: 'https://instagram.com/digiservicesapp',
-    icon: RiInstagramLine,
-  },
-  {
     name: 'YouTube',
-    href: 'https://youtube.com/digiservicesapp',
-    icon: RiYoutubeLine,
+    href: 'https://www.youtube.com/@DigiServicesApp',
+    icon: RiYoutubeFill,
   },
   {
-    name: 'Discord',
-    href: 'https://discord.gg/digiservicesapp',
-    icon: RiDiscordFill,
+    name: 'Pinterest',
+    href: 'https://www.pinterest.com/DigiServicesApp',
+    icon: RiPinterestFill,
   },
 ];
 
