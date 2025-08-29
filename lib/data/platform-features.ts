@@ -52,7 +52,7 @@ export const platformFeatures: DetailedFeature[] = [
         ],
       },
     ],
-    screenshot: '/features/ai-task-management.png',
+    screenshot: '/images/feature/19.webp',
   },
   {
     title: 'Project Timeline & Milestones',
@@ -85,7 +85,7 @@ export const platformFeatures: DetailedFeature[] = [
         ],
       },
     ],
-    screenshot: '/features/project-timeline.png',
+    screenshot: '/images/feature/20.webp',
   },
   {
     title: 'Client Communication Panel',
@@ -118,7 +118,7 @@ export const platformFeatures: DetailedFeature[] = [
         ],
       },
     ],
-    screenshot: '/features/client-communication.png',
+    screenshot: '/images/feature/21.webp',
   },
   {
     title: 'AI Workflow Optimization',
@@ -151,7 +151,7 @@ export const platformFeatures: DetailedFeature[] = [
         ],
       },
     ],
-    screenshot: '/features/workflow-optimization.png',
+    screenshot: '/images/feature/22.webp',
   },
   {
     title: 'Analytics & Reporting',
@@ -184,7 +184,7 @@ export const platformFeatures: DetailedFeature[] = [
         ],
       },
     ],
-    screenshot: '/features/analytics-reporting.png',
+    screenshot: '/images/feature/23.webp',
   },
   {
     title: 'Multi-Device Dashboard',
@@ -217,6 +217,6 @@ export const platformFeatures: DetailedFeature[] = [
         ],
       },
     ],
-    screenshot: '/features/multi-device.png',
+    screenshot: '/images/feature/24.webp',
   },
 ];

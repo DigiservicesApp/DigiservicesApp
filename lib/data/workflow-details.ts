@@ -53,7 +53,7 @@ export const workflowSteps: WorkflowStepDetails[] = [
       'Team role management',
       'Project timeline visualization',
     ],
-    screenshot: '/workflow/project-creation.png',
+    screenshot: '/images/how/20.webp',
     video: '/videos/project-setup-demo.mp4',
   },
   {
@@ -87,8 +87,7 @@ export const workflowSteps: WorkflowStepDetails[] = [
       'Dependency detection',
       'Priority adjustment recommendations',
     ],
-    screenshot: '/workflow/ai-prioritization.png',
-    video: '/videos/ai-priority-demo.mp4',
+    screenshot: '/images/how/21.webp',
   },
   {
     title: 'Track Progress via Dashboard',
@@ -120,8 +119,7 @@ export const workflowSteps: WorkflowStepDetails[] = [
       'Performance metrics',
       'Status notifications',
     ],
-    screenshot: '/workflow/dashboard-view.png',
-    video: '/videos/dashboard-demo.mp4',
+    screenshot: '/images/how/22.webp',
   },
   {
     title: 'Communicate with Clients',
@@ -153,8 +151,7 @@ export const workflowSteps: WorkflowStepDetails[] = [
       'Feedback tracking',
       'Automated notifications',
     ],
-    screenshot: '/workflow/client-communication.png',
-    video: '/videos/client-portal-demo.mp4',
+    screenshot: '/images/how/23.webp',
   },
   {
     title: 'View AI-Generated Reports',
@@ -186,7 +183,6 @@ export const workflowSteps: WorkflowStepDetails[] = [
       'Performance forecasting',
       'Data visualization',
     ],
-    screenshot: '/workflow/analytics-reporting.png',
-    video: '/videos/reporting-demo.mp4',
+    screenshot: '/images/how/24.webp',
   },
 ];

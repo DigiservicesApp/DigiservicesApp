@@ -26,23 +26,18 @@ export interface BlogPost {
 }
 
 export const authors: { [key: string]: Author } = {
-  johnDoe: {
-    name: 'John Doe',
-    role: 'Product Manager',
-    image: '/blog/authors/john-doe.jpg',
-    bio: 'John has over 10 years of experience in product management and AI implementation.',
+  alexReynolds: {
+    name: 'Alex Reynolds',
+    role: 'Machine Learning Engineer',
+    image: '/images/blog/8.webp',
+    bio: 'Alex specializes in deploying scalable ML models and has a background in data science and cloud architecture.',
   },
-  janeSmith: {
-    name: 'Jane Smith',
-    role: 'Tech Lead',
-    image: '/blog/authors/jane-smith.jpg',
-    bio: 'Jane is a tech lead specializing in AI and machine learning applications.',
-  },
-  markWilson: {
-    name: 'Mark Wilson',
-    role: 'AI Researcher',
-    image: '/blog/authors/mark-wilson.jpg',
-    bio: 'Mark is an AI researcher focused on practical applications of machine learning in business.',
+
+  davidNguyen: {
+    name: 'David Nguyen',
+    role: 'Full Stack Developer',
+    image: '/images/blog/9.webp',
+    bio: 'David builds robust web applications with a focus on performance, accessibility, and seamless user experience.',
   },
 };
 
@@ -53,16 +48,15 @@ export const blogPosts: BlogPost[] = [
     slug: 'ai-revolutionizing-project-management',
     description:
       'Discover how artificial intelligence is transforming traditional project management practices and boosting productivity.',
-    date: '2025-08-20',
+    date: '2024-08-20',
     category: 'AI',
-    author: authors.johnDoe,
+    author: authors.alexReynolds,
     icon: RiRobot2Line,
-    image: '/blog/posts/ai-project-management.jpg',
+    image: '/images/blog/posts/1.webp',
     readingTime: '8 min read',
     tags: ['AI', 'Project Management', 'Productivity'],
     seoDescription:
       'How AI is changing project workflows, task prioritization, risk assessment, and resource planning — practical examples and checklists for teams.',
-    ogImage: '/blog/og/ai-project-management-og.jpg',
     content: `
 # How AI is Revolutionizing Project Management
 
@@ -89,16 +83,15 @@ Finally, treat AI as a capability that improves with investment. Better data yie
     slug: 'remote-team-management-best-practices',
     description:
       'Learn effective strategies for managing remote teams and maintaining high productivity levels.',
-    date: '2025-08-15',
+    date: '2024-12-15',
     category: 'Management',
-    author: authors.janeSmith,
+    author: authors.alexReynolds,
     icon: RiTeamLine,
-    image: '/blog/posts/remote-team-management.jpg',
+    image: '/images/blog/posts/2.webp',
     readingTime: '7 min read',
     tags: ['Remote Work', 'Team Management', 'Leadership'],
     seoDescription:
       'Practical, research-backed practices for leading distributed teams: communication, culture, tooling, and measurable routines.',
-    ogImage: '/blog/og/remote-team-management-og.jpg',
     content: `
 # Best Practices for Remote Team Management
 
@@ -123,16 +116,15 @@ Finally, invest in continuous improvement. Capture retro insights, iterate on co
     slug: 'time-management-data-analytics',
     description:
       'Using data analytics to improve time management and boost personal productivity.',
-    date: '2025-08-10',
+    date: '2025-06-10',
     category: 'Productivity',
-    author: authors.markWilson,
+    author: authors.davidNguyen,
     icon: RiBarChart2Line,
-    image: '/blog/posts/time-management-analytics.jpg',
+    image: '/images/blog/posts/3.webp',
     readingTime: '6 min read',
     tags: ['Productivity', 'Analytics', 'Time Management'],
     seoDescription:
       'Use data and analytics to find time sinks, optimize schedules, and craft a personal productivity system backed by measurable insights.',
-    ogImage: '/blog/og/time-management-og.jpg',
     content: `
 # Understanding Time Management with Data Analytics
 
@@ -155,12 +147,11 @@ Finally, integrate analytics into improvement cycles. Use your metrics to set sm
       'A practical framework for scaling AI across teams with governance, platform thinking, and skill development.',
     seoDescription:
       'Framework and practical steps for scaling AI within organizations: governance, platforms, and change management.',
-    date: '2025-08-22',
+    date: '2025-06-22',
     category: 'Technology',
-    author: authors.janeSmith,
+    author: authors.davidNguyen,
     icon: RiRobot2Line,
-    image: '/blog/posts/ai-scale.jpg',
-    ogImage: '/blog/og/ai-scale-og.jpg',
+    image: '/images/blog/posts/4.webp',
     readingTime: '8 min read',
     tags: ['AI', 'Platform', 'Governance'],
     content: `
@@ -187,12 +178,11 @@ Finally, treat scaling as iterative. Start with a high-impact, low-risk pilot, d
       'Which metrics actually reflect team health and how to collect them without adding overhead.',
     seoDescription:
       'Practical guidance on measuring developer and team health using lightweight, privacy-preserving metrics.',
-    date: '2025-08-18',
+    date: '2025-07-18',
     category: 'Management',
-    author: authors.markWilson,
+    author: authors.alexReynolds,
     icon: RiBarChart2Line,
-    image: '/blog/posts/team-health.jpg',
-    ogImage: '/blog/og/team-health-og.jpg',
+    image: '/images/blog/posts/5.webp',
     readingTime: '6 min read',
     tags: ['Team Health', 'Metrics', 'Management'],
     content: `

@@ -7,6 +7,7 @@ import {
   socialLinks,
   companyInfo,
 } from '@/lib/data/site-config';
+import parse from 'html-react-parser';
 
 export default function Footer() {
   return (
@@ -81,25 +82,16 @@ export default function Footer() {
                       title={item.name}
                     >
                       <span className="sr-only">{item.name}</span>
-                      {item.isCustomSvg ? (
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="h-6 w-6"
-                          aria-hidden="true"
-                        >
-                          {item.svg}
-                        </svg>
-                      ) : (
-                        item.icon &&
-                        // Render icon either as a React component or skip if not valid
-                        (typeof item.icon === 'function'
-                          ? React.createElement(item.icon as any, {
-                              className: 'h-6 w-6',
-                              'aria-hidden': 'true',
-                            })
-                          : null)
-                      )}
+                      {item.isCustomSvg
+                        ? parse(item.svg)
+                        : item.icon &&
+                          // Render icon either as a React component or skip if not valid
+                          (typeof item.icon === 'function'
+                            ? React.createElement(item.icon as any, {
+                                className: 'h-6 w-6',
+                                'aria-hidden': 'true',
+                              })
+                            : null)}
                     </a>
                   ))}
                 </div>

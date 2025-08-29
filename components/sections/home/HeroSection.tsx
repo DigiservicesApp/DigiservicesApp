@@ -49,11 +49,11 @@ const HeroSection = () => {
                   Start Managing
                 </Button>
               </Link>
-              <Link href="/how-it-works" passHref>
+              {/* <Link href="/how-it-works" passHref>
                 <Button size="lg" variant="outlined">
                   See How It Works
                 </Button>
-              </Link>
+              </Link> */}
               <Link href="/contact" passHref>
                 <Button size="lg" variant="text" className="text-primary">
                   Request Demo
@@ -71,7 +71,7 @@ const HeroSection = () => {
           >
             <div className="relative">
               <ImageWithFallback
-                src="/dashboard-preview.png"
+                src="/images/home/hero.webp"
                 alt="DigiServices Dashboard Preview"
                 width={720}
                 height={480}

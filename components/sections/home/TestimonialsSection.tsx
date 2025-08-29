@@ -121,13 +121,18 @@ export default function MaterialTestimonials() {
                 >
                   <Card className="p-8 flex flex-col justify-center rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-full min-h-80 bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)]">
                     <div className="flex items-center gap-6 mb-6">
-                      <div
+                      {/* <div
                         style={{ backgroundColor: stringToColor(t.author) }}
                         className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-semibold"
                         title={t.author}
                       >
                         {t.author[0].toUpperCase()}
-                      </div>
+                      </div> */}
+                      <img
+                        src={t.image}
+                        alt={t.author}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
                       <div>
                         <div className="font-medium">{t.author}</div>
                         <div className="text-sm text-[color:var(--md-sys-color-on-surface-variant)]">

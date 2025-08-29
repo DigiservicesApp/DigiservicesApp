@@ -10,28 +10,28 @@ const steps = [
     title: 'Create Projects',
     description:
       'Set up your project, add tasks, and invite team members or clients.',
-    image: '/workflow/create-project.png',
+    image: '/images/how/4.webp',
   },
   {
     icon: RiNumber2,
     title: 'AI Prioritization',
     description:
       'Let AI analyze and prioritize tasks based on deadlines and dependencies.',
-    image: '/workflow/ai-priority.png',
+    image: '/images/how/5.webp',
   },
   {
     icon: RiNumber3,
     title: 'Track Progress',
     description:
       'Monitor project progress through interactive dashboards and real-time updates.',
-    image: '/workflow/track-progress.png',
+    image: '/images/how/6.webp',
   },
   {
     icon: RiNumber4,
     title: 'Optimize Workflow',
     description:
       'Receive AI-powered suggestions to improve efficiency and meet deadlines.',
-    image: '/workflow/optimize.png',
+    image: '/images/how/7.webp',
   },
 ];
 
